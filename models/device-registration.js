@@ -12,4 +12,5 @@ var DeviceRegistration = module.exports = db.createModel(
     config.name,
     config.properties,
     config.options
-);                                                  
+);
+
