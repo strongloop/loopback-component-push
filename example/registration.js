@@ -4,6 +4,8 @@ var asteroid = require('asteroid')
 // expose a rest api
 app.use(asteroid.rest());
 
+app.use(asteroid.static('html'));
+
 var model = require('../models/device-registration');
 app.model(model);
 
