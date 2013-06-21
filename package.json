@@ -1,0 +1,20 @@
+{
+    "name": "asteroid-push-notification",
+    "version": "0.0.1",
+    "description": "Asteroid Push Notification",
+    "main": "index.js",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
+    },
+    "dependencies": {
+        "apn": "latest"
+    },
+    "devDependencies": {
+        "should": "latest",
+        "mocha": "latest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/strongloop/asteroid-push-notification.git"
+    }
+}
