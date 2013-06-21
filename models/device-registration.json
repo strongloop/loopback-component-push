@@ -1,0 +1,24 @@
+{
+    "name": "DeviceRegistration",
+    "options": {
+        "idInjection": false,
+        "mongodb": {
+            "collection": "DeviceRegistration"
+        }
+    },
+    "properties": {
+        "id": {
+            "type": "String",
+            "required": true,
+            "id": 1
+        },
+        "appId": "String",
+        "appVersion": "String",
+        "userId": "String",
+        "deviceToken": "String",
+        "deviceType": "String",
+        "created": "Date",
+        "lastModified": "Date",
+        "status": "String"
+    }
+}

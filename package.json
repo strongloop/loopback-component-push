@@ -7,7 +7,12 @@
         "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
     },
     "dependencies": {
-        "apn": "latest"
+        "apn": "latest",
+        "c2dm": "latest",
+        "node-gcm": "latest",
+        "mpns": "latest",
+        "asteroid": "git+ssh://git@github.com/strongloop/asteroid.git",
+        "jugglingdb-mongodb": "git+ssh://git@github.com/raymondfeng/mongodb-adapter.git"
     },
     "devDependencies": {
         "should": "latest",
