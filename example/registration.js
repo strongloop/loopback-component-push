@@ -30,10 +30,14 @@ apnConnection.on('error', function (err) {
     console.error(err);
 });
 
+app.use(asteroid.bodyParser());
+
 // expose a rest api
 app.use(asteroid.rest());
 
-app.use(asteroid.static('html'));
+var path = require('path');
+
+app.use(asteroid.static(path.join(__dirname, 'html')));
 
 var DeviceRegistration = require('../models/device-registration');
 

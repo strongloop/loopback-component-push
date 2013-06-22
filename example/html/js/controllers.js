@@ -10,4 +10,16 @@ function DeviceListControl($scope, $http) {
             console.log(status);
         });
     }
+
+    $scope.getAction = function (status) {
+        return 'Active' === status ? 'Deactivate' : 'Activate';
+    }
+
+    $scope.switchStatus = function (id, status) {
+        var newStatus = 'Active' === status ? 'Inactive' : 'Active';
+        console.log('Setting status to '+newStatus);
+        $http.put('/deviceRegistrations/' + id, {status: newStatus} ).success(function (data, status, headers) {
+            console.log(status);
+        });
+    }
 }
