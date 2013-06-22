@@ -1,11 +1,42 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" ng-app>
 <head>
     <title>Push notification demo</title>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+
 </head>
-<body>
+
+<body ng-controller="DeviceListControl">
 <h1>Push notification demo</h1>
 
-<a href="/deviceRegistrations">List devices</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Registration Id</th>
+        <th>Application Id</th>
+        <th>User Id</th>
+        <th>Device Token</th>
+        <th>Device Type</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="device in devices">
+        <td>{{device.id}}</td>
+        <td>{{device.appId}}</td>
+        <td>{{device.userId}}</td>
+        <td>{{device.deviceToken}}</td>
+        <td>{{device.deviceType}}</td>
+        <td>{{device.status}}</td>
+        <td><button ng-click="notify(device.id, 'Hello')">Notify</button></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

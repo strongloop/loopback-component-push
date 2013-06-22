@@ -35,10 +35,10 @@ app.use(asteroid.rest());
 
 app.use(asteroid.static('html'));
 
-var model = require('../models/device-registration');
+var DeviceRegistration = require('../models/device-registration');
 
-model.prototype.push = function(msg, sender) {
-    var myDevice = new apn.Device(this.deviceToken);
+DeviceRegistration.push = function(deviceToken, msg, sender) {
+    var myDevice = new apn.Device(deviceToken);
 
     var note = new apn.Notification();
 
@@ -51,11 +51,15 @@ model.prototype.push = function(msg, sender) {
     apnConnection.pushNotification(note, myDevice);
 }
 
-app.model(model);
+DeviceRegistration.prototype.push = function(msg, sender) {
+    DeviceRegistration.push(this.deviceToken, msg, sender);
+}
 
-model.destroyAll(function (err, result) {
+app.model(DeviceRegistration);
+
+DeviceRegistration.destroyAll(function (err, result) {
     console.log('Adding a test record');
-    model.create({
+    DeviceRegistration.create({
         appId: 'MyAsteroidApp',
         userId: 'MyAsteroidUser',
         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
@@ -65,7 +69,18 @@ model.destroyAll(function (err, result) {
         status: 'Active'
     }, function (err, result) {
         console.log('Registration record is created: ', result);
-        result.push('Hi', 'Ray');
+    });
+});
+
+app.post('/deviceRegistrations/:id/notify', function(req, res, next) {
+    console.log(req.params.id);
+    DeviceRegistration.find(req.params.id, function(err, result) {
+        if(!err && result) {
+            result.push(req.body.msg, 'web');
+            res.send(200, 'OK');
+        } else {
+            res.send(500, 'FAIL');
+        }
     });
 });
 
