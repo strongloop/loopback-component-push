@@ -19,7 +19,7 @@ function DeviceListControl($scope, $http) {
         var newStatus = 'Active' === device.status ? 'Inactive' : 'Active';
         console.log('Setting status to '+newStatus);
         device.status = newStatus;
-        $http.put('/deviceRegistrations/' + id, device ).success(function (data, status, headers) {
+        $http.put('/deviceRegistrations/' + device.id, device ).success(function (data, status, headers) {
             console.log(status);
         });
     }
