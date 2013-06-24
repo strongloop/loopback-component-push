@@ -56,6 +56,7 @@ DeviceRegistration.push = function(deviceToken, msg, sender) {
 }
 
 DeviceRegistration.prototype.push = function(msg, sender) {
+    console.log(msg, sender);
     DeviceRegistration.push(this.deviceToken, msg, sender);
 }
 
@@ -77,12 +78,13 @@ DeviceRegistration.destroyAll(function (err, result) {
 });
 
 app.post('/deviceRegistrations/:id/notify', function(req, res, next) {
-    console.log(req.params.id);
-    DeviceRegistration.find(req.params.id, function(err, result) {
+    // console.log(req.params.id);
+    DeviceRegistration.findById(req.params.id, function(err, result) {
         if(!err && result) {
             result.push(req.body.msg, 'web');
             res.send(200, 'OK');
         } else {
+            console.error(err);
             res.send(500, 'FAIL');
         }
     });

@@ -15,10 +15,11 @@ function DeviceListControl($scope, $http) {
         return 'Active' === status ? 'Deactivate' : 'Activate';
     }
 
-    $scope.switchStatus = function (id, status) {
-        var newStatus = 'Active' === status ? 'Inactive' : 'Active';
+    $scope.switchStatus = function (device) {
+        var newStatus = 'Active' === device.status ? 'Inactive' : 'Active';
         console.log('Setting status to '+newStatus);
-        $http.put('/deviceRegistrations/' + id, {status: newStatus} ).success(function (data, status, headers) {
+        device.status = newStatus;
+        $http.put('/deviceRegistrations/' + id, device ).success(function (data, status, headers) {
             console.log(status);
         });
     }
