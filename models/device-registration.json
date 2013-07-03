@@ -17,6 +17,7 @@
         "userId": "String",
         "deviceToken": "String",
         "deviceType": "String",
+        "subscriptions": ["String"],
         "created": "Date",
         "lastModified": "Date",
         "status": "String"

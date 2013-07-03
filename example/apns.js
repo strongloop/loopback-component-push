@@ -1,15 +1,16 @@
 var apn = require('apn');
+var path = require('path');
 
 var options = {
     "gateway": "gateway.sandbox.push.apple.com",
-    "cert": "../credentials/apns_cert_dev.pem",
-    "key": "../credentials/apns_key_dev.pem"
+    "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+    "key": path.join(__dirname, "credentials/apns_key_dev.pem")
 };
 
 var feedbackOptions = {
     "gateway": 'feedback.sandbox.push.apple.com',
-    "cert": "../credentials/apns_cert_dev.pem",
-    "key": "../credentials/apns_key_dev.pem",
+    "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+    "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
     "batchFeedback": true,
     "interval": 300
 }

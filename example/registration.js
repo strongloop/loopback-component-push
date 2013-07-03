@@ -6,14 +6,14 @@ var path = require('path');
 
 var options = {
     "gateway": "gateway.sandbox.push.apple.com",
-    "cert": path.join(__dirname, "../credentials/apns_cert_dev.pem"),
-    "key": path.join(__dirname, "../credentials/apns_key_dev.pem")
+    "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+    "key": path.join(__dirname, "credentials/apns_key_dev.pem")
 };
 
 var feedbackOptions = {
     "gateway": 'feedback.sandbox.push.apple.com',
-    "cert": path.join(__dirname, "../credentials/apns_cert_dev.pem"),
-    "key": path.join(__dirname, "../credentials/apns_key_dev.pem"),
+    "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+    "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
     "batchFeedback": true,
     "interval": 300
 }
@@ -40,7 +40,9 @@ var path = require('path');
 
 app.use(asteroid.static(path.join(__dirname, 'html')));
 
-var DeviceRegistration = require('../models/device-registration');
+var ds = require('./data-sources/db');
+
+var DeviceRegistration = require('../models/device-registration')(ds);
 
 DeviceRegistration.push = function(deviceToken, msg, sender) {
     var myDevice = new apn.Device(deviceToken);
