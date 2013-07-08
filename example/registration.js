@@ -18,18 +18,18 @@ var feedbackOptions = {
     "interval": 300
 }
 
-var feedback = new apn.Feedback(feedbackOptions);
-feedback.on("feedback", function (devices) {
-    devices.forEach(function (item) {
-        console.log('Feedback received: ', item);
-    });
-});
+var ds = require('./data-sources/db');
+var options = {
+    dataSource: ds,
+    config: {
+        apns: {
+            pushOptions: options,
+            feedbackOptions: feedbackOptions
+        }
+    }
+}
 
-
-var apnConnection = new apn.Connection(options);
-apnConnection.on('error', function (err) {
-    console.error(err);
-});
+var push = require('../lib/index')(options);
 
 app.use(asteroid.bodyParser());
 
@@ -40,22 +40,22 @@ var path = require('path');
 
 app.use(asteroid.static(path.join(__dirname, 'html')));
 
-var ds = require('./data-sources/db');
 
-var DeviceRegistration = require('../models/device-registration')(ds);
+var DeviceRegistration = push.DeviceRegistration;
 
+var badge = 1;
 DeviceRegistration.push = function(deviceToken, msg, sender) {
     var myDevice = new apn.Device(deviceToken);
 
     var note = new apn.Notification();
 
     note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-    note.badge = 3;
+    note.badge = badge++;
     note.sound = "ping.aiff";
     note.alert = "\uD83D\uDCE7 \u2709 " + msg;
     note.payload = {'messageFrom': sender};
 
-    apnConnection.pushNotification(note, myDevice);
+    push.pushNotification(myDevice, note);
 }
 
 DeviceRegistration.prototype.push = function(msg, sender) {

@@ -2,7 +2,7 @@
     "name": "asteroid-push-notification",
     "version": "0.0.1",
     "description": "Asteroid Push Notification",
-    "main": "index.js",
+    "main": "lib/index.js",
     "scripts": {
         "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
     },
@@ -12,7 +12,7 @@
         "node-gcm": "latest",
         "mpns": "latest",
         "asteroid": "git+ssh://git@github.com/strongloop/asteroid.git",
-        "jugglingdb-mongodb": "git+ssh://git@github.com/raymondfeng/mongodb-adapter.git"
+        "jugglingdb-mongodb": "git+ssh://git@github.com:strongloop/asteroid-connector-mongodb.git"
     },
     "devDependencies": {
         "should": "latest",
