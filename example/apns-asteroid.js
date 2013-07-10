@@ -49,7 +49,7 @@ DeviceRegistration.destroyAll(function (err, result) {
     console.log('Adding a test record');
     DeviceRegistration.create({
         appId: 'MyAsteroidApp',
-        userId: 'MyAsteroidUser',
+        userId: 'raymond',
         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
         deviceType: 'apns',
         created: new Date(),
@@ -58,6 +58,18 @@ DeviceRegistration.destroyAll(function (err, result) {
     }, function (err, result) {
         console.log('Registration record is created: ', result);
     });
+    DeviceRegistration.create({
+        appId: 'MyAsteroidApp',
+        userId: 'chandrika',
+        deviceToken: 'a6127991 8f8d9731 766011fb 28f37c2b 746bcad6 f183c42d 9d8af31f 62f27910',
+        deviceType: 'apns',
+        created: new Date(),
+        lastModified: new Date(),
+        status: 'Active'
+    }, function (err, result) {
+        console.log('Registration record is created: ', result);
+    });
+
 });
 
 var badge = 1;
