@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'test') {
 } else {
     // export the oracle data source
     module.exports = loopback.createDataSource({
-        connector: require('loopback-data-mongodb'),
+        connector: require('loopback-connector-mongodb'),
         url: 'mongodb://127.0.0.1/loopback'
     });
 }
