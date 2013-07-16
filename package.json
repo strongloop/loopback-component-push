@@ -12,7 +12,7 @@
         "node-gcm": "latest",
         "mpns": "latest",
         "loopback": "git+ssh://git@github.com/strongloop/loopback.git",
-        "jugglingdb-mongodb": "git+ssh://git@github.com:strongloop/loopback-connector-mongodb.git"
+        "loopback-data-mongodb": "git+ssh://git@github.com:strongloop/loopback-connector-mongodb.git"
     },
     "devDependencies": {
         "should": "latest",
