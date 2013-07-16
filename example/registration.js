@@ -1,5 +1,5 @@
-var asteroid = require('asteroid')
-    , app = module.exports = asteroid();
+var loopback = require('loopback')
+    , app = module.exports = loopback();
 
 var apn = require('apn');
 var path = require('path');
@@ -31,14 +31,14 @@ var options = {
 
 var push = require('../lib/index')(options);
 
-app.use(asteroid.bodyParser());
+app.use(loopback.bodyParser());
 
 // expose a rest api
-app.use(asteroid.rest());
+app.use(loopback.rest());
 
 var path = require('path');
 
-app.use(asteroid.static(path.join(__dirname, 'html')));
+app.use(loopback.static(path.join(__dirname, 'html')));
 
 
 var DeviceRegistration = push.DeviceRegistration;
@@ -68,7 +68,7 @@ app.model(DeviceRegistration);
 DeviceRegistration.destroyAll(function (err, result) {
     console.log('Adding a test record');
     DeviceRegistration.create({
-        appId: 'MyAsteroidApp',
+        appId: 'MyLoopbackApp',
         userId: 'raymond',
         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
         deviceType: 'apns',
@@ -79,7 +79,7 @@ DeviceRegistration.destroyAll(function (err, result) {
         console.log('Registration record is created: ', result);
     });
     DeviceRegistration.create({
-        appId: 'MyAsteroidApp',
+        appId: 'MyLoopbackApp',
         userId: 'chandrika',
         deviceToken: 'a6127991 8f8d9731 766011fb 28f37c2b 746bcad6 f183c42d 9d8af31f 62f27910',
         deviceType: 'apns',

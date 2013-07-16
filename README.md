@@ -1,4 +1,4 @@
-asteroid-push-notification
+loopback-push-notification
 ==========================
 
-Asteroid Push Notification Services
+Loopback Push Notification Services

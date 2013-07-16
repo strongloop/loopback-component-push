@@ -1,7 +1,7 @@
 {
-    "name": "asteroid-push-notification",
+    "name": "loopback-push-notification",
     "version": "0.0.1",
-    "description": "Asteroid Push Notification",
+    "description": "Loopback Push Notification",
     "main": "lib/index.js",
     "scripts": {
         "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
@@ -11,8 +11,8 @@
         "c2dm": "latest",
         "node-gcm": "latest",
         "mpns": "latest",
-        "asteroid": "git+ssh://git@github.com/strongloop/asteroid.git",
-        "jugglingdb-mongodb": "git+ssh://git@github.com:strongloop/asteroid-connector-mongodb.git"
+        "loopback": "git+ssh://git@github.com/strongloop/loopback.git",
+        "jugglingdb-mongodb": "git+ssh://git@github.com:strongloop/loopback-connector-mongodb.git"
     },
     "devDependencies": {
         "should": "latest",
@@ -20,6 +20,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/strongloop/asteroid-push-notification.git"
+        "url": "https://github.com/strongloop/loopback-push-notification.git"
     }
 }
