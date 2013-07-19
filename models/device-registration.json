@@ -19,7 +19,7 @@
         "deviceType": "String",
         "subscriptions": ["String"],
         "created": "Date",
-        "lastModified": "Date",
+        "modified": "Date",
         "status": "String"
     }
 }

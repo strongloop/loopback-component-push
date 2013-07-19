@@ -86,6 +86,8 @@ The DeviceRegistrtion model is exposed as CRUD REST APIs via loopback.
 We embed a folk of [apnagent-ios](https://github.com/logicalparadox/apnagent-ios) under example/apnagent-ios as the
 iOS sample app to test push notifications.
 
+You can find the installable app @ https://www.testflightapp.com/dashboard/applications/706217/builds/ too.
+
 ### Sample 1
 
 
