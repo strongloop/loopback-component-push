@@ -57,14 +57,88 @@ The DeviceRegistrtion model is exposed as CRUD REST APIs via loopback.
             "deviceType": "apns"
         }
 
+### Configure Loopback Push Notification
+
+    var apn = require('apn');
+    var path = require('path');
+    var loopback = require('loopback');
+
+    var app = loopback();
+
+    // expose a rest api
+    app.use(loopback.rest());
+
+    ...
+
+    var pushOptions = {
+        "gateway": "gateway.sandbox.push.apple.com",
+        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+        "key": path.join(__dirname, "credentials/apns_key_dev.pem")
+    };
+
+    var feedbackOptions = {
+        "gateway": 'feedback.sandbox.push.apple.com',
+        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
+        "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
+        "batchFeedback": true,
+        "interval": 300
+    }
+
+    var ds = require('./data-sources/db');
+
+    var push = loopback.createDataSource({
+        connector: require('../lib/push-connector'),
+        config: {
+            apns: {
+                pushOptions: pushOptions,
+                feedbackOptions: feedbackOptions
+            }
+        },
+        dataSource: ds
+    });
+
+    var model = push.createModel('push');
+
+    var DeviceRegistration = push.adapter.DeviceRegistration;
+    app.model(DeviceRegistration);
+
+
+    var badge = 1;
+    app.post('/deviceRegistrations/:id/notify', function(req, res, next) {
+        var note = new apn.Notification();
+
+        note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+        note.badge = badge++;
+        note.sound = "ping.aiff";
+        note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
+        note.payload = {'messageFrom': 'Ray'};
+
+        model.pushNotificationByRegistrationId(req.params.id, note);
+        res.send(200, 'OK');
+    });
+
+    app.listen(app.get('port'));
+    console.log('http://127.0.0.1:' + app.get('port'));
+
+
 ### Send notifications
+
+    var note = new apn.Notification();
+
+    note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+    note.badge = badge++;
+    note.sound = "ping.aiff";
+    note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
+    note.payload = {'messageFrom': 'Ray'};
+
+    model.pushNotificationByRegistrationId(req.params.id, note);
 
     /**
      * Push notification to a given device
      * @param deviceToken
      * @param notification
      */
-    PushService.prototype.pushNotification = function (deviceToken, notification)
+    pushNotification(deviceToken, notification)
 
     /**
      * Push notification based the application
@@ -72,14 +146,14 @@ The DeviceRegistrtion model is exposed as CRUD REST APIs via loopback.
      * @param appVersion
      * @param notification
      */
-    PushService.prototype.pushNotificationByApp = function (appId, appVersion, notification, cb)
+    pushNotificationByApp(appId, appVersion, notification, cb)
 
     /**
      * Push notification based the user
      * @param userId
      * @param notification
      */
-    PushService.prototype.pushNotificationByUser = function (userId, notification, cb)
+    pushNotificationByUser(userId, notification, cb)
 
 ## Samples
 
