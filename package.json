@@ -4,7 +4,11 @@
     "description": "Loopback Push Notification",
     "main": "lib/index.js",
     "scripts": {
-        "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
+        "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js",
+        "blanket": {
+          "pattern": "//^((?!(node_modules|test)).)*$/"
+         },
+        "coverage": "mocha -r blanket -R html-cov > coverage_loopback-push-notification.html"
     },
     "dependencies": {
         "apn": "latest",
@@ -16,7 +20,8 @@
     },
     "devDependencies": {
         "should": "latest",
-        "mocha": "latest"
+        "mocha": "latest",
+	"blanket": "latest"
     },
     "repository": {
         "type": "git",
