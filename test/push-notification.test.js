@@ -43,7 +43,7 @@ describe('PushNotification', function () {
                 var application = result;
 
                 DeviceRegistration.destroyAll(function (err, result) {
-                    console.log('Adding a test record');
+                    // console.log('Adding a test record');
                     DeviceRegistration.create({
                         appId: application.id,
                         userId: 'raymond',
@@ -56,13 +56,14 @@ describe('PushNotification', function () {
                         if (err) {
                             console.error(err);
                         } else {
-                            console.log('Registration record is created: ', result);
+                            // console.log('Registration record is created: ', result);
                         }
 
                         PushModel.dataSource.connector.applications[application.id] = {memory: {
                             push: {
                                 pushNotification: function (notification, deviceToken) {
-                                    console.log(notification, deviceToken);
+                                    // console.log(notification, deviceToken);
+                                    assert.equal(deviceToken, result.deviceToken);
                                     done();
                                 }
                             }

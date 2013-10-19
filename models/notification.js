@@ -1,4 +1,5 @@
 var loopback = require('loopback');
+var ModelBuilder = require('loopback-datasource-juggler').ModelBuilder;
 
 /**
  * Notification Model
@@ -13,7 +14,7 @@ var Notification = loopback.createModel(
         },
         deviceType: String, // The device type such as apns
         deviceToken: String, // The device token
-        alert: String, // the notification's message
+        alert: ModelBuilder.Any, // the notification's message
         badge: Number, // (iOS) the value indicated in the top right corner of the app icon. This can be set to a value or to -1 in order to increment the current value by 1
         sound: String, // (iOS) the name of a sound file in the application bundle
         action: String,  // (Android) the Intent should be fired when the push is received. If not title or alert values are specified, the Intent will be fired but no notification will appear to the user
