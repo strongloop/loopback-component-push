@@ -4,9 +4,9 @@
 var loopback = require('loopback');
 
 /**
- * DeviceRegistration Model
+ * Device Model
  */
-var DeviceRegistration = loopback.createModel('DeviceRegistration',
+var Device = loopback.createModel('Device',
     {
         // The registration id
         id: {
@@ -28,7 +28,7 @@ var DeviceRegistration = loopback.createModel('DeviceRegistration',
     }
 );
 
-DeviceRegistration.beforeCreate = function (next) {
+Device.beforeCreate = function (next) {
     var reg = this;
     reg.created = reg.modified = new Date();
     next();
@@ -43,13 +43,13 @@ DeviceRegistration.beforeCreate = function (next) {
  *
  * @callback cb
  */
-DeviceRegistration.findByApp = function (deviceType, appId, appVersion, cb) {
+Device.findByApp = function (deviceType, appId, appVersion, cb) {
     if(!cb && typeof appVersion === 'function') {
         cb = appVersion;
         appVersion = undefined;
     }
     var filter = {where: {appId: appId, appVersion: appVersion, deviceType: deviceType}};
-    DeviceRegistration.find(filter, cb);
+    Device.find(filter, cb);
 };
 
 /**
@@ -58,9 +58,9 @@ DeviceRegistration.findByApp = function (deviceType, appId, appVersion, cb) {
  * @param deviceType
  * @param cb
  */
-DeviceRegistration.findByUser = function (deviceType, userId, cb) {
+Device.findByUser = function (deviceType, userId, cb) {
     var filter = {where: {userId: userId, deviceType: deviceType}};
-    DeviceRegistration.find(filter, cb);
+    Device.find(filter, cb);
 };
 
 /**
@@ -69,12 +69,12 @@ DeviceRegistration.findByUser = function (deviceType, userId, cb) {
  * @param deviceType
  * @param cb
  */
-DeviceRegistration.findBySubscription = function (deviceType, subscriptions, cb) {
+Device.findBySubscription = function (deviceType, subscriptions, cb) {
     if(typeof subscriptions === 'string') {
         subscriptions = subscriptions.split(/[\s,]+/);
     }
     var filter = {where: {subscriptions: {inq: subscriptions}, deviceType: deviceType}};
-    DeviceRegistration.find(filter, cb);
+    Device.find(filter, cb);
 };
 
 /*!
@@ -93,7 +93,7 @@ function setRemoting(fn, options) {
     fn.shared = true;
 }
 
-setRemoting(DeviceRegistration.findByApp, {
+setRemoting(Device.findByApp, {
     description: 'Find devices by application id',
     accepts: [
         {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
@@ -104,7 +104,7 @@ setRemoting(DeviceRegistration.findByApp, {
     http: {verb: 'get', path: '/byApp'}
 });
 
-setRemoting(DeviceRegistration.findByUser, {
+setRemoting(Device.findByUser, {
     description: 'Find devices by user id',
     accepts: [
         {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
@@ -114,7 +114,7 @@ setRemoting(DeviceRegistration.findByUser, {
     http: {verb: 'get', path: '/byUser'}
 });
 
-setRemoting(DeviceRegistration.findBySubscription, {
+setRemoting(Device.findBySubscription, {
     description: 'Find devices by subscriptions',
     accepts: [
         {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
@@ -124,7 +124,7 @@ setRemoting(DeviceRegistration.findBySubscription, {
     http: {verb: 'get', path: '/bySubscription'}
 });
 
-module.exports = DeviceRegistration;
+module.exports = Device;
 
 
 

@@ -15,7 +15,7 @@ var ds = require('./data-sources/db');
 
 var PushModel = require('../index')(app, {dataSource: ds});
 var Application = PushModel.Application;
-var DeviceRegistration = PushModel.DeviceRegistration;
+var Device = PushModel.Device;
 
 app.use(loopback.static(path.join(__dirname, 'html')));
 
@@ -50,9 +50,9 @@ Application.register('test-user', 'TestApp',
         var application = result;
 
         // Register two devices
-        DeviceRegistration.destroyAll(function (err, result) {
+        Device.destroyAll(function (err, result) {
             console.log('Adding a test record');
-            DeviceRegistration.create({
+            Device.create({
                 appId: application.id,
                 userId: 'raymond',
                 deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
@@ -67,7 +67,7 @@ Application.register('test-user', 'TestApp',
                     console.log('Registration record is created: ', result);
                 }
             });
-            DeviceRegistration.create({
+            Device.create({
                 appId: application.id,
                 userId: 'chandrika',
                 deviceToken: 'a6127991 8f8d9731 766011fb 28f37c2b 746bcad6 f183c42d 9d8af31f 62f27910',
@@ -86,7 +86,7 @@ Application.register('test-user', 'TestApp',
         });
 
         var badge = 1;
-        app.post('/deviceRegistrations/:id/notify', function (req, res, next) {
+        app.post('/devices/:id/notify', function (req, res, next) {
             var note = new apn.Notification();
 
             note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.

@@ -7,7 +7,7 @@ var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 
 var PushModel = require('../index')(null, {dataSource: ds});
 var Application = PushModel.Application;
-var DeviceRegistration = PushModel.DeviceRegistration;
+var Device = PushModel.Device;
 
 var fs = require('fs');
 var certData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_cert_dev.pem"), 'UTF-8');
@@ -42,9 +42,9 @@ describe('PushNotification', function () {
                 }
                 var application = result;
 
-                DeviceRegistration.destroyAll(function (err, result) {
+                Device.destroyAll(function (err, result) {
                     // console.log('Adding a test record');
-                    DeviceRegistration.create({
+                    Device.create({
                         appId: application.id,
                         userId: 'raymond',
                         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',

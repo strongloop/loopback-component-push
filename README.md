@@ -8,7 +8,7 @@ LoopBack Push Notification is a set of server side models to enable mobile push 
 
 ## Key Components
 
-* DeviceRegistration model and APIs to manage devices with applications and users
+* Device model and APIs to manage devices with applications and users
 * Application model to provide push settings for device types such as ios and android
 * Notification model to capture notification messages and persist scheduled notifications
 * Optional Job to take scheduled notification requests
@@ -55,10 +55,10 @@ APIs for the sign-up.
 
 ### Register a new device
 
-The mobile device also needs to register itself with the backend using DeviceRegistration model and APIs. To
-register a device, we can call the `DeviceRegistration.create` API as follows:
+The mobile device also needs to register itself with the backend using Device model and APIs. To
+register a device, we can call the `Device.create` API as follows:
 
-    DeviceRegistration.create({
+    Device.create({
         appId: 'MyLoopBackApp',
         userId: 'raymond',
         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
@@ -70,9 +70,9 @@ register a device, we can call the `DeviceRegistration.create` API as follows:
         console.log('Registration record is created: ', result);
     });
 
-The DeviceRegistration model is exposed as CRUD REST APIs.
+The Device model is exposed as CRUD REST APIs.
 
-        POST http://localhost:3000/deviceRegistrations
+        POST http://localhost:3000/devices
         {
             "appId": "MyLoopBackApp",
             "userId": "raymond",
