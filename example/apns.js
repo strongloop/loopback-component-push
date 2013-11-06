@@ -13,7 +13,7 @@ var feedbackOptions = {
     "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
     "batchFeedback": true,
     "interval": 300
-}
+};
 
 var feedback = new apn.Feedback(feedbackOptions);
 feedback.on("feedback", function (devices) {

@@ -1,42 +1,65 @@
-# Loopback Push Notification
+# LoopBack Push Notification
 
-Loopback Push Notification is a set of server side functions to enable mobile push notification services. It consists of
-the following components:
+LoopBack Push Notification is a set of server side models to enable mobile push notification services.
 
-## Features
+## Architecture
 
-* DeviceRegistration model and APIs to send notifications to devices of interest
+![push-notification.png](push-notification.png)
 
-* Wrapper APIs to multiple mobile push notification platforms, including:
-  * apns
-  * c2dm/gcm (TBD)
-  * mpns (TBD)
+## Key Components
 
-* Scheduling notifications (TBD)
+* Device model and APIs to manage devices with applications and users
+* Application model to provide push settings for device types such as ios and android
+* Notification model to capture notification messages and persist scheduled notifications
+* Optional Job to take scheduled notification requests
+* Push connector that interact with device registration records and push providers such as APNS, GCM, and MPNS.
+* Push model to provide high level APIs for device-independent push notifications
 
-## Device Registration
+## Models and APIs for push notifications
 
-The mobile applications need to first register itself with the backend using DeviceRegistration model and APIs.
+### Sign up an application with push settings
 
-### Model
-A record of DeviceRegistration has the following properties:
+To support push notifications, the mobile application needs to be registered with LoopBack. The `Application` model has
+APIs for the sign-up.
 
-    id: String (automatically generated id to identify the record)
-    appId: String, (application id registerd with the Application model)
-    appVersion: String, (optional application version)
-    userId: String,
-    deviceToken: String,
-    deviceType: String,
-    subscriptions: [String],
-    status: String,
-    created: Date,
-    modified: Date
+    var fs = require('fs');
+    var certData = fs.readFileSync(path.join(__dirname, "credentials/apns_cert_dev.pem"), 'UTF-8');
+    var keyData = fs.readFileSync(path.join(__dirname, "credentials/apns_key_dev.pem"), 'UTF-8');
+
+    // Sign up an application
+    Application.register('test-user', 'TestApp',
+        {
+            description: 'My test mobile application',
+            pushSettings: {
+                apns: {
+                    pushOptions: {
+                        gateway: "gateway.sandbox.push.apple.com",
+                        certData: certData,
+                        keyData: keyData
+                    },
+                    feedbackOptions: {
+                        gateway: "feedback.sandbox.push.apple.com",
+                        certData: certData,
+                        keyData: keyData,
+                        batchFeedback: true,
+                        interval: 300
+                    }
+                }
+            }
+        }, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            ...
+        });
 
 ### Register a new device
-To regsiter a device, we can call the DeviceRegistration.create API as follows:
 
-    DeviceRegistration.create({
-        appId: 'MyLoopbackApp',
+The mobile device also needs to register itself with the backend using Device model and APIs. To
+register a device, we can call the `Device.create` API as follows:
+
+    Device.create({
+        appId: 'MyLoopBackApp',
         userId: 'raymond',
         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
         deviceType: 'apns',
@@ -47,81 +70,25 @@ To regsiter a device, we can call the DeviceRegistration.create API as follows:
         console.log('Registration record is created: ', result);
     });
 
-The DeviceRegistrtion model is exposed as CRUD REST APIs via loopback.
+The Device model is exposed as CRUD REST APIs.
 
-        POST http://localhost:3000/deviceRegistrations
+        POST http://localhost:3000/devices
         {
-            "appId": "MyLoopbackApp",
+            "appId": "MyLoopBackApp",
             "userId": "raymond",
             "deviceToken": "75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305",
             "deviceType": "apns"
         }
 
-### Configure Loopback Push Notification
-
-    var apn = require('apn');
-    var path = require('path');
-    var loopback = require('loopback');
-
-    var app = loopback();
-
-    // expose a rest api
-    app.use(loopback.rest());
-
-    ...
-
-    var pushOptions = {
-        "gateway": "gateway.sandbox.push.apple.com",
-        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
-        "key": path.join(__dirname, "credentials/apns_key_dev.pem")
-    };
-
-    var feedbackOptions = {
-        "gateway": 'feedback.sandbox.push.apple.com',
-        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
-        "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
-        "batchFeedback": true,
-        "interval": 300
-    }
+### Configure LoopBack Push Notification
 
     var ds = require('./data-sources/db');
-
-    var push = loopback.createDataSource({
-        connector: require('../lib/push-connector'),
-        config: {
-            apns: {
-                pushOptions: pushOptions,
-                feedbackOptions: feedbackOptions
-            }
-        },
-        dataSource: ds
-    });
-
-    var model = push.createModel('push');
-
-    var DeviceRegistration = push.adapter.DeviceRegistration;
-    app.model(DeviceRegistration);
-
-
-    var badge = 1;
-    app.post('/deviceRegistrations/:id/notify', function(req, res, next) {
-        var note = new apn.Notification();
-
-        note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-        note.badge = badge++;
-        note.sound = "ping.aiff";
-        note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
-        note.payload = {'messageFrom': 'Ray'};
-
-        model.pushNotificationByRegistrationId(req.params.id, note);
-        res.send(200, 'OK');
-    });
-
-    app.listen(app.get('port'));
-    console.log('http://127.0.0.1:' + app.get('port'));
+    var PushModel = require('loopback-push-notification')(app, {dataSource: ds});
 
 
 ### Send notifications
+
+#### APNS
 
     var note = new apn.Notification();
 
@@ -131,29 +98,9 @@ The DeviceRegistrtion model is exposed as CRUD REST APIs via loopback.
     note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
     note.payload = {'messageFrom': 'Ray'};
 
-    model.pushNotificationByRegistrationId(req.params.id, note);
+    PushModel.pushNotificationByRegistrationId(req.params.id, note);
 
-    /**
-     * Push notification to a given device
-     * @param deviceToken
-     * @param notification
-     */
-    pushNotification(deviceToken, notification)
-
-    /**
-     * Push notification based the application
-     * @param appId
-     * @param appVersion
-     * @param notification
-     */
-    pushNotificationByApp(appId, appVersion, notification, cb)
-
-    /**
-     * Push notification based the user
-     * @param userId
-     * @param notification
-     */
-    pushNotificationByUser(userId, notification, cb)
+#### GCM
 
 ## Samples
 
@@ -162,50 +109,14 @@ iOS sample app to test push notifications.
 
 You can find the installable app @ https://www.testflightapp.com/dashboard/applications/706217/builds/ too.
 
-### Sample 1
-
-
-    var apn = require('apn');
-    var path = require('path');
-
-    var options = {
-        "gateway": "gateway.sandbox.push.apple.com",
-        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
-        "key": path.join(__dirname, "credentials/apns_key_dev.pem")
-    };
-
-    var feedbackOptions = {
-        "gateway": 'feedback.sandbox.push.apple.com',
-        "cert": path.join(__dirname, "credentials/apns_cert_dev.pem"),
-        "key": path.join(__dirname, "credentials/apns_key_dev.pem"),
-        "batchFeedback": true,
-        "interval": 300
-    }
-
-
-    var apnConnection = new apn.Connection(options);
-    apnConnection.on('error', function (err) {
-        console.error(err);
-    });
-
-    var token = "75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305";
-
-    var myDevice = new apn.Device(token);
-
-    var note = new apn.Notification();
-
-    note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-    note.badge = 3;
-    note.sound = "ping.aiff";
-    note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
-    note.payload = {'messageFrom': 'Caroline'};
-
-    apnConnection.pushNotification(note, myDevice);
 
 ## References
 
-1. https://github.com/argon/node-apn
-2. https://github.com/rs/pushd
-3. https://github.com/logicalparadox/apnagent-ios
-4. https://blog.engineyard.com/2013/developing-ios-push-notifications-nodejs
+- https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html
+- http://developer.android.com/google/gcm/index.html
+- http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh202945(v=vs.105).aspx
+- https://github.com/argon/node-apn
+- https://github.com/rs/pushd
+- https://github.com/logicalparadox/apnagent-ios
+- https://blog.engineyard.com/2013/developing-ios-push-notifications-nodejs
 
