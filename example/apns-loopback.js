@@ -8,7 +8,7 @@ var app = loopback();
 app.use(loopback.rest());
 
 app.configure(function () {
-    app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 3010);
 });
 
 var ds = require('./data-sources/db');
@@ -24,25 +24,28 @@ var fs = require('fs');
 var certData = fs.readFileSync(path.join(__dirname, "credentials/apns_cert_dev.pem"), 'UTF-8');
 var keyData = fs.readFileSync(path.join(__dirname, "credentials/apns_key_dev.pem"), 'UTF-8');
 
-// Sign up an application
-Application.register('test-user', 'TestApp',
-    {
-        description: 'My test mobile application',
+Device.deleteAll(function (err) {
+  Application.deleteAll(function (err) {
+
+    Application.register('raymond', 'LoopBackPushNotificationDemoApplication',
+      {
+        id: 'loopback-push-notification-app',
+        description: 'LoopBack Push Notification Demo Application',
         pushSettings: {
-            apns: {
-                pushOptions: {
-                    gateway: "gateway.sandbox.push.apple.com",
-                    certData: certData,
-                    keyData: keyData
-                },
-                feedbackOptions: {
-                    gateway: "feedback.sandbox.push.apple.com",
-                    certData: certData,
-                    keyData: keyData,
-                    batchFeedback: true,
-                    interval: 300
-                }
+          apns: {
+            pushOptions: {
+              gateway: "gateway.sandbox.push.apple.com",
+              certData: certData,
+              keyData: keyData
+            },
+            feedbackOptions: {
+              gateway: "feedback.sandbox.push.apple.com",
+              certData: certData,
+              keyData: keyData,
+              batchFeedback: true,
+              interval: 300
             }
+          }
         }
     }, function (err, result) {
         if (err) {
@@ -105,8 +108,6 @@ Application.register('test-user', 'TestApp',
             console.log('http://127.0.0.1:' + app.get('port'));
         });
     });
-
-
 
 
 
