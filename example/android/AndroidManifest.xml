@@ -15,7 +15,9 @@
   - under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.gcm.demo.app" android:versionCode="1" android:versionName="1.0">
+    package="com.google.android.gcm.demo.app"
+    android:versionCode="1"
+    android:versionName="1.0">
 
     <!-- GCM requires Android SDK version 2.2 (API level 8) or above. -->
     <!-- The targetSdkVersion is optional, but it's always a good practice
@@ -49,7 +51,8 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:allowBackup="false">
+        android:allowBackup="false"
+        android:name="com.google.android.gcm.demo.app.DemoApplication">
         <activity
             android:name=".DemoActivity"
             android:label="@string/app_name"

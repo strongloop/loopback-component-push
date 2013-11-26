@@ -115,6 +115,9 @@ iOS sample app to test push notifications.
 
 You can find the installable app @ https://www.testflightapp.com/dashboard/applications/706217/builds/ too.
 
+There is an Android sample app too (see [example/android]), it's a fork of the
+sample client app provided by Google ([gcm](http://code.google.com/p/gcm)).
+Check out [example/android/README.md] for more details.
 
 ## References
 
