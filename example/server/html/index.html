@@ -9,6 +9,12 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
     <script src="js/controllers.js"></script>
 
+    <style>
+      .long-text {
+        word-wrap: break-word;
+      }
+    </style>
+
 </head>
 
 <body ng-controller="DeviceListControl">
@@ -25,7 +31,7 @@
     <p/>
 
     <div class="row-fluid span12">
-        <table class="table table-striped">
+        <table class="table table-striped" style="table-layout: fixed">
             <thead>
             <tr>
                 <th>Registration Id</th>
@@ -40,9 +46,9 @@
             <tbody>
             <tr ng-repeat="device in devices | filter:query">
                 <td>{{device.id}}</td>
-                <td>{{device.appId}}</td>
+                <td class="long-text">{{device.appId}}</td>
                 <td>{{device.userId}}</td>
-                <td>{{device.deviceToken}}</td>
+                <td class="long-text">{{device.deviceToken}}</td>
                 <td>{{device.deviceType}}</td>
                 <td>{{device.status}}</td>
                 <td>
@@ -58,6 +64,5 @@
         </table>
     </div>
 </div>
-
 </body>
 </html>
