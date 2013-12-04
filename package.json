@@ -17,7 +17,9 @@
   "devDependencies": {
     "loopback-connector-mongodb": "1.x",
     "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "sinon": "*",
+    "chai": "*"
   },
   "repository": {
     "type": "git",
