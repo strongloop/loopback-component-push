@@ -8,12 +8,18 @@
  */
 exports.apns = require('./apns.mockery.js');
 
+/**
+ * GCM mocks, initialized by setUp();
+ */
+exports.gcm = require('./gcm.mockery.js');
+
 
 /**
  * Setup the mockery. This method should be called before each test.
  */
 exports.setUp = function() {
   exports.apns.setUp();
+  exports.gcm.setUp();
 };
 
 /**
@@ -22,5 +28,6 @@ exports.setUp = function() {
  */
 exports.tearDown = function() {
   exports.apns.tearDown();
+  exports.gcm.tearDown();
 };
 
