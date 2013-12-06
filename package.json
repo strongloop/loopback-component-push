@@ -7,6 +7,7 @@
     "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
   },
   "dependencies": {
+    "debug": "~0.7.4",
     "apn": "~1.4.2",
     "node-gcm": "~0.9.7",
     "mpns": "~2.1.0"
