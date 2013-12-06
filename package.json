@@ -19,7 +19,9 @@
     "should": "*",
     "mocha": "*",
     "sinon": "*",
-    "chai": "*"
+    "chai": "*",
+    "async": "*",
+    "deep-extend": "*"
   },
   "repository": {
     "type": "git",
