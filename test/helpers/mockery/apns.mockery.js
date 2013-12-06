@@ -32,7 +32,7 @@ mockery.feedbackOptions = null;
  * It reports a warning when the feedback service was not configured
  * byt the subject under test.
  */
-mockery.emitFeedback = function() {
+mockery.emitFeedback = function(devices) {
   console.error('Warning: cannot emit fake feedback, as the feedback' +
     ' service was not configured by the subject under test.');
 };
@@ -74,8 +74,9 @@ exports.setUp = function() {
   apn.Feedback = apn.feedback = function(opts) {
     mockery.feedbackOptions = opts;
     var feedback = new EventEmitter();
-    mockery.emitFeedback = function() {
-      feedback.emit('feedback', Array.prototype.slice.call(arguments));
+    mockery.emitFeedback = function(devices) {
+      if (!(devices instanceof Array)) devices = [devices];
+      feedback.emit('feedback', devices);
     };
     return feedback;
   };

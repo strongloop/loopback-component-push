@@ -60,12 +60,10 @@ describe('PushNotification', function () {
                         }
 
                         PushModel.dataSource.connector.applications[application.id] = {memory: {
-                            push: {
-                                pushNotification: function (notification, deviceToken) {
-                                    // console.log(notification, deviceToken);
-                                    assert.equal(deviceToken, result.deviceToken);
-                                    done();
-                                }
+                            pushNotification: function (notification, deviceToken) {
+                                // console.log(notification, deviceToken);
+                                assert.equal(deviceToken, result.deviceToken);
+                                done();
                             }
                         }};
 

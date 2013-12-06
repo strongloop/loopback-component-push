@@ -25,10 +25,10 @@ describe('APNS provider', function() {
     done();
   });
 
-  it('raises "device gone" event when feedback arrives', function(done) {
+  it('raises "devicesGone" event when feedback arrives', function(done) {
     givenProviderWithConfig({ apns: { feedbackOptions: {}}});
     var eventSpy = sinon.spy();
-    provider.on('device gone', eventSpy);
+    provider.on('devicesGone', eventSpy);
 
     var devices = [aDeviceToken];
     mockery.emitFeedback(devices);
