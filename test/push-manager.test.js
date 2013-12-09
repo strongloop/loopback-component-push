@@ -8,7 +8,7 @@ var Application = require('loopback').Application;
 var Device = require('../models/device');
 
 var expect = require('chai').expect;
-var mockery = require('./helpers/mockery');
+var mockery = require('./helpers/mockery').stub;
 
 describe('PushManager', function() {
   beforeEach(mockery.setUp);
@@ -21,13 +21,13 @@ describe('PushManager', function() {
       [
         function(cb) {
           givenApplicationWithDeviceAndProvider(
-            { pushSettings: { apns: { feedbackOptions: {}} } },
-            { deviceType: 'ios' },
+            { pushSettings: { stub: { } } },
+            { deviceType: mockery.deviceType },
             cb);
         },
 
         function(app, device, provider, cb) {
-          mockery.apns.emitFeedback(device.deviceToken);
+          mockery.emitDevicesGone(device.deviceToken);
 
           // Wait until the feedback is processed
           // We can use process.nextTick because Memory store
