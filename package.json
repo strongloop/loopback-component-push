@@ -7,6 +7,7 @@
     "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
   },
   "dependencies": {
+    "debug": "~0.7.4",
     "apn": "~1.4.2",
     "node-gcm": "~0.9.7",
     "mpns": "~2.1.0"
@@ -15,9 +16,14 @@
     "loopback": "1.x >=1.3"
   },
   "devDependencies": {
+    "loopback": "1.x",
     "loopback-connector-mongodb": "1.x",
     "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "sinon": "*",
+    "chai": "*",
+    "async": "*",
+    "deep-extend": "*"
   },
   "repository": {
     "type": "git",

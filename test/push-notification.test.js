@@ -1,5 +1,4 @@
 var loopback = require('loopback');
-var apn = require('apn');
 var assert = require('assert');
 var path = require('path');
 
@@ -8,6 +7,7 @@ var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 var PushModel = require('../index')(null, {dataSource: ds});
 var Application = PushModel.Application;
 var Device = PushModel.Device;
+var Notification = PushModel.Notification;
 
 var fs = require('fs');
 var certData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_cert_dev.pem"), 'UTF-8');
@@ -60,22 +60,21 @@ describe('PushNotification', function () {
                         }
 
                         PushModel.dataSource.connector.applications[application.id] = {memory: {
-                            push: {
-                                pushNotification: function (notification, deviceToken) {
-                                    // console.log(notification, deviceToken);
-                                    assert.equal(deviceToken, result.deviceToken);
-                                    done();
-                                }
+                            pushNotification: function (notification, deviceToken) {
+                                // console.log(notification, deviceToken);
+                                assert.equal(deviceToken, result.deviceToken);
+                                done();
                             }
                         }};
 
-                        var note = new apn.Notification();
+                        var note = new Notification();
 
-                        note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+                        // Expires 1 hour from now.
+                        note.expirationInterval = Math.floor(Date.now() / 1000) + 3600;
                         note.badge = 5;
-                        note.sound = "ping.aiff";
-                        note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
-                        note.payload = {'messageFrom': 'Ray'};
+                        note.sound = 'ping.aiff';
+                        note.alert = '\uD83D\uDCE7 \u2709 ' + 'Hello';
+                        note.messageFrom = 'Ray';
 
                         PushModel.pushNotificationByRegistrationId(result.id, note);
 

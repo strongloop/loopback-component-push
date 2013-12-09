@@ -16,6 +16,7 @@ var ds = require('./data-sources/db');
 var PushModel = require('../index')(app, {dataSource: ds});
 var Application = PushModel.Application;
 var Device = PushModel.Device;
+var Notification = PushModel.Notification;
 
 app.use(loopback.static(path.join(__dirname, 'html')));
 
@@ -87,13 +88,14 @@ Application.register('test-user', 'TestApp',
 
         var badge = 1;
         app.post('/devices/:id/notify', function (req, res, next) {
-            var note = new apn.Notification();
-
-            note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-            note.badge = badge++;
-            note.sound = "ping.aiff";
-            note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
-            note.payload = {'messageFrom': 'Ray'};
+            var note = new Notification({
+                // Expires 1 hour from now.
+                expirationInterval: Math.floor(Date.now() / 1000) + 3600,
+                badge: badge++,
+                sound: 'ping.aiff',
+                alert: '\uD83D\uDCE7 \u2709 ' + 'Hello',
+                messageFrom: 'Ray'
+            });
 
             PushModel.pushNotificationByRegistrationId(req.params.id, note);
             res.send(200, 'OK');
