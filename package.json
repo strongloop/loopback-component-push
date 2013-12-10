@@ -18,6 +18,7 @@
   "devDependencies": {
     "loopback": "1.x",
     "loopback-connector-mongodb": "1.x",
+    "loopback-testing": "~0.0.3",
     "should": "*",
     "mocha": "*",
     "sinon": "*",

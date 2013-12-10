@@ -1,6 +1,5 @@
 
 var async = require('async');
-var deepExtend = require('deep-extend');
 
 var PushManager = require('../lib/push-manager');
 var Notification = require('../models/notification');
@@ -9,6 +8,8 @@ var Device = require('../models/device');
 
 var expect = require('chai').expect;
 var mockery = require('./helpers/mockery').stub;
+var TestDataBuilder = require('loopback-testing').TestDataBuilder;
+var ref = TestDataBuilder.ref;
 
 describe('PushManager', function() {
   beforeEach(mockery.setUp);
@@ -16,83 +17,52 @@ describe('PushManager', function() {
   beforeEach(Device.deleteAll.bind(Device));
   afterEach(mockery.tearDown);
 
-  it('deletes devices no longer registered', function(done) {
-    async.waterfall(
-      [
-        function(cb) {
-          givenApplicationWithDeviceAndProvider(
-            { pushSettings: { stub: { } } },
-            { deviceType: mockery.deviceType },
-            cb);
-        },
+  var pushManager;
+  var context;
 
-        function(app, device, provider, cb) {
-          mockery.emitDevicesGone(device.deviceToken);
-
-          // Wait until the feedback is processed
-          // We can use process.nextTick because Memory store
-          // deletes the data within this event loop
-          process.nextTick(function() {
-            Device.find(function(err, result) {
-              if (err) return cb(err);
-              expect(result).to.be.empty;
-              cb();
-            });
-          });
-        }
-      ],
-      done
-    );
+  beforeEach(function createPushManager() {
+    pushManager = new PushManager();
+    context = {};
   });
 
-  function givenApplication(properties, callback) {
-    var defaults = {
-      description: 'a-test-app-description'
-    };
+  it('deletes devices no longer registered', function(done) {
+    async.series([
+      function arrange(cb) {
+        new TestDataBuilder()
+          .define('application', Application, {
+            pushSettings: { stub: { } }
+          })
+          .define('device', Device, {
+            appId: ref('application.id'),
+            deviceType: mockery.deviceType
+          })
+          .define('notification', Notification)
+          .buildTo(context, cb);
+      },
 
-    Application.register(
-      'a-test-user',
-      'a-test-app-name',
-      deepExtend(defaults, properties),
-      callback
-    );
-  }
+      function configureProvider(cb) {
+        pushManager.configureApplication(
+          context.device.appId,
+          context.device.deviceType,
+          cb);
+      },
 
-  function givenDevice(properties, callback) {
-    var defaults = {
-      userId: 'a-test-user',
-      deviceToken: 'a--device-token',
-      created: new Date(),
-      modified: new Date(),
-      status: 'Active'
-    };
-    Device.create(deepExtend(defaults, properties), callback);
-  }
+      function act(cb) {
+        mockery.emitDevicesGone(context.device.deviceToken);
 
-  function givenApplicationWithDeviceAndProvider(appProperties,
-                                                             deviceProperties,
-                                                             callback) {
-    async.waterfall(
-      [
-        function(cb) {
-          givenApplication(appProperties, cb);
-        },
-        function(app, cb) {
-          deviceProperties = deepExtend({ appId: app.id }, deviceProperties);
-          givenDevice(
-            deviceProperties,
-            function(err, device) { cb(err, app, device); }
-          );
-        },
-        function(app, device, cb) {
-          var manager = new PushManager();
-          manager.configureApplication(
-            device.appId,
-            device.deviceType,
-            function(err, provider) { cb(err, app, device, provider); }
-          );
-        }
-      ],
-      callback);
-  }
+        // Wait until the feedback is processed
+        // We can use process.nextTick because Memory store
+        // deletes the data within this event loop
+        process.nextTick(cb);
+      },
+
+      function verify(cb) {
+        Device.find(function(err, result) {
+          if (err) return cb(err);
+          expect(result).to.have.length(0);
+          cb();
+        });
+      }
+    ], done);
+  });
 });
