@@ -7,6 +7,7 @@ var Application = require('loopback').Application;
 var Device = require('../models/device');
 
 var expect = require('chai').expect;
+var sinon = require('sinon');
 var mockery = require('./helpers/mockery').stub;
 var TestDataBuilder = require('loopback-testing').TestDataBuilder;
 var ref = TestDataBuilder.ref;
@@ -213,6 +214,43 @@ describe('PushManager', function() {
         }
       ], done);
 
+    });
+
+    it('emits error when push fails inside provider', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            .define('device', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: mockery.deviceType
+            })
+            .buildTo(context, cb);
+        },
+
+        function actAndVerify(cb) {
+          var errorCallback = sinon.spy();
+          pushManager.on('error', errorCallback);
+
+          mockery.pushNotification = function() {
+            this.emit('error', new Error('a test error'));
+          };
+
+          pushManager.pushNotificationByRegistrationId(
+            context.device.id,
+            context.notification,
+            function(err) {
+              if (err) throw err;
+              expect(errorCallback.calledOnce, 'error was emitted')
+                .to.equal(true);
+              cb();
+            }
+          );
+        }
+      ], done);
     });
   });
 });
