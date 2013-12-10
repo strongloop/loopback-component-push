@@ -76,6 +76,15 @@ describe('PushManager', function() {
             .define('application', Application, {
               pushSettings: { stub: { } }
             })
+            // Note: the order in which the devices are created is important.
+            // The device that should not receive the notification must
+            // be created first. This way the test fails when PushManager
+            // looks up the device via `Device.findOne({ deviceToken: token })`.
+            .define('anotherDevice', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: 'another-device-type'
+            })
             .define('device', Device, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
