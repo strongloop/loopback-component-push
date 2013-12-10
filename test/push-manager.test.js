@@ -113,5 +113,106 @@ describe('PushManager', function() {
         }
       ], done);
     });
+
+    it('reports error when device was not found', function(done) {
+      async.series([
+        function actAndVerify(cb) {
+          pushManager.pushNotificationByRegistrationId(
+            'unknown-device-id',
+            context.notification,
+            verify
+          );
+
+          function verify(err) {
+            expect(err).to.be.instanceOf(Error);
+            expect(err.details)
+              .to.have.property('deviceId', 'unknown-device-id');
+            cb();
+          }
+        }
+      ], done);
+    });
+
+    it('reports error when application was not found', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('device', Device, { appId: 'unknown-app-id' })
+            .buildTo(context, cb);
+        },
+
+        function actAndVerify(cb) {
+          pushManager.pushNotificationByRegistrationId(
+            context.device.id,
+            context.notification,
+            verify
+          );
+
+          function verify(err) {
+            expect(err).to.be.instanceOf(Error);
+            expect(err.details)
+              .to.have.property('appId', 'unknown-app-id');
+            cb();
+          }
+        }
+      ], done);
+    });
+
+    it('reports error when application has no pushSettings', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, { pushSettings: null })
+            .define('device', Device, {
+              appId: ref('application.id'),
+              deviceType: 'unknown-device-type'
+            })
+            .buildTo(context, cb);
+        },
+
+        function actAndVerify(cb) {
+          pushManager.pushNotificationByRegistrationId(
+            context.device.id,
+            context.notification,
+            verify
+          );
+
+          function verify(err) {
+            expect(err).to.be.instanceOf(Error);
+            expect(err.details).to.have.property('application');
+            cb();
+          }
+        }
+      ], done);
+
+    });
+
+    it('reports error for unknown device type', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, { pushSettings: {}})
+            .define('device', Device, {
+              appId: ref('application.id'),
+              deviceType: 'unknown-device-type'
+            })
+            .buildTo(context, cb);
+        },
+
+        function actAndVerify(cb) {
+          pushManager.pushNotificationByRegistrationId(
+            context.device.id,
+            context.notification,
+            verify
+          );
+
+          function verify(err) {
+            expect(err).to.be.instanceOf(Error);
+            cb();
+          }
+        }
+      ], done);
+
+    });
   });
 });
