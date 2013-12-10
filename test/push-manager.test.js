@@ -20,9 +20,12 @@ describe('PushManager', function() {
   var pushManager;
   var context;
 
-  beforeEach(function createPushManager() {
+  beforeEach(function(done) {
     pushManager = new PushManager();
     context = {};
+    new TestDataBuilder()
+      .define('notification', Notification)
+      .buildTo(context, done);
   });
 
   it('deletes devices no longer registered', function(done) {
@@ -36,7 +39,6 @@ describe('PushManager', function() {
             appId: ref('application.id'),
             deviceType: mockery.deviceType
           })
-          .define('notification', Notification)
           .buildTo(context, cb);
       },
 
@@ -64,5 +66,43 @@ describe('PushManager', function() {
         });
       }
     ], done);
+  });
+
+  describe('.pushNotificationByRegistrationId', function() {
+    it('sends notification to the correct device', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            .define('device', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: mockery.deviceType
+            })
+            .buildTo(context, cb);
+        },
+
+        function act(cb) {
+          pushManager.pushNotificationByRegistrationId(
+            context.device.id,
+            context.notification,
+            cb
+          );
+        },
+
+        function verify(cb) {
+          // Wait with the check to give the push manager some time
+          // to load all data and push the message
+          setTimeout(function() {
+            expect(mockery.firstPushNotificationArgs()).to.deep.equal(
+              [context.notification, context.device.deviceToken]
+            );
+            cb();
+          }, 50);
+        }
+      ], done);
+    });
   });
 });

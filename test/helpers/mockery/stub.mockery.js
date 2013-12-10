@@ -4,6 +4,7 @@
 
 var inherits = require('util').inherits;
 var EventEmitter = require('events').EventEmitter;
+var expect = require('chai').expect;
 var sinon = require('sinon');
 var PushManager = require('../../../lib/push-manager');
 
@@ -32,6 +33,10 @@ mockery.pushNotification = null;
  * @returns {Array.<Object>}
  */
 mockery.firstPushNotificationArgs = function() {
+  expect(
+    mockery.pushNotification.calledOnce,
+    'pushNotificationArgs called at least once'
+  ).to.equal(true);
   return mockery.pushNotification.firstCall.args;
 };
 
