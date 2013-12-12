@@ -15,6 +15,6 @@ if(process.env.NODE_ENV === 'test') {
     // export the oracle data source
     module.exports = loopback.createDataSource({
         connector: require('loopback-connector-mongodb'),
-        url: 'mongodb://127.0.0.1/loopback'
+        url: 'mongodb://demo:L00pBack@demo.strongloop.com/demo'
     });
 }

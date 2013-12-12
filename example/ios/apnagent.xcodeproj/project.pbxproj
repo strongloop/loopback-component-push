@@ -27,6 +27,8 @@
 		28E0AE621701956F008881E7 /* apnDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0AE611701956F008881E7 /* apnDetailsVC.m */; };
 		47A7516317931ECF00BCD60D /* strongloop-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A7516217931ECF00BCD60D /* strongloop-logo.png */; };
 		47A7516517931ED300BCD60D /* strongloop-logo-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A7516417931ED300BCD60D /* strongloop-logo-1.png */; };
+		47AD02E9184429EA00F724C8 /* LoopBack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47AD02E8184429EA00F724C8 /* LoopBack.framework */; };
+		47D7BF6318383C8C00786B93 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47D7BF6218383C8C00786B93 /* Settings.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		28E0AE611701956F008881E7 /* apnDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = apnDetailsVC.m; sourceTree = "<group>"; };
 		47A7516217931ECF00BCD60D /* strongloop-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strongloop-logo.png"; sourceTree = "<group>"; };
 		47A7516417931ED300BCD60D /* strongloop-logo-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strongloop-logo-1.png"; sourceTree = "<group>"; };
+		47AD02E8184429EA00F724C8 /* LoopBack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopBack.framework; path = ../../../../../Tools/LoopBack.framework; sourceTree = "<group>"; };
+		47D7BF6218383C8C00786B93 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47AD02E9184429EA00F724C8 /* LoopBack.framework in Frameworks */,
 				113011D416A10E75008A3718 /* UIKit.framework in Frameworks */,
 				113011D616A10E75008A3718 /* Foundation.framework in Frameworks */,
 				113011D816A10E75008A3718 /* CoreGraphics.framework in Frameworks */,
@@ -118,6 +123,7 @@
 		113011D216A10E75008A3718 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				47AD02E8184429EA00F724C8 /* LoopBack.framework */,
 				113011D316A10E75008A3718 /* UIKit.framework */,
 				113011D516A10E75008A3718 /* Foundation.framework */,
 				113011D716A10E75008A3718 /* CoreGraphics.framework */,
@@ -129,6 +135,7 @@
 		113011D916A10E75008A3718 /* apnagent */ = {
 			isa = PBXGroup;
 			children = (
+				4730AC9E183FE82D00C1B3EA /* iPad */,
 				113011E216A10E75008A3718 /* AppDelegate.h */,
 				113011E316A10E75008A3718 /* AppDelegate.m */,
 				2800B36816CE7E4500EF4E16 /* apnListVC.h */,
@@ -139,6 +146,7 @@
 				2800B37016D228A900EF4E16 /* PushNotification.m */,
 				113011EB16A10E75008A3718 /* MainStoryboard.storyboard */,
 				113011DA16A10E75008A3718 /* Supporting Files */,
+				47D7BF6218383C8C00786B93 /* Settings.plist */,
 			);
 			path = apnagent;
 			sourceTree = "<group>";
@@ -174,6 +182,13 @@
 				1130120016A10E75008A3718 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4730AC9E183FE82D00C1B3EA /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = iPad;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +238,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Jake Luer";
+				TargetAttributes = {
+					113011CE16A10E74008A3718 = {
+						DevelopmentTeam = NNZQ54T52J;
+					};
+				};
 			};
 			buildConfigurationList = 113011C916A10E74008A3718 /* Build configuration list for PBXProject "apnagent" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -248,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				113011DE16A10E75008A3718 /* InfoPlist.strings in Resources */,
+				47D7BF6318383C8C00786B93 /* Settings.plist in Resources */,
 				113011E616A10E75008A3718 /* Default.png in Resources */,
 				113011E816A10E75008A3718 /* Default@2x.png in Resources */,
 				113011EA16A10E75008A3718 /* Default-568h@2x.png in Resources */,
@@ -352,7 +373,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhaohui Feng (47BPSETU9S)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -368,7 +389,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -384,7 +405,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhaohui Feng (47BPSETU9S)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -393,7 +414,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -402,16 +423,23 @@
 		1130120916A10E75008A3718 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = com.strongloop.apns;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/rfeng/Tools,
+					"/Users/rfeng/Projects/loopback/loopback-push-notification/example/apnagent-ios/apnagent",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "apnagent/apnagent-Prefix.pch";
 				INFOPLIST_FILE = "apnagent/apnagent-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -419,16 +447,23 @@
 		1130120A16A10E75008A3718 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = com.strongloop.apns;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/rfeng/Tools,
+					"/Users/rfeng/Projects/loopback/loopback-push-notification/example/apnagent-ios/apnagent",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "apnagent/apnagent-Prefix.pch";
 				INFOPLIST_FILE = "apnagent/apnagent-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
