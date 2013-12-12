@@ -92,8 +92,7 @@ Device.deleteAll(function (err) {
         var badge = 1;
         app.post('/devices/:id/notify', function (req, res, next) {
             var note = new Notification({
-                // Expires 1 hour from now.
-                expirationInterval: Math.floor(Date.now() / 1000) + 3600,
+                expirationInterval: 3600, // Expires 1 hour from now.
                 badge: badge++,
                 sound: 'ping.aiff',
                 alert: '\uD83D\uDCE7 \u2709 ' + 'Hello',

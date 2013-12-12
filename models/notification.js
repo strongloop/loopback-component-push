@@ -33,6 +33,16 @@ Notification.beforeCreate = function (next) {
     next();
 };
 
+Notification.prototype.getTimeToLiveInSecondsFromNow = function() {
+  if (this.expirationInterval)
+    return this.expirationInterval;
+
+  if (this.expirationTime)
+    return (this.expirationTime.getTime() - Date.now()) / 1000;
+
+  return undefined;
+};
+
 module.exports = Notification;
 
 
