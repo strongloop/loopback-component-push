@@ -4,6 +4,7 @@ var loopback = require('loopback');
 
 var app = loopback();
 
+app.use(loopback.static(path.join(__dirname, 'html')));
 // expose a rest api
 app.use(loopback.rest());
 
@@ -18,7 +19,6 @@ var Application = PushModel.Application;
 var Device = PushModel.Device;
 var Notification = PushModel.Notification;
 
-app.use(loopback.static(path.join(__dirname, 'html')));
 
 var fs = require('fs');
 var certData = fs.readFileSync(path.join(__dirname, "credentials/apns_cert_dev.pem"), 'UTF-8');
