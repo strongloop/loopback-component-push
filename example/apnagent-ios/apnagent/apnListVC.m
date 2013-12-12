@@ -176,6 +176,12 @@
   [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
+// Reset application's badge number
+- (IBAction)registerDevice:(id)sender {
+    if(self.regDev)
+        self.regDev();
+}
+
 - (void)addPushNotifWithType:(PushNotifType)pNType andUserInfo:(NSDictionary *)userInfo {
   PushNotification *aPushNotif = [[PushNotification alloc] init];
   
@@ -187,7 +193,7 @@
   [self.pushNotifs addObject:aPushNotif];
   [self.tableView reloadData];
   
-  NSLog(@"Push Notification added, Type: %d, PushArray count: %d, UserInfo: %@", aPushNotif.typeOfPN, self.pushNotifs.count, aPushNotif.theUserInfo);
+  NSLog(@"Push Notification added, Type: %d, PushArray count: %luu, UserInfo: %@", aPushNotif.typeOfPN, (unsigned long)self.pushNotifs.count, aPushNotif.theUserInfo);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

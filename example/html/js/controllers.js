@@ -11,7 +11,15 @@ function DeviceListControl($scope, $http) {
         });
     };
 
-    $scope.getAction = function (status) {
+    $scope.delete = function (index, id) {
+        $http.delete('/devices/' + id).success(function (data, status, headers) {
+        $scope.devices.splice(index, 1);
+        $scope.status = 'Record deleted: ' + id + ' status: ' + status;
+        });
+    };
+
+
+  $scope.getAction = function (status) {
         return 'Active' === status ? 'Deactivate' : 'Activate';
     };
 

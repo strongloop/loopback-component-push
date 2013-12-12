@@ -48,6 +48,7 @@
                 <td>
                     <button ng-click="switchStatus(device)">{{getAction(device.status)}}</button>
                     <button ng-click="notify(device.id, 'Hello')">Notify</button>
+                    <button ng-click="delete($index, device.id)">Delete</button>
                 </td>
             </tr>
             <tr>

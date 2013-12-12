@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2NN-xM-VeG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2NN-xM-VeG">
     <dependencies>
-        <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -92,6 +92,12 @@
                         <barButtonItem title="Reset Badge" id="IlL-Ra-FOD">
                             <connections>
                                 <action selector="resetBadge:" destination="q6A-0r-rZ9" id="DBy-Tz-7RZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Register Device" id="Gsz-GL-AEq">
+                            <color key="tintColor" red="0.26798260167479671" green="1" blue="0.1024318485088298" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="registerDevice:" destination="q6A-0r-rZ9" id="7d0-Pe-p97"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
