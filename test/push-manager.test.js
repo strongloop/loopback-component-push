@@ -253,4 +253,60 @@ describe('PushManager', function() {
       ], done);
     });
   });
+
+  describe('.notifyByQuery', function() {
+    it('sends notifications to the correct devices', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            .define('myPhone', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'my-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'myself'
+            })
+            .define('myOtherPhone', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'my-other-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'myself'
+            })
+            .define('friendsPhone', Device, {
+              appId: ref('application.id'),
+              deviceToken: 'friends-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'somebody else'
+            })
+            .buildTo(context, cb);
+        },
+
+        function act(cb) {
+          pushManager.notifyByQuery(
+            { userId: 'myself' },
+            context.notification,
+            cb
+          );
+        },
+
+        function verify(cb) {
+          // Wait with the check to give the push manager some time
+          // to load all data and push the message
+          setTimeout(function() {
+            var callsArgs = mockery.pushNotification.args;
+            expect(callsArgs, 'number of notifications').to.have.length(2);
+            expect(callsArgs[0]).to.deep.equal(
+              [context.notification, context.myPhone.deviceToken]
+            );
+            expect(callsArgs[1]).to.deep.equal(
+              [context.notification, context.myOtherPhone.deviceToken]
+            );
+            cb();
+          }, 50);
+        }
+      ], done);
+    });
+  });
 });
