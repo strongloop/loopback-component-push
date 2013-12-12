@@ -108,6 +108,8 @@ Device.deleteAll(function (err) {
             console.log('http://127.0.0.1:' + app.get('port'));
         });
     });
+  });
+});
 
 
 
