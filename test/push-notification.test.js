@@ -76,7 +76,11 @@ describe('PushNotification', function () {
                         note.alert = '\uD83D\uDCE7 \u2709 ' + 'Hello';
                         note.messageFrom = 'Ray';
 
-                        PushModel.pushNotificationByRegistrationId(result.id, note);
+                        PushModel.notifyById(
+                          result.id,
+                          note,
+                          function(err) { if(err) throw err; }
+                        );
 
                     });
 

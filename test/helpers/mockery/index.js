@@ -13,6 +13,13 @@ exports.apns = require('./apns.mockery.js');
  */
 exports.gcm = require('./gcm.mockery.js');
 
+/**
+ * Stub provider, independent on any real implementation.
+ *
+ * Note: this provider is not setUp by default, you have
+ * to call setUp()/tearDown() yourself.
+ */
+exports.stub = require('./stub.mockery.js');
 
 /**
  * Setup the mockery. This method should be called before each test.

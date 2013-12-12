@@ -90,17 +90,23 @@ The Device model is exposed as CRUD REST APIs.
 
 #### APNS
 
-    var note = new apn.Notification();
+    var note = new PushModel.Notification({
+      // Expires 1 hour from now.
+      expirationTime: Math.floor(Date.now() / 1000) + 3600,
+      badge: badge++,
+      sound: "ping.aiff",
+      alert: "\uD83D\uDCE7 \u2709 " + 'Hello',
+      // Custom payload
+      messageFrom: 'Ray'
+    });
 
-    note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-    note.badge = badge++;
-    note.sound = "ping.aiff";
-    note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
-    note.payload = {'messageFrom': 'Ray'};
-
-    PushModel.pushNotificationByRegistrationId(req.params.id, note);
+    PushModel.notifyById(req.params.id, note, function(err) {
+      console.error('Cannot push notification', err);
+    });
 
 #### GCM
+
+(To be done.)
 
 ## Samples
 
