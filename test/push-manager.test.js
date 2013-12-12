@@ -69,7 +69,7 @@ describe('PushManager', function() {
     ], done);
   });
 
-  describe('.pushNotificationByRegistrationId', function() {
+  describe('.notifyById', function() {
     it('sends notification to the correct device', function(done) {
       async.series([
         function arrange(cb) {
@@ -95,7 +95,7 @@ describe('PushManager', function() {
         },
 
         function act(cb) {
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             context.device.id,
             context.notification,
             cb
@@ -118,7 +118,7 @@ describe('PushManager', function() {
     it('reports error when device was not found', function(done) {
       async.series([
         function actAndVerify(cb) {
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             'unknown-device-id',
             context.notification,
             verify
@@ -143,7 +143,7 @@ describe('PushManager', function() {
         },
 
         function actAndVerify(cb) {
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             context.device.id,
             context.notification,
             verify
@@ -172,7 +172,7 @@ describe('PushManager', function() {
         },
 
         function actAndVerify(cb) {
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             context.device.id,
             context.notification,
             verify
@@ -201,7 +201,7 @@ describe('PushManager', function() {
         },
 
         function actAndVerify(cb) {
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             context.device.id,
             context.notification,
             verify
@@ -239,7 +239,7 @@ describe('PushManager', function() {
             this.emit('error', new Error('a test error'));
           };
 
-          pushManager.pushNotificationByRegistrationId(
+          pushManager.notifyById(
             context.device.id,
             context.notification,
             function(err) {

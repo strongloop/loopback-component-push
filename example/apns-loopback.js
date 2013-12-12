@@ -97,7 +97,7 @@ Application.register('test-user', 'TestApp',
                 messageFrom: 'Ray'
             });
 
-            PushModel.pushNotificationByRegistrationId(req.params.id, note);
+            PushModel.notifyById(req.params.id, note);
             res.send(200, 'OK');
         });
 
