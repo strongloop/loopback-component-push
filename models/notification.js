@@ -2,6 +2,12 @@ var loopback = require('loopback');
 
 /**
  * Notification Model
+ *
+ * See the official documentation for more details on provider-specific
+ * properties.
+ * [Android (GCM)]{
+ * @link http://developer.android.com/google/gcm/server.html#params}
+ * [iOS (APN)]{@link http://bit.ly/apns-notification-payload}
  */
 var Notification = loopback.createModel(
     'Notification',
@@ -34,8 +40,23 @@ var Notification = loopback.createModel(
          */
         sound: String,
 
-        action: String,  // (Android) the Intent should be fired when the push is received. If not title or alert values are specified, the Intent will be fired but no notification will appear to the user
-        title: String, // (Android) the value displayed in the Android system tray notification
+        /**
+         * (Android only)
+         * An arbitrary string (such as "Updates Available") that is used
+         * to collapse a group of like messages when the device is offline,
+         * so that only the last message gets sent to the client.
+         */
+        collapseKey: String,
+
+        /**
+         * (Android only)
+         * Indicates that the message should not be sent immediately
+         * if the device is idle. The server will wait for the device
+         * to become active, and then only the last message for each
+         * collapse_key value will be sent.
+         */
+        delayWhileIdle: Boolean,
+
         created: Date, // The date that the notification is created
         modified: Date, // The date that the notifcation is modified
         scheduledTime: Date, // The time that the notification should be sent

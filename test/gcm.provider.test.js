@@ -14,13 +14,12 @@ describe('GCM provider', function() {
 
   beforeEach(mockery.setUp);
   beforeEach(setUpFakeTimers);
+  beforeEach(function() { givenProviderWithConfig(); });
 
   afterEach(tearDownFakeTimers);
   afterEach(mockery.tearDown);
 
   it('sends Notification as a GCM message', function(done) {
-    givenProviderWithConfig();
-
     var notification = aNotification({ aKey: 'a-value' });
     provider.pushNotification(notification, aDeviceToken);
 
@@ -30,6 +29,8 @@ describe('GCM provider', function() {
     expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
     expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
     expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
+    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
     expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
     expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
@@ -40,8 +41,6 @@ describe('GCM provider', function() {
   // emit "device gone" event
 
   it('converts expirationInterval to GCM timeToLive', function() {
-    givenProviderWithConfig();
-
     var notification = aNotification({ expirationInterval: 1 /* second */});
     provider.pushNotification(notification, aDeviceToken);
 
@@ -50,8 +49,6 @@ describe('GCM provider', function() {
   });
 
   it('converts expirationTime to GCM timeToLive relative to now', function() {
-    givenProviderWithConfig();
-
     var notification = aNotification({
       expirationTime: new Date(this.clock.now + 1000 /* 1 second */)
     });
@@ -61,17 +58,26 @@ describe('GCM provider', function() {
     expect(message.timeToLive).to.equal(1);
   });
 
-  it('ignores Notification properties not applicable', function() {
-    givenProviderWithConfig();
+  it('forwards android parameters', function() {
+    var notification = aNotification({
+      collapseKey: 'a-collapse-key',
+      delayWhileIdle: true
+    });
 
+    provider.pushNotification(notification, aDeviceToken);
+
+    var message = mockery.firstPushNotificationArgs()[0];
+    expect(message.collapseKey).to.equal('a-collapse-key');
+    expect(message.delayWhileIdle, 'delayWhileIdle').to.equal(true);
+  });
+
+  it('ignores Notification properties not applicable', function() {
     var notification = aNotification(objectMother.allNotificationProperties());
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
     expect(message.data).to.eql({ });
   });
-
-  // TODO test conversion of collapseKey, delayWhileIdle
 
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
