@@ -14,7 +14,7 @@ app.configure(function () {
 
 var ds = require('./data-sources/db');
 
-var PushModel = require('../index')(app, {dataSource: ds});
+var PushModel = require('../../index')(app, {dataSource: ds});
 var Application = PushModel.Application;
 var Device = PushModel.Device;
 var Notification = PushModel.Notification;

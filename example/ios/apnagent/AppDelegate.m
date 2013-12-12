@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PushNotification.h"
-#import <LoopBack/LBDevice.h>
+#import <LoopBack/LBInstallation.h>
 
 @implementation AppDelegate
 
@@ -71,7 +71,7 @@
 	NSLog(@"My token is: %@", deviceToken);
     self.deviceToken = deviceToken;
 
-    [LBDevice registerDeviceWithAdapter:self.adapter
+    [LBInstallation registerDeviceWithAdapter:self.adapter
               deviceToken: deviceToken
               registrationId:self.registrationId
               appId: self.settings[@"AppId"]
@@ -79,7 +79,7 @@
               userId:@"unknown"
               badge:@1
               success:^(id model) {
-                  LBDevice *device = (LBDevice *)model;
+                  LBInstallation *device = (LBInstallation *)model;
                   weakSelf.registrationId = device._id;
               }
               failure:^(NSError *err) {
@@ -89,7 +89,7 @@
     
     self.pnListVC.regDev = ^ {
         if(deviceToken) {
-            [LBDevice registerDeviceWithAdapter:weakSelf.adapter
+            [LBInstallation registerDeviceWithAdapter:weakSelf.adapter
                       deviceToken: deviceToken
                       registrationId:weakSelf.registrationId
                       appId: weakSelf.settings[@"AppId"]
@@ -97,7 +97,7 @@
                       userId:@"unknown"
                       badge:@1
                       success:^(id model) {
-                    LBDevice *device = (LBDevice *)model;
+                    LBInstallation *device = (LBInstallation *)model;
                     weakSelf.registrationId = device._id;
                     NSString *msg = [NSString stringWithFormat:@"Device is registered: %@", device._id];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Device Registration" message: msg
