@@ -6,13 +6,13 @@ var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 
 var PushModel = require('../index')(null, {dataSource: ds});
 var Application = PushModel.Application;
-var Device = PushModel.Device;
+var Installation = PushModel.Installation;
 var Notification = PushModel.Notification;
 
 var objectMother = require('./helpers/object-mother');
 
 describe('PushNotification', function () {
-    it('registers a new device', function (done) {
+    it('registers a new installation', function (done) {
         // Sign up an application
         Application.register('test-user', 'TestApp',
             {
@@ -39,9 +39,9 @@ describe('PushNotification', function () {
                 }
                 var application = result;
 
-                Device.destroyAll(function (err, result) {
+                Installation.destroyAll(function (err, result) {
                     // console.log('Adding a test record');
-                    Device.create({
+                    Installation.create({
                         appId: application.id,
                         userId: 'raymond',
                         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',

@@ -4,7 +4,7 @@ var async = require('async');
 var PushManager = require('../lib/push-manager');
 var Notification = require('../models/notification');
 var Application = require('loopback').Application;
-var Device = require('../models/device');
+var Installation = require('../models/installation');
 
 var expect = require('chai').expect;
 var sinon = require('sinon');
@@ -15,7 +15,7 @@ var ref = TestDataBuilder.ref;
 describe('PushManager', function() {
   beforeEach(mockery.setUp);
   beforeEach(Application.deleteAll.bind(Application));
-  beforeEach(Device.deleteAll.bind(Device));
+  beforeEach(Installation.deleteAll.bind(Installation));
   afterEach(mockery.tearDown);
 
   var pushManager;
@@ -36,7 +36,7 @@ describe('PushManager', function() {
           .define('application', Application, {
             pushSettings: { stub: { } }
           })
-          .define('device', Device, {
+          .define('installation', Installation, {
             appId: ref('application.id'),
             deviceType: mockery.deviceType
           })
@@ -45,13 +45,13 @@ describe('PushManager', function() {
 
       function configureProvider(cb) {
         pushManager.configureApplication(
-          context.device.appId,
-          context.device.deviceType,
+          context.installation.appId,
+          context.installation.deviceType,
           cb);
       },
 
       function act(cb) {
-        mockery.emitDevicesGone(context.device.deviceToken);
+        mockery.emitDevicesGone(context.installation.deviceToken);
 
         // Wait until the feedback is processed
         // We can use process.nextTick because Memory store
@@ -60,7 +60,7 @@ describe('PushManager', function() {
       },
 
       function verify(cb) {
-        Device.find(function(err, result) {
+        Installation.find(function(err, result) {
           if (err) return cb(err);
           expect(result).to.have.length(0);
           cb();
@@ -70,23 +70,25 @@ describe('PushManager', function() {
   });
 
   describe('.notifyById', function() {
-    it('sends notification to the correct device', function(done) {
+    it('sends notification to the correct installation', function(done) {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
               pushSettings: { stub: { } }
             })
-            // Note: the order in which the devices are created is important.
-            // The device that should not receive the notification must
+            // Note: the order in which the installations are created
+            // is important.
+            // The installation that should not receive the notification must
             // be created first. This way the test fails when PushManager
-            // looks up the device via `Device.findOne({ deviceToken: token })`.
-            .define('anotherDevice', Device, {
+            // looks up the installation via
+            //   `Installation.findOne({ deviceToken: token })`
+            .define('anotherDevice', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
               deviceType: 'another-device-type'
             })
-            .define('device', Device, {
+            .define('installation', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
               deviceType: mockery.deviceType
@@ -96,7 +98,7 @@ describe('PushManager', function() {
 
         function act(cb) {
           pushManager.notifyById(
-            context.device.id,
+            context.installation.id,
             context.notification,
             cb
           );
@@ -107,7 +109,7 @@ describe('PushManager', function() {
           // to load all data and push the message
           setTimeout(function() {
             expect(mockery.firstPushNotificationArgs()).to.deep.equal(
-              [context.notification, context.device.deviceToken]
+              [context.notification, context.installation.deviceToken]
             );
             cb();
           }, 50);
@@ -115,11 +117,11 @@ describe('PushManager', function() {
       ], done);
     });
 
-    it('reports error when device was not found', function(done) {
+    it('reports error when installation was not found', function(done) {
       async.series([
         function actAndVerify(cb) {
           pushManager.notifyById(
-            'unknown-device-id',
+            'unknown-installation-id',
             context.notification,
             verify
           );
@@ -127,7 +129,7 @@ describe('PushManager', function() {
           function verify(err) {
             expect(err).to.be.instanceOf(Error);
             expect(err.details)
-              .to.have.property('deviceId', 'unknown-device-id');
+              .to.have.property('installationId', 'unknown-installation-id');
             cb();
           }
         }
@@ -138,13 +140,13 @@ describe('PushManager', function() {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
-            .define('device', Device, { appId: 'unknown-app-id' })
+            .define('installation', Installation, { appId: 'unknown-app-id' })
             .buildTo(context, cb);
         },
 
         function actAndVerify(cb) {
           pushManager.notifyById(
-            context.device.id,
+            context.installation.id,
             context.notification,
             verify
           );
@@ -164,7 +166,7 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, { pushSettings: null })
-            .define('device', Device, {
+            .define('installation', Installation, {
               appId: ref('application.id'),
               deviceType: 'unknown-device-type'
             })
@@ -173,7 +175,7 @@ describe('PushManager', function() {
 
         function actAndVerify(cb) {
           pushManager.notifyById(
-            context.device.id,
+            context.installation.id,
             context.notification,
             verify
           );
@@ -193,7 +195,7 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, { pushSettings: {}})
-            .define('device', Device, {
+            .define('installation', Installation, {
               appId: ref('application.id'),
               deviceType: 'unknown-device-type'
             })
@@ -202,7 +204,7 @@ describe('PushManager', function() {
 
         function actAndVerify(cb) {
           pushManager.notifyById(
-            context.device.id,
+            context.installation.id,
             context.notification,
             verify
           );
@@ -223,7 +225,7 @@ describe('PushManager', function() {
             .define('application', Application, {
               pushSettings: { stub: { } }
             })
-            .define('device', Device, {
+            .define('installation', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
               deviceType: mockery.deviceType
@@ -240,7 +242,7 @@ describe('PushManager', function() {
           };
 
           pushManager.notifyById(
-            context.device.id,
+            context.installation.id,
             context.notification,
             function(err) {
               if (err) throw err;
@@ -255,26 +257,26 @@ describe('PushManager', function() {
   });
 
   describe('.notifyByQuery', function() {
-    it('sends notifications to the correct devices', function(done) {
+    it('sends notifications to the correct installations', function(done) {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
               pushSettings: { stub: { } }
             })
-            .define('myPhone', Device, {
+            .define('myPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'my-phone-token',
               deviceType: mockery.deviceType,
               userId: 'myself'
             })
-            .define('myOtherPhone', Device, {
+            .define('myOtherPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'my-other-phone-token',
               deviceType: mockery.deviceType,
               userId: 'myself'
             })
-            .define('friendsPhone', Device, {
+            .define('friendsPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'friends-phone-token',
               deviceType: mockery.deviceType,
