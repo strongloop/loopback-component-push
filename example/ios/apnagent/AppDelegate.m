@@ -68,7 +68,10 @@
     
     [LBPushNotification application:application
 didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
-                            adapter:self.adapter success:^(id model) {
+                            adapter:self.adapter
+                             userId:nil
+                      subscriptions:nil
+                            success:^(id model) {
                                 LBInstallation *device = (LBInstallation *)model;
                                 weakSelf.registrationId = device._id;
                             }
@@ -80,25 +83,26 @@ didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
     self.pnListVC.regDev = ^ {
         if(deviceToken) {
             [LBInstallation registerDeviceWithAdapter:weakSelf.adapter
-                      deviceToken: deviceToken
-                      registrationId:weakSelf.registrationId
-                      appId: weakSelf.settings[@"AppId"]
-                      appVersion:weakSelf.settings[@"AppVersion"]
-                      userId:@"unknown"
-                      badge:@1
-                      success:^(id model) {
-                    LBInstallation *device = (LBInstallation *)model;
-                    weakSelf.registrationId = device._id;
-                    NSString *msg = [NSString stringWithFormat:@"Device is registered: %@", device._id];
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Device Registration" message: msg
-                                                               delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-
-            }
-            failure:^(NSError *err) {
-                NSLog(@"Failed to register device, error: %@", err);
-            }
-            ];
+                                          deviceToken:deviceToken
+                                       registrationId:weakSelf.registrationId
+                                                appId:weakSelf.settings[@"AppId"]
+                                           appVersion:weakSelf.settings[@"AppVersion"]
+                                               userId:nil
+                                                badge:@1
+                                        subscriptions:nil
+                                              success:^(id model) {
+                                                  LBInstallation *device = (LBInstallation *)model;
+                                                  weakSelf.registrationId = device._id;
+                                                  NSString *msg = [NSString stringWithFormat:@"Device is registered: %@", device._id];
+                                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Device Registration" message: msg
+                                                                                                 delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                                  [alert show];
+                                                  
+                                              }
+                                              failure:^(NSError *err) {
+                                                  NSLog(@"Failed to register device, error: %@", err);
+                                              }
+             ];
         }
     };
 }
