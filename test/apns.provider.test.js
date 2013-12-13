@@ -4,6 +4,7 @@ var path = require('path');
 var ApnsProvider = require('../lib/providers/apns');
 var Notification = require('../models/notification');
 var mockery = require('./helpers/mockery').apns;
+var objectMother = require('./helpers/object-mother');
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
@@ -43,8 +44,6 @@ describe('APNS provider', function() {
 
   describe('in dev env', function() {
     var notification;
-    var certData = readCredentialsSync('apns_cert_dev.pem');
-    var keyData = readCredentialsSync('apns_key_dev.pem');
 
     beforeEach(function setUp() {
       notification = new Notification();
@@ -79,8 +78,8 @@ describe('APNS provider', function() {
         apns: {
           pushOptions: {
             gateway: '127.0.0.1',
-            certData: certData,
-            keyData: keyData
+            certData: objectMother.apnsDevCert(),
+            keyData: objectMother.apnsDevKey()
           }
         }
       });
@@ -108,10 +107,5 @@ describe('APNS provider', function() {
 
   function aNotification(properties) {
     return new Notification(properties);
-  }
-
-  function readCredentialsSync(fileName) {
-    var credentialsDir = path.resolve(__dirname, '../example/credentials');
-    return fs.readFileSync(path.join(credentialsDir, fileName), 'UTF-8');
   }
 });

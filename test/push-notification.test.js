@@ -9,10 +9,7 @@ var Application = PushModel.Application;
 var Device = PushModel.Device;
 var Notification = PushModel.Notification;
 
-var fs = require('fs');
-var certData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_cert_dev.pem"), 'UTF-8');
-var keyData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_key_dev.pem"), 'UTF-8');
-
+var objectMother = require('./helpers/object-mother');
 
 describe('PushNotification', function () {
     it('registers a new device', function (done) {
@@ -24,13 +21,13 @@ describe('PushNotification', function () {
                     apns: {
                         pushOptions: {
                             gateway: "gateway.sandbox.push.apple.com",
-                            certData: certData,
-                            keyData: keyData
+                            certData: objectMother.apnsDevCert(),
+                            keyData: objectMother.apnsDevKey()
                         },
                         feedbackOptions: {
                             gateway: "feedback.sandbox.push.apple.com",
-                            certData: certData,
-                            keyData: keyData,
+                            certData: objectMother.apnsDevCert(),
+                            keyData: objectMother.apnsDevKey(),
                             batchFeedback: true,
                             interval: 300
                         }
