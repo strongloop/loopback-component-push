@@ -15,6 +15,9 @@ describe('APNS provider', function() {
 
   describe('in sandbox', function() {
     beforeEach(mockery.setUp);
+    beforeEach(setUpFakeTimers);
+
+    afterEach(tearDownFakeTimers);
     afterEach(mockery.tearDown);
 
     it('sends Notification as an APN message', function(done) {
@@ -23,8 +26,15 @@ describe('APNS provider', function() {
       var notification = aNotification({ aKey: 'a-value' });
       provider.pushNotification(notification, aDeviceToken);
 
-      var apnArgs = mockery.firstPushNotificationArgs();
-      expect(apnArgs[0].payload).to.deep.equal({ aKey: 'a-value' });
+      var apnArgs =  mockery.firstPushNotificationArgs();
+
+      var note = apnArgs[0];
+      expect(note.expiry, 'expiry').to.equal(0);
+      expect(note.alert, 'alert').to.equal(undefined);
+      expect(note.badge, 'badge').to.equal(undefined);
+      expect(note.sound, 'sound').to.equal(undefined);
+      expect(note.payload, 'payload').to.deep.equal({ aKey: 'a-value' });
+
       expect(apnArgs[1]).to.equal(aDeviceToken);
       done();
     });
@@ -40,6 +50,39 @@ describe('APNS provider', function() {
       expect(eventSpy.args[0]).to.deep.equal([devices]);
       done();
     });
+
+    it('converts expirationInterval to APNS expiry', function() {
+      givenProviderWithConfig();
+
+      var notification = aNotification({ expirationInterval: 1 /* second */});
+      provider.pushNotification(notification, aDeviceToken);
+
+      var note = mockery.firstPushNotificationArgs()[0];
+      expect(note.expiry).to.equal(1);
+    });
+
+    it('converts expirationTime to APNS expiry relative to now', function() {
+      givenProviderWithConfig();
+
+      var notification = aNotification({
+        expirationTime: new Date(this.clock.now + 1000 /* 1 second */)
+      });
+      provider.pushNotification(notification, aDeviceToken);
+
+      var note = mockery.firstPushNotificationArgs()[0];
+      expect(note.expiry).to.equal(1);
+    });
+
+    it('ignores Notification properties not applicable', function() {
+      givenProviderWithConfig();
+
+      var notification = aNotification(objectMother.allNotificationProperties());
+      provider.pushNotification(notification, aDeviceToken);
+
+      var note = mockery.firstPushNotificationArgs()[0];
+      expect(note.payload).to.eql({});
+    });
+
   });
 
   describe('in dev env', function() {
@@ -107,5 +150,13 @@ describe('APNS provider', function() {
 
   function aNotification(properties) {
     return new Notification(properties);
+  }
+
+  function setUpFakeTimers() {
+    this.clock = sinon.useFakeTimers(Date.now());
+  }
+
+  function tearDownFakeTimers() {
+    this.clock.restore();
   }
 });

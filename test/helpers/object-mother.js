@@ -2,6 +2,24 @@
 // example objects that you use for testing.
 // See http://martinfowler.com/bliki/ObjectMother.html
 
+exports.allNotificationProperties = function() {
+  return {
+    deviceType: 'a-device-type',
+    deviceToken: 'a-device-token',
+    alert: 'an-alert',
+    badge: 1230001,
+    sound: 'a-sound',
+    collapseKey: 'an-android-collapse-key',
+    delayWhileIdle: true,
+    created: new Date(2222, 1, 1),
+    modified: new Date(2222, 2, 2),
+    scheduledTime: new Date(2222, 3, 3),
+    expirationTime: new Date(2222, 4, 4),
+    expirationInterval: 123002,
+    status: 'a-status'
+  };
+};
+
 exports.apnsDevCert = function() {
   return readCredentialsSync('apns_cert_dev.pem');
 };
