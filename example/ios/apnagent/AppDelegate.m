@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "PushNotification.h"
-#import <LoopBack/LBInstallation.h>
+#import <LoopBack/LoopBack.h>
 
 @implementation AppDelegate
 
@@ -24,15 +23,12 @@
     // Reference to Push notifs List VC
     self.pnListVC = (apnListVC *)[[(UINavigationController *)self.window.rootViewController viewControllers] objectAtIndex:0];
   
-    // Let the device know we want to receive push notifications
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    LBPushNotification* notification = [LBPushNotification application:application didFinishLaunchingWithOptions:launchOptions];
     
     // Handle APN on Terminated state, app launched because of APN
-	NSDictionary *payload = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (payload) {
-        NSLog(@"Payload from notification: %@", @"payload");
-        [self.pnListVC addPushNotifWithType:PushNotifTypeTM andUserInfo:payload];
+    if (notification) {
+        NSLog(@"Payload from notification: %@", notification.userInfo);
+        [self.pnListVC addPushNotification:notification];
     }
     
     return YES;
@@ -68,23 +64,17 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     __unsafe_unretained typeof(self) weakSelf = self;
-	NSLog(@"My token is: %@", deviceToken);
     self.deviceToken = deviceToken;
-
-    [LBInstallation registerDeviceWithAdapter:self.adapter
-              deviceToken: deviceToken
-              registrationId:self.registrationId
-              appId: self.settings[@"AppId"]
-              appVersion:self.settings[@"AppVersion"]
-              userId:@"unknown"
-              badge:@1
-              success:^(id model) {
-                  LBInstallation *device = (LBInstallation *)model;
-                  weakSelf.registrationId = device._id;
-              }
-              failure:^(NSError *err) {
-                  NSLog(@"Failed to register device, error: %@", err);
-              }
+    
+    [LBPushNotification application:application
+didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
+                            adapter:self.adapter success:^(id model) {
+                                LBInstallation *device = (LBInstallation *)model;
+                                weakSelf.registrationId = device._id;
+                            }
+                            failure:^(NSError *err) {
+                                NSLog(@"Failed to register device, error: %@", err);
+                            }
      ];
     
     self.pnListVC.regDev = ^ {
@@ -120,16 +110,8 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    // Detect if APN is received on Background or Foreground state
-    if (application.applicationState == UIApplicationStateInactive) {
-        NSLog(@"Inactive - User info: %@", userInfo);
-        [self.pnListVC addPushNotifWithType:PushNotifTypeBG andUserInfo:userInfo];
-    }
-    else if (application.applicationState == UIApplicationStateActive) {
-        NSLog(@"Active - User info: %@", userInfo);
-        [self.pnListVC addPushNotifWithType:PushNotifTypeFG andUserInfo:userInfo];
-    }
-
+    LBPushNotification* notification = [LBPushNotification application:application didReceiveRemoteNotification:userInfo];
+    [self.pnListVC addPushNotification:notification];
 }
 
 - (NSDictionary *)loadSettings {

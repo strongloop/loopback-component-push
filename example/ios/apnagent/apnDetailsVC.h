@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PushNotification.h"
+#import <LoopBack/LoopBack.h>
 
 @interface apnDetailsVC : UIViewController
 
-@property (nonatomic) PushNotification *thePN;
+@property (nonatomic) LBPushNotification *thePN;
 
 @property (weak, nonatomic) IBOutlet UITextView *payloadTxtView;
 

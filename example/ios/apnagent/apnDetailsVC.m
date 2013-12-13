@@ -27,7 +27,7 @@
 {
   [super viewDidLoad];
 	// Set payload details textView
-  self.payloadTxtView.text = self.thePN.theUserInfo.description;
+  self.payloadTxtView.text = self.thePN.userInfo.description;
 }
 
 - (void)didReceiveMemoryWarning

@@ -11,7 +11,7 @@
 
 @interface apnListVC ()
 
-@property (nonatomic) PushNotification *selectedAPN;
+@property (nonatomic) LBPushNotification *selectedAPN;
 
 @end
 
@@ -71,13 +71,13 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
   
   // Configure the cell
-  PushNotification *pushNotif = [self.pushNotifs objectAtIndex:indexPath.row];
+  LBPushNotification *pushNotif = [self.pushNotifs objectAtIndex:indexPath.row];
   
   // Alert message
   UILabel *label;
   label = (UILabel *)[cell viewWithTag:1];
-  if ([[pushNotif.theUserInfo objectForKey:@"aps"] objectForKey:@"alert"]) {
-    id theAlert = [[pushNotif.theUserInfo objectForKey:@"aps"] objectForKey:@"alert"];
+  if ([[pushNotif.userInfo objectForKey:@"aps"] objectForKey:@"alert"]) {
+    id theAlert = [[pushNotif.userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     // Check if alert is just a string
     if ([theAlert isKindOfClass:[NSString class]])
       label.text = (NSString *)theAlert;
@@ -87,16 +87,16 @@
   
   // Push notif Type
   label = (UILabel *)[cell viewWithTag:2];
-  switch (pushNotif.typeOfPN) {
-    case PushNotifTypeBG:
+  switch (pushNotif.type) {
+    case Background:
       label.text = @"Background";
       break;
       
-    case PushNotifTypeFG:
+    case Foreground:
       label.text = @"Foreground";
       break;
       
-    case PushNotifTypeTM:
+    case Terminated:
       label.text = @"Terminated";
       break;
       
@@ -106,13 +106,13 @@
   
   // Badge number
   label = (UILabel *)[cell viewWithTag:3];
-  if ([[pushNotif.theUserInfo objectForKey:@"aps"] objectForKey:@"badge"]) {
-    label.text = [NSString stringWithFormat:@"%@", [[pushNotif.theUserInfo objectForKey:@"aps"] objectForKey:@"badge"]];
+  if ([[pushNotif.userInfo objectForKey:@"aps"] objectForKey:@"badge"]) {
+    label.text = [NSString stringWithFormat:@"%@", [[pushNotif.userInfo objectForKey:@"aps"] objectForKey:@"badge"]];
   }
   
   // Sound or not 
   label = (UILabel *)[cell viewWithTag:4];
-  if ([[pushNotif.theUserInfo objectForKey:@"aps"] objectForKey:@"sound"]) {
+  if ([[pushNotif.userInfo objectForKey:@"aps"] objectForKey:@"sound"]) {
     label.alpha = 1.0;
   }
   
@@ -173,7 +173,7 @@
 
 // Reset application's badge number
 - (IBAction)resetBadge:(id)sender {
-  [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [LBPushNotification resetBadge:@0];
 }
 
 // Reset application's badge number
@@ -182,18 +182,14 @@
         self.regDev();
 }
 
-- (void)addPushNotifWithType:(PushNotifType)pNType andUserInfo:(NSDictionary *)userInfo {
-  PushNotification *aPushNotif = [[PushNotification alloc] init];
-  
-  aPushNotif.typeOfPN = pNType;
-  aPushNotif.theUserInfo = userInfo;
+- (void)addPushNotification:(LBPushNotification *)notification {
   
   if (!self.pushNotifs)
     self.pushNotifs = [NSMutableArray arrayWithCapacity:5];
-  [self.pushNotifs addObject:aPushNotif];
+  [self.pushNotifs addObject:notification];
   [self.tableView reloadData];
   
-  NSLog(@"Push Notification added, Type: %d, PushArray count: %luu, UserInfo: %@", aPushNotif.typeOfPN, (unsigned long)self.pushNotifs.count, aPushNotif.theUserInfo);
+  NSLog(@"Push Notification added, Type: %d, PushArray count: %luu, UserInfo: %@", notification.type, (unsigned long)self.pushNotifs.count, notification.userInfo);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

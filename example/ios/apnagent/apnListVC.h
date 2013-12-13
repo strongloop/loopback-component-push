@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PushNotification.h"
+#import <LoopBack/LoopBack.h>
 
 typedef void (^RegisterBlock)();
 
@@ -19,7 +19,6 @@ typedef void (^RegisterBlock)();
 - (IBAction)resetBadge:(id)sender;
 - (IBAction)registerDevice:(id)sender;
 
-
-- (void)addPushNotifWithType:(PushNotifType)pNType andUserInfo:(NSDictionary *)userInfo;
+- (void)addPushNotification:(LBPushNotification *)notification;
 
 @end
