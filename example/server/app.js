@@ -16,7 +16,7 @@ var ds = require('./data-sources/db');
 
 var PushModel = require('../../index')(app, {dataSource: ds});
 var Application = PushModel.Application;
-var Device = PushModel.Device;
+var Installation = PushModel.Installation;
 var Notification = PushModel.Notification;
 
 
@@ -24,7 +24,7 @@ var fs = require('fs');
 var certData = fs.readFileSync(path.join(__dirname, "credentials/apns_cert_dev.pem"), 'UTF-8');
 var keyData = fs.readFileSync(path.join(__dirname, "credentials/apns_key_dev.pem"), 'UTF-8');
 
-Device.deleteAll(function (err) {
+Installation.deleteAll(function (err) {
   Application.deleteAll(function (err) {
 
     Application.register('raymond', 'LoopBackPushNotificationDemoApplication',
@@ -53,10 +53,10 @@ Device.deleteAll(function (err) {
         }
         var application = result;
 
-        // Register two devices
-        Device.destroyAll(function (err, result) {
+        // Register two installations
+        Installation.destroyAll(function (err, result) {
             console.log('Adding a test record');
-            Device.create({
+            Installation.create({
                 appId: application.id,
                 userId: 'raymond',
                 deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
@@ -71,7 +71,7 @@ Device.deleteAll(function (err) {
                     console.log('Registration record is created: ', result);
                 }
             });
-            Device.create({
+            Installation.create({
                 appId: application.id,
                 userId: 'chandrika',
                 deviceToken: 'a6127991 8f8d9731 766011fb 28f37c2b 746bcad6 f183c42d 9d8af31f 62f27910',
@@ -90,7 +90,7 @@ Device.deleteAll(function (err) {
         });
 
         var badge = 1;
-        app.post('/devices/:id/notify', function (req, res, next) {
+        app.post('/installations/:id/notify', function (req, res, next) {
             var note = new Notification({
                 expirationInterval: 3600, // Expires 1 hour from now.
                 badge: badge++,
