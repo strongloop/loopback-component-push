@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>RootPath</key>
-	<string>http://demo.strongloop.com:3010</string>
+	<string>http://demo.strongloop.com:3010/api</string>
 	<key>AppId</key>
 	<string>loopback-push-notification-app</string>
 	<key>AppVersion</key>

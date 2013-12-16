@@ -1,114 +1,129 @@
-var apn = require('apn');
 var path = require('path');
 var loopback = require('loopback');
 
 var app = loopback();
+var db = require('./data-sources/db');
 
-app.use(loopback.static(path.join(__dirname, 'html')));
-// expose a rest api
-app.use(loopback.rest());
-
-app.configure(function () {
-  app.set('port', process.env.PORT || 3010);
-});
-
-var ds = require('./data-sources/db');
-
-var PushModel = require('../../index')(app, {dataSource: ds});
+// Load & configure loopback-push-notification
+var PushModel = require('../../index')(app, { dataSource: db });
 var Application = PushModel.Application;
 var Installation = PushModel.Installation;
 var Notification = PushModel.Notification;
 
 
-var fs = require('fs');
-var certData = fs.readFileSync(path.join(__dirname, "credentials/apns_cert_dev.pem"), 'UTF-8');
-var keyData = fs.readFileSync(path.join(__dirname, "credentials/apns_key_dev.pem"), 'UTF-8');
+// LoopBack REST interface
+var apiPath = '/api';
+app.use(apiPath, loopback.rest());
 
-Installation.deleteAll(function (err) {
-  Application.deleteAll(function (err) {
+// API explorer (if present)
+var explorerPath = '/explorer';
+var explorerConfigured = false;
+try {
+  var explorer = require('loopback-explorer');
+  app.use(explorerPath, explorer(app, { basePath: apiPath }));
+  explorerConfigured = true;
+} catch(e){
+  // ignore errors, explorer stays disabled
+}
 
-    Application.register('raymond', 'LoopBackPushNotificationDemoApplication',
-      {
-        id: 'loopback-push-notification-app',
-        description: 'LoopBack Push Notification Demo Application',
-        pushSettings: {
-          apns: {
-            pushOptions: {
-              gateway: "gateway.sandbox.push.apple.com",
-              certData: certData,
-              keyData: keyData
-            },
-            feedbackOptions: {
-              gateway: "feedback.sandbox.push.apple.com",
-              certData: certData,
-              keyData: keyData,
-              batchFeedback: true,
-              interval: 300
-            }
-          }
-        }
-    }, function (err, result) {
-        if (err) {
-            throw err;
-        }
-        var application = result;
+app.use(app.router);
+app.use(loopback.static(path.join(__dirname, 'html')));
+app.use(loopback.urlNotFound());
 
-        // Register two installations
-        Installation.destroyAll(function (err, result) {
-            console.log('Adding a test record');
-            Installation.create({
-                appId: application.id,
-                userId: 'raymond',
-                deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
-                deviceType: 'ios',
-                created: new Date(),
-                modified: new Date(),
-                status: 'Active'
-            }, function (err, result) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log('Registration record is created: ', result);
-                }
-            });
-            Installation.create({
-                appId: application.id,
-                userId: 'chandrika',
-                deviceToken: 'a6127991 8f8d9731 766011fb 28f37c2b 746bcad6 f183c42d 9d8af31f 62f27910',
-                deviceType: 'ios',
-                created: new Date(),
-                modified: new Date(),
-                status: 'Active'
-            }, function (err, result) {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log('Registration record is created: ', result);
-                }
-            });
+// The ultimate error handler.
+app.use(loopback.errorHandler());
 
-        });
+app.configure(function () {
+  app.set('port', process.env.PORT || 3010);
+});
 
-        var badge = 1;
-        app.post('/installations/:id/notify', function (req, res, next) {
-            var note = new Notification({
-                expirationInterval: 3600, // Expires 1 hour from now.
-                badge: badge++,
-                sound: 'ping.aiff',
-                alert: '\uD83D\uDCE7 \u2709 ' + 'Hello',
-                messageFrom: 'Ray'
-            });
+// Add our custom routes
+var badge = 1;
+app.post('/notify/:id', function (req, res, next) {
+  var note = new Notification({
+    expirationInterval: 3600, // Expires 1 hour from now.
+    badge: badge++,
+    sound: 'ping.aiff',
+    alert: '\uD83D\uDCE7 \u2709 ' + 'Hello',
+    messageFrom: 'Ray'
+  });
 
-            PushModel.notifyById(req.params.id, note);
-            res.send(200, 'OK');
-        });
+  PushModel.notifyById(req.params.id, note, function(err) {
+    console.log('pushing notification to %j', req.params.id);
+  });
+  res.send(200, 'OK');
+});
 
-        app.listen(app.get('port'), function () {
-            console.log('http://127.0.0.1:' + app.get('port'));
-        });
-    });
+// Pre-register an application that is ready to be used for testing.
+// You should tweak config options in ./config.js
+
+var config = require('./config');
+
+findOrCreateApp(function (err, appModel) {
+  if (err) throw err;
+  console.log('Application id: %j', appModel.id);
+
+  // Start the LoopBack server
+  startServer(function() {
+    var url = 'http://127.0.0.1:' + app.get('port');
+    console.log('The server is running at %s', url);
+    console.log('REST API is available at %s%s', url, apiPath);
   });
 });
 
+//--- Helper functions ---
 
+function findOrCreateApp(cb) {
+  Application.find({
+      where: { name: config.appName }
+    },
+    function(err, result) {
+      if (err) cb(err);
+      if (result.length > 0) {
+        return cb(null, result[0]);
+      }
 
+      return registerApp(cb);
+    }
+  );
+}
+
+function registerApp(cb) {
+  console.log('Registering a new Application...');
+  Application.register(
+    'strongloop',
+    config.appName,
+    {
+      description: 'LoopBack Push Notification Demo Application',
+      pushSettings: {
+        apns: {
+          pushOptions: {
+            gateway: 'gateway.sandbox.push.apple.com',
+            certData: config.apnsCertData,
+            keyData: config.apnsKeyData
+          },
+          feedbackOptions: {
+            gateway: 'feedback.sandbox.push.apple.com',
+            certData: config.apnsCertData,
+            keyData: config.apnsKeyData,
+            batchFeedback: true,
+            interval: 300
+          }
+        },
+        gcm: {
+          pushOptions: {
+            serverKey: config.gcmServerKey
+          }
+        }
+      }
+    },
+    function(err, app) {
+      if (err) return cb(err);
+      return cb(null, app);
+    }
+  );
+}
+
+function startServer(cb) {
+  app.listen(app.get('port'), cb);
+}
