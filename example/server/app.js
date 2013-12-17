@@ -90,6 +90,12 @@ function findOrCreateApp(cb) {
 
 function registerApp(cb) {
   console.log('Registering a new Application...');
+  // Hack to set the app id to a fixed value so that we don't have to change
+  // the client settings
+  Application.beforeSave = function(next) {
+      this.id = 'loopback-push-notification-app';
+      next();
+  };
   Application.register(
     'strongloop',
     config.appName,
