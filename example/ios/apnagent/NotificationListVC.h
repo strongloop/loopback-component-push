@@ -1,6 +1,5 @@
 //
-//  apnListVC.h
-//  apnagent
+//  Notification list view controller
 //
 //  Created by George Paloukis on 15/2/13.
 //  Copyright (c) 2013 Jake Luer. All rights reserved.
@@ -11,7 +10,7 @@
 
 typedef void (^RegisterBlock)();
 
-@interface apnListVC : UITableViewController
+@interface NotificationListVC : UITableViewController
 
 @property (nonatomic, strong) RegisterBlock regDev;
 @property (nonatomic) NSMutableArray *pushNotifs;

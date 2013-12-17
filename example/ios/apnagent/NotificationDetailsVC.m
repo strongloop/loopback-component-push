@@ -1,18 +1,17 @@
 //
-//  apnDetailsVC.m
-//  apnagent
+// Notification details view controller
 //
 //  Created by George Paloukis on 26/3/13.
 //  Copyright (c) 2013 Jake Luer. All rights reserved.
 //
 
-#import "apnDetailsVC.h"
+#import "NotificationDetailsVC.h"
 
-@interface apnDetailsVC ()
+@interface NotificationDetailsVC ()
 
 @end
 
-@implementation apnDetailsVC
+@implementation NotificationDetailsVC
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

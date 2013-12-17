@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Jake Luer. All rights reserved.
 //
 
-#import "apnListVC.h"
-#import "apnDetailsVC.h"
+#import "NotificationListVC.h"
+#import "NotificationDetailsVC.h"
 
-@interface apnListVC ()
+@interface NotificationListVC ()
 
 @property (nonatomic) LBPushNotification *selectedAPN;
 
 @end
 
-@implementation apnListVC
+@implementation NotificationListVC
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -195,7 +195,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
   if ([segue.identifier isEqualToString:@"ShowPayloadDetailsView"]) {
-    apnDetailsVC *detailsVC = (apnDetailsVC *)segue.destinationViewController;
+    NotificationDetailsVC *detailsVC = (NotificationDetailsVC *)segue.destinationViewController;
     detailsVC.thePN = self.selectedAPN;
   }
 }

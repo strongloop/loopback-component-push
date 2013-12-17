@@ -22,8 +22,8 @@
 		113011FA16A10E75008A3718 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113011D516A10E75008A3718 /* Foundation.framework */; };
 		1130120216A10E75008A3718 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1130120016A10E75008A3718 /* InfoPlist.strings */; };
 		1130120516A10E75008A3718 /* apnagentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1130120416A10E75008A3718 /* apnagentTests.m */; };
-		2800B36A16CE7E4500EF4E16 /* apnListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2800B36916CE7E4500EF4E16 /* apnListVC.m */; };
-		28E0AE621701956F008881E7 /* apnDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0AE611701956F008881E7 /* apnDetailsVC.m */; };
+		2800B36A16CE7E4500EF4E16 /* NotificationListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2800B36916CE7E4500EF4E16 /* NotificationListVC.m */; };
+		28E0AE621701956F008881E7 /* NotificationDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E0AE611701956F008881E7 /* NotificationDetailsVC.m */; };
 		47A7516317931ECF00BCD60D /* strongloop-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A7516217931ECF00BCD60D /* strongloop-logo.png */; };
 		47A7516517931ED300BCD60D /* strongloop-logo-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A7516417931ED300BCD60D /* strongloop-logo-1.png */; };
 		47D7BF6318383C8C00786B93 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47D7BF6218383C8C00786B93 /* Settings.plist */; };
@@ -61,10 +61,10 @@
 		1130120116A10E75008A3718 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1130120316A10E75008A3718 /* apnagentTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apnagentTests.h; sourceTree = "<group>"; };
 		1130120416A10E75008A3718 /* apnagentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = apnagentTests.m; sourceTree = "<group>"; };
-		2800B36816CE7E4500EF4E16 /* apnListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apnListVC.h; sourceTree = "<group>"; };
-		2800B36916CE7E4500EF4E16 /* apnListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = apnListVC.m; sourceTree = "<group>"; };
-		28E0AE601701956F008881E7 /* apnDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apnDetailsVC.h; sourceTree = "<group>"; };
-		28E0AE611701956F008881E7 /* apnDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = apnDetailsVC.m; sourceTree = "<group>"; };
+		2800B36816CE7E4500EF4E16 /* NotificationListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationListVC.h; sourceTree = "<group>"; };
+		2800B36916CE7E4500EF4E16 /* NotificationListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListVC.m; sourceTree = "<group>"; };
+		28E0AE601701956F008881E7 /* NotificationDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailsVC.h; sourceTree = "<group>"; };
+		28E0AE611701956F008881E7 /* NotificationDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailsVC.m; sourceTree = "<group>"; };
 		47A7516217931ECF00BCD60D /* strongloop-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strongloop-logo.png"; sourceTree = "<group>"; };
 		47A7516417931ED300BCD60D /* strongloop-logo-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strongloop-logo-1.png"; sourceTree = "<group>"; };
 		47D7BF6218383C8C00786B93 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
@@ -135,10 +135,10 @@
 				4730AC9E183FE82D00C1B3EA /* iPad */,
 				113011E216A10E75008A3718 /* AppDelegate.h */,
 				113011E316A10E75008A3718 /* AppDelegate.m */,
-				2800B36816CE7E4500EF4E16 /* apnListVC.h */,
-				2800B36916CE7E4500EF4E16 /* apnListVC.m */,
-				28E0AE601701956F008881E7 /* apnDetailsVC.h */,
-				28E0AE611701956F008881E7 /* apnDetailsVC.m */,
+				2800B36816CE7E4500EF4E16 /* NotificationListVC.h */,
+				2800B36916CE7E4500EF4E16 /* NotificationListVC.m */,
+				28E0AE601701956F008881E7 /* NotificationDetailsVC.h */,
+				28E0AE611701956F008881E7 /* NotificationDetailsVC.m */,
 				113011EB16A10E75008A3718 /* MainStoryboard.storyboard */,
 				113011DA16A10E75008A3718 /* Supporting Files */,
 				47D7BF6218383C8C00786B93 /* Settings.plist */,
@@ -306,8 +306,8 @@
 			files = (
 				113011E016A10E75008A3718 /* main.m in Sources */,
 				113011E416A10E75008A3718 /* AppDelegate.m in Sources */,
-				2800B36A16CE7E4500EF4E16 /* apnListVC.m in Sources */,
-				28E0AE621701956F008881E7 /* apnDetailsVC.m in Sources */,
+				2800B36A16CE7E4500EF4E16 /* NotificationListVC.m in Sources */,
+				28E0AE621701956F008881E7 /* NotificationDetailsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

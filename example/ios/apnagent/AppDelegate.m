@@ -21,7 +21,7 @@
     self.adapter = [LBRESTAdapter adapterWithURL:[NSURL URLWithString:self.settings[@"RootPath"]]];
 
     // Reference to Push notifs List VC
-    self.pnListVC = (apnListVC *)[[(UINavigationController *)self.window.rootViewController viewControllers] objectAtIndex:0];
+    self.pnListVC = (NotificationListVC *)[[(UINavigationController *)self.window.rootViewController viewControllers] objectAtIndex:0];
   
     LBPushNotification* notification = [LBPushNotification application:application didFinishLaunchingWithOptions:launchOptions];
     
@@ -64,13 +64,13 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     __unsafe_unretained typeof(self) weakSelf = self;
-    self.deviceToken = deviceToken;
     
+    // Register the device token with the LoopBack push notification service
     [LBPushNotification application:application
 didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
                             adapter:self.adapter
-                             userId:nil
-                      subscriptions:nil
+                             userId:@"anonymous"
+                      subscriptions:@[@"all"]
                             success:^(id model) {
                                 LBInstallation *device = (LBInstallation *)model;
                                 weakSelf.registrationId = device._id;
@@ -107,13 +107,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
     };
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-	NSLog(@"Failed to get token, error: %@", error);
-    self.deviceToken = nil;
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
+    // Handle errors if it fails to receive the device token
+	[LBPushNotification application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // Receive push notifications
     LBPushNotification* notification = [LBPushNotification application:application didReceiveRemoteNotification:userInfo];
     [self.pnListVC addPushNotification:notification];
 }
