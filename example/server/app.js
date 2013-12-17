@@ -111,9 +111,7 @@ function registerApp(cb) {
           }
         },
         gcm: {
-          pushOptions: {
-            serverKey: config.gcmServerKey
-          }
+          serverApiKey: config.gcmServerApiKey
         }
       }
     },
