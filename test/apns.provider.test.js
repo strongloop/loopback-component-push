@@ -170,8 +170,11 @@ describe('APNS provider', function() {
     it('populates dev gateways', function(done) {
       givenProviderWithConfig({
         apns: {
+          // intentionally omit the pushOptions for test
+          /*
           pushOptions: {
           },
+          */
           feedbackOptions: {
             interval: 300
           }
