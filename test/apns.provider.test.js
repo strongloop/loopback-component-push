@@ -167,14 +167,37 @@ describe('APNS provider', function() {
       });
       done();
     });
+    it('populates dev gateways without overriding', function(done) {
+      givenProviderWithConfig({
+        apns: {
+          pushOptions: {
+            gateway: 'push.test.com',
+            port: 1111
+          },
+          feedbackOptions: {
+            gateway: 'feedback.test.com',
+            port: 1112
+          }
+        }
+      });
+      expect(provider._pushOptions).to.deep.equal({
+        gateway: 'push.test.com',
+        port: 1111
+      });
+      expect(provider._feedbackOptions).to.deep.equal({
+        gateway: 'feedback.test.com',
+        port: 1112
+      });
+      done();
+    });
     it('populates dev gateways', function(done) {
       givenProviderWithConfig({
         apns: {
           // intentionally omit the pushOptions for test
           /*
-          pushOptions: {
-          },
-          */
+           pushOptions: {
+           },
+           */
           feedbackOptions: {
             interval: 300
           }
@@ -205,6 +228,32 @@ describe('APNS provider', function() {
       });
       expect(provider._feedbackOptions).to.deep.equal({
         gateway: 'feedback.push.apple.com',
+        interval: 300
+      });
+      done();
+    });
+    it('override prod gateways', function(done) {
+      givenProviderWithConfig({
+        apns: {
+          production: true,
+          pushOptions: {
+            gateway: 'invalid',
+            port: 1111
+          },
+          feedbackOptions: {
+            gateway: 'invalid',
+            port: 1112,
+            interval: 300
+          }
+        }
+      });
+      expect(provider._pushOptions).to.deep.equal({
+        gateway: 'gateway.push.apple.com',
+        port: 2195
+      });
+      expect(provider._feedbackOptions).to.deep.equal({
+        gateway: 'feedback.push.apple.com',
+        port: 2196,
         interval: 300
       });
       done();
