@@ -6,7 +6,7 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
     <script src="js/controllers.js"></script>
 
     <style>
@@ -39,6 +39,8 @@
                 <th>User Id</th>
                 <th>Device Token</th>
                 <th>Device Type</th>
+                <th>Time Zone</th>
+                <th>Subscriptions</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -50,6 +52,8 @@
                 <td>{{device.userId}}</td>
                 <td class="long-text">{{device.deviceToken}}</td>
                 <td>{{device.deviceType}}</td>
+                <td>{{device.timeZone}}</td>
+                <td>{{device.subscriptions}}</td>
                 <td>{{device.status}}</td>
                 <td>
                     <button ng-click="switchStatus(device)">{{getAction(device.status)}}</button>

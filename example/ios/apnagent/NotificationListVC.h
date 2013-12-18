@@ -1,17 +1,16 @@
 //
-//  apnListVC.h
-//  apnagent
+//  Notification list view controller
 //
 //  Created by George Paloukis on 15/2/13.
 //  Copyright (c) 2013 Jake Luer. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "PushNotification.h"
+#import <LoopBack/LoopBack.h>
 
 typedef void (^RegisterBlock)();
 
-@interface apnListVC : UITableViewController
+@interface NotificationListVC : UITableViewController
 
 @property (nonatomic, strong) RegisterBlock regDev;
 @property (nonatomic) NSMutableArray *pushNotifs;
@@ -19,7 +18,6 @@ typedef void (^RegisterBlock)();
 - (IBAction)resetBadge:(id)sender;
 - (IBAction)registerDevice:(id)sender;
 
-
-- (void)addPushNotifWithType:(PushNotifType)pNType andUserInfo:(NSDictionary *)userInfo;
+- (void)addPushNotification:(LBPushNotification *)notification;
 
 @end

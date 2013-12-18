@@ -1,17 +1,16 @@
 //
-//  apnDetailsVC.h
-//  apnagent
+//  Notification details view controller
 //
 //  Created by George Paloukis on 26/3/13.
 //  Copyright (c) 2013 Jake Luer. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "PushNotification.h"
+#import <LoopBack/LoopBack.h>
 
-@interface apnDetailsVC : UIViewController
+@interface NotificationDetailsVC : UIViewController
 
-@property (nonatomic) PushNotification *thePN;
+@property (nonatomic) LBPushNotification *thePN;
 
 @property (weak, nonatomic) IBOutlet UITextView *payloadTxtView;
 

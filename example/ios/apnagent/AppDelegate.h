@@ -8,16 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <LoopBack/LoopBack.h>
-#import "apnListVC.h"
+#import "NotificationListVC.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) NSData* deviceToken;
 @property (strong, nonatomic) NSNumber* registrationId;
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) apnListVC *pnListVC;
+@property (strong, nonatomic) NotificationListVC *pnListVC;
 
 // The shared LBRESTAdapter instance, configured by Settings.plist.
 @property (strong, nonatomic) LBRESTAdapter *adapter;
