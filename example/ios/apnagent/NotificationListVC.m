@@ -189,11 +189,12 @@
   [self.pushNotifs addObject:notification];
   [self.tableView reloadData];
   
-  NSLog(@"Push Notification added, Type: %d, PushArray count: %luu, UserInfo: %@", notification.type, (unsigned long)self.pushNotifs.count, notification.userInfo);
+  NSLog(@"Push Notification added, Type: %d, PushArray count: %luu, UserInfo: %@",
+        notification.type, (unsigned long)self.pushNotifs.count,
+        notification.userInfo);
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if ([segue.identifier isEqualToString:@"ShowPayloadDetailsView"]) {
     NotificationDetailsVC *detailsVC = (NotificationDetailsVC *)segue.destinationViewController;
     detailsVC.thePN = self.selectedAPN;
