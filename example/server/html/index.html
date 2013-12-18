@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
     <script src="js/controllers.js"></script>
 
@@ -41,7 +41,9 @@
                 <th>Device Type</th>
                 <th>Time Zone</th>
                 <th>Subscriptions</th>
+                <!--
                 <th>Status</th>
+                -->
                 <th>Action</th>
             </tr>
             </thead>
@@ -54,9 +56,13 @@
                 <td>{{device.deviceType}}</td>
                 <td>{{device.timeZone}}</td>
                 <td>{{device.subscriptions}}</td>
+                <!--
                 <td>{{device.status}}</td>
+                -->
                 <td>
+                    <!--
                     <button ng-click="switchStatus(device)">{{getAction(device.status)}}</button>
+                    -->
                     <button ng-click="notify(device.id, 'Hello')">Notify</button>
                     <button ng-click="delete($index, device.id)">Delete</button>
                 </td>
