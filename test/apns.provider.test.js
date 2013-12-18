@@ -140,7 +140,7 @@ describe('APNS provider', function() {
         expect(args[0]).to.be.instanceOf(Error);
         expect(args[0].code).to.equal('ECONNREFUSED');
         done();
-      }, 150);
+      }, 250);
     });
   });
 
