@@ -144,6 +144,70 @@ describe('APNS provider', function() {
     });
   });
 
+  describe('APNS settings', function() {
+    it('populates cert/key data', function(done) {
+      givenProviderWithConfig({
+        apns: {
+          certData: objectMother.apnsDevCert(),
+          keyData: objectMother.apnsDevKey(),
+          pushOptions: {
+            gateway: '127.0.0.1'
+          }
+        }
+      });
+      expect(provider._pushOptions).to.deep.equal({
+        certData: objectMother.apnsDevCert(),
+        keyData: objectMother.apnsDevKey(),
+        gateway: '127.0.0.1'
+      });
+      expect(provider._feedbackOptions).to.deep.equal({
+        certData: objectMother.apnsDevCert(),
+        keyData: objectMother.apnsDevKey(),
+        gateway: 'feedback.sandbox.push.apple.com'
+      });
+      done();
+    });
+    it('populates dev gateways', function(done) {
+      givenProviderWithConfig({
+        apns: {
+          pushOptions: {
+          },
+          feedbackOptions: {
+            interval: 300
+          }
+        }
+      });
+      expect(provider._pushOptions).to.deep.equal({
+        gateway: 'gateway.sandbox.push.apple.com'
+      });
+      expect(provider._feedbackOptions).to.deep.equal({
+        gateway: 'feedback.sandbox.push.apple.com',
+        interval: 300
+      });
+      done();
+    });
+    it('populates prod gateways', function(done) {
+      givenProviderWithConfig({
+        apns: {
+          production: true,
+          pushOptions: {
+          },
+          feedbackOptions: {
+            interval: 300
+          }
+        }
+      });
+      expect(provider._pushOptions).to.deep.equal({
+        gateway: 'gateway.push.apple.com'
+      });
+      expect(provider._feedbackOptions).to.deep.equal({
+        gateway: 'feedback.push.apple.com',
+        interval: 300
+      });
+      done();
+    });
+  });
+
   function givenProviderWithConfig(pushSettings) {
     provider = new ApnsProvider(pushSettings);
   }

@@ -19,18 +19,14 @@ describe('PushNotification', function () {
                 description: 'My test mobile application',
                 pushSettings: {
                     apns: {
-                        pushOptions: {
-                            gateway: "gateway.sandbox.push.apple.com",
-                            certData: objectMother.apnsDevCert(),
-                            keyData: objectMother.apnsDevKey()
-                        },
-                        feedbackOptions: {
-                            gateway: "feedback.sandbox.push.apple.com",
-                            certData: objectMother.apnsDevCert(),
-                            keyData: objectMother.apnsDevKey(),
-                            batchFeedback: true,
-                            interval: 300
-                        }
+                      certData: objectMother.apnsDevCert(),
+                      keyData: objectMother.apnsDevKey(),
+                      pushOptions: {
+                      },
+                      feedbackOptions: {
+                          batchFeedback: true,
+                          interval: 300
+                      }
                     }
                 }
             }, function (err, result) {
