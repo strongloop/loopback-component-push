@@ -104,8 +104,9 @@ function registerApp(cb) {
       pushSettings: {
         apns: {
           certData: config.apnsCertData,
-          keyData: config.apnsKeyData
+          keyData: config.apnsKeyData,
           pushOptions: {
+            // Extra options can go here for APN
           },
           feedbackOptions: {
             batchFeedback: true,
