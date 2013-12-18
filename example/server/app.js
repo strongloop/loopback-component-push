@@ -103,15 +103,12 @@ function registerApp(cb) {
       description: 'LoopBack Push Notification Demo Application',
       pushSettings: {
         apns: {
+          certData: config.apnsCertData,
+          keyData: config.apnsKeyData,
           pushOptions: {
-            gateway: 'gateway.sandbox.push.apple.com',
-            certData: config.apnsCertData,
-            keyData: config.apnsKeyData
+            // Extra options can go here for APN
           },
           feedbackOptions: {
-            gateway: 'feedback.sandbox.push.apple.com',
-            certData: config.apnsCertData,
-            keyData: config.apnsKeyData,
             batchFeedback: true,
             interval: 300
           }

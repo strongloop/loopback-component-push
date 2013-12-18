@@ -13,7 +13,7 @@ function DeviceListControl($scope, $http) {
 
     $scope.delete = function (index, id) {
         $http.delete('/api/installations/' + id).success(function (data, status, headers) {
-        $scope.installations.splice(index, 1);
+        $scope.devices.splice(index, 1);
         $scope.status = 'Record deleted: ' + id + ' status: ' + status;
         });
     };
