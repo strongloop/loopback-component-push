@@ -79,6 +79,38 @@ describe('GCM provider', function() {
     expect(message.data).to.eql({ });
   });
 
+  it('emits "error" when GCM send fails', function() {
+    var anError = new Error('test-error');
+    mockery.givenPushNotificationFailsWith(anError);
+
+    var eventSpy = spyOnProviderError();
+
+    provider.pushNotification(aNotification(), aDeviceToken);
+
+    expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+    expect(eventSpy.args[0]).to.deep.equal([anError]);
+  });
+
+  it('emits "error" event when GCM returns error result', function() {
+    // This is a real result returned by GCM
+    var errorResult = {
+      'multicast_id': 5504081219335647631,
+      'success': 0,
+      'failure': 1,
+      'canonical_ids': 0,
+      'results': [{ 'error': 'MismatchSenderId' }]
+    };
+
+    mockery.pushNotificationCallbackArgs = [null, errorResult];
+
+    var eventSpy = spyOnProviderError();
+
+    provider.pushNotification(aNotification(), aDeviceToken);
+
+    expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+    expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
+  });
+
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
     pushSettings.gcm = extend({}, pushSettings.gcm);
@@ -99,5 +131,11 @@ describe('GCM provider', function() {
 
   function tearDownFakeTimers() {
     this.clock.restore();
+  }
+
+  function spyOnProviderError() {
+    var eventSpy = sinon.spy();
+    provider.on('error', eventSpy);
+    return eventSpy;
   }
 });

@@ -49,9 +49,18 @@ app.post('/notify/:id', function (req, res, next) {
   });
 
   PushModel.notifyById(req.params.id, note, function(err) {
+    if (err) {
+      console.error('Cannot notify %j: %s', req.params.id, err.stack);
+      next(err);
+      return;
+    }
     console.log('pushing notification to %j', req.params.id);
+    res.send(200, 'OK');
   });
-  res.send(200, 'OK');
+});
+
+PushModel.on('error', function(err) {
+  console.error('Push Notification error: ', err.stack);
 });
 
 // Pre-register an application that is ready to be used for testing.
