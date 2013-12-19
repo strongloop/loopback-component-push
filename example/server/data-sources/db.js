@@ -4,16 +4,24 @@
 
 var loopback = require('loopback');
 
-if(process.env.NODE_ENV === 'test') {
+var env = process.env.NODE_ENV || 'development';
+
+if((env === 'test' || env === 'development') && !process.env.MONGODB) {
   console.log('Using an in-memory database');
   module.exports = loopback.createDataSource({
     connector: require('loopback').Memory
   });
 
 } else {
-  console.log('Using a MongoDB database at demo.strongloop.com');
+  var url = process.env.MONGODB;
+  if(!url) {
+    url = env === 'production' ?
+      'mongodb://demo:L00pBack@demo.strongloop.com/demo' :
+      'mongodb://127.0.0.1/demo';
+  }
+  console.log('Using a MongoDB database: ' + url);
   module.exports = loopback.createDataSource({
     connector: require('loopback-connector-mongodb'),
-    url: 'mongodb://demo:L00pBack@demo.strongloop.com/demo'
+    url: url
   });
 }

@@ -68,7 +68,30 @@ PushModel.on('error', function(err) {
 
 var config = require('./config');
 
-findOrCreateApp(function (err, appModel) {
+var demoApp = {
+  userId: 'strongloop',
+  name: config.appName,
+
+  description: 'LoopBack Push Notification Demo Application',
+  pushSettings: {
+    apns: {
+      certData: config.apnsCertData,
+      keyData: config.apnsKeyData,
+      pushOptions: {
+        // Extra options can go here for APN
+      },
+      feedbackOptions: {
+        batchFeedback: true,
+        interval: 300
+      }
+    },
+    gcm: {
+      serverApiKey: config.gcmServerApiKey
+    }
+  }
+};
+
+updateOrCreateApp(function (err, appModel) {
   if (err) throw err;
   console.log('Application id: %j', appModel.id);
 
@@ -81,20 +104,19 @@ findOrCreateApp(function (err, appModel) {
 });
 
 //--- Helper functions ---
-
-function findOrCreateApp(cb) {
-  Application.find({
-      where: { name: config.appName }
+function updateOrCreateApp(cb) {
+  Application.findOne({
+      where: { name: demoApp.name }
     },
     function(err, result) {
       if (err) cb(err);
-      if (result.length > 0) {
-        return cb(null, result[0]);
+      if (result) {
+        console.log('Updating application: ' + result.id);
+        result.updateAttributes(demoApp, cb);
+      } else {
+        return registerApp(cb);
       }
-
-      return registerApp(cb);
-    }
-  );
+    });
 }
 
 function registerApp(cb) {
@@ -106,26 +128,11 @@ function registerApp(cb) {
       next();
   };
   Application.register(
-    'strongloop',
-    config.appName,
+    demoApp.userId,
+    demoApp.name,
     {
-      description: 'LoopBack Push Notification Demo Application',
-      pushSettings: {
-        apns: {
-          certData: config.apnsCertData,
-          keyData: config.apnsKeyData,
-          pushOptions: {
-            // Extra options can go here for APN
-          },
-          feedbackOptions: {
-            batchFeedback: true,
-            interval: 300
-          }
-        },
-        gcm: {
-          serverApiKey: config.gcmServerApiKey
-        }
-      }
+      description: demoApp.description,
+      pushSettings: demoApp.pushSettings
     },
     function(err, app) {
       if (err) return cb(err);
