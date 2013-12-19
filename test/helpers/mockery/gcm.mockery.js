@@ -36,6 +36,13 @@ mockery.firstPushNotificationArgs = function() {
  */
 mockery.pushNotificationCallbackArgs = [];
 
+/**
+ * Setup GCM send to always return the given error.
+ * @param err
+ */
+mockery.givenPushNotificationFailsWith = function(err) {
+  mockery.pushNotificationCallbackArgs = [err];
+};
 
 var gcmSnapshot = {};
 var defaultExports = {};
@@ -54,6 +61,7 @@ exports.setUp = function() {
   }
 
   mockery.pushNotification = sinon.spy();
+  mockery.pushNotificationCallbackArgs = [null, { success: 1, failure: 0 }];
 
   gcm.Sender = function(opts) {
     mockery.senderOptions = Array.prototype.slice.call(arguments);
