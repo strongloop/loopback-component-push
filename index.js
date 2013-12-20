@@ -12,7 +12,9 @@ exports = module.exports = function(app, options) {
     var Installation = options.Installation || require('./models/installation');
     var Notification = options.Notification || require('./models/notification');
 
-    var dataSource = options.dataSource || loopback.createDataSource('dbForPushNotification', {connector: loopback.Memory});
+    var dataSource = options.dataSource ||
+      loopback.createDataSource('dbForPushNotification',
+        {connector: loopback.Memory});
 
     if(options.dataSource) {
         // Attach models to the dataSource from the options object
@@ -27,7 +29,7 @@ exports = module.exports = function(app, options) {
         Application: Application
     });
 
-    var PushModel = pushDataSource.createModel('pushNotification');
+    var PushModel = pushDataSource.createModel('push', {}, {plural: 'push'});
 
     if(app) {
         app.model(Installation);

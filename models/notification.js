@@ -22,12 +22,12 @@ var Notification = loopback.createModel(
     /**
      * The device type such as `ios`.
      */
-    deviceType: String,
+    deviceType: {type: String, required: true},
 
     /**
      * The device token as provided by GCM/APN/etc.
      */
-    deviceToken: String,
+    deviceToken: {type: String, required: true},
 
     /**
      * (iOS only)

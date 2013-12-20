@@ -310,5 +310,51 @@ describe('PushManager', function() {
         }
       ], done);
     });
+
+    it('reports error on invalid notifications', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('myPhone', Installation, {
+              userId: 'myself'
+            })
+            .buildTo(context, cb);
+        },
+        function act(cb) {
+          pushManager.notifyByQuery(
+            { userId: 'myself' },
+            { invalid: true }, // invalid
+            function(err) {
+              expect(err.name).to.equal('ValidationError');
+              cb();
+            }
+          );
+        }
+      ], done);
+    });
+
+    it('reports error on non-object notifications', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('myPhone', Installation, {
+              userId: 'myself'
+            })
+            .buildTo(context, cb);
+        },
+
+        function act(cb) {
+          pushManager.notifyByQuery(
+            { userId: 'myself' },
+            "invalid notification", // invalid
+            function(err) {
+              expect(err.message).to.equal('notification must be an object');
+              cb();
+            }
+          );
+        }
+      ], done);
+    });
+
   });
 });
