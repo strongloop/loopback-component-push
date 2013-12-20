@@ -10,7 +10,7 @@
     <script src="js/controllers.js"></script>
 
     <style>
-      .long-text {
+      td {
         word-wrap: break-word;
       }
     </style>
@@ -50,9 +50,9 @@
             <tbody>
             <tr ng-repeat="device in devices | filter:query">
                 <td>{{device.id}}</td>
-                <td class="long-text">{{device.appId}}</td>
+                <td>{{device.appId}}</td>
                 <td>{{device.userId}}</td>
-                <td class="long-text">{{device.deviceToken}}</td>
+                <td>{{device.deviceToken}}</td>
                 <td>{{device.deviceType}}</td>
                 <td>{{device.timeZone}}</td>
                 <td>{{device.subscriptions}}</td>
