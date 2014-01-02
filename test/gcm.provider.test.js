@@ -111,6 +111,26 @@ describe('GCM provider', function() {
     expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
   });
 
+  it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
+    var errorResult = {
+      'multicast_id': 5504081219335647631,
+      'success': 0,
+      'failure': 1,
+      'canonical_ids': 0,
+      'results': [{ 'error': 'NotRegistered' }]
+    };
+    mockery.pushNotificationCallbackArgs = [null, errorResult];
+
+    var eventSpy = sinon.spy();
+    provider.on('devicesGone', eventSpy);
+    provider.on('error', function(err) { throw err; });
+
+    provider.pushNotification(aNotification(), aDeviceToken);
+
+    expect(eventSpy.args[0]).to.deep.equal([aDeviceToken]);
+    done();
+  });
+
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
     pushSettings.gcm = extend({}, pushSettings.gcm);
