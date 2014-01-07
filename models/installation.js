@@ -123,14 +123,14 @@ setRemoting(Installation.findByUser, {
     http: {verb: 'get', path: '/byUser'}
 });
 
-setRemoting(Installation.findBySubscription, {
+setRemoting(Installation.findBySubscriptions, {
     description: 'Find installations by subscriptions',
     accepts: [
         {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
         {arg: 'subscriptions', type: 'string', description: 'Subscriptions', http: {source: 'query'}}
     ],
     returns: {arg: 'data', type: 'object', root: true},
-    http: {verb: 'get', path: '/bySubscription'}
+    http: {verb: 'get', path: '/bySubscriptions'}
 });
 
 module.exports = Installation;
