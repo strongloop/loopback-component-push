@@ -1,7 +1,8 @@
 {
-  "title": "LoopBack Documentation",
+  "title": "LoopBack Push Notification Documentation",
   "content": [
     "models/installation.js",
-    "models/notification.js"
+    "models/notification.js",
+    "lib/push-manager.js"
   ]
 }
