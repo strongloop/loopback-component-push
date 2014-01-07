@@ -1,0 +1,7 @@
+{
+  "title": "LoopBack Documentation",
+  "content": [
+    "models/installation.js",
+    "models/notification.js"
+  ]
+}
