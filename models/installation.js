@@ -1,10 +1,12 @@
-/**
+/*!
  * Module Dependencies
  */
 var loopback = require('loopback');
 
 /**
- * Installation Model
+ * Installation Model connects a mobile application to the device, the user and
+ * other information for the server side to locate devices using application
+ * id/version, user id, device type, and subscriptions.
  */
 var Installation = loopback.createModel('Installation',
     {
@@ -35,13 +37,13 @@ Installation.beforeCreate = function (next) {
 };
 
 /**
- * Find installations by application
- * @param {String} deviceType
- * @param {String} appId
- * @param {String} appVersion
- * @param {Fuction} cb
- *
- * @callback cb
+ * Find installations by application id/version
+ * @param {String} deviceType The device type
+ * @param {String} appId The application id
+ * @param {String} [appVersion] The application version
+ * @callback {Function} cb The callback function
+ * @param {Error|String} err The error object
+ * @param {Installation[]} installations The selected installations
  */
 Installation.findByApp = function (deviceType, appId, appVersion, cb) {
     if(!cb && typeof appVersion === 'function') {
@@ -53,10 +55,14 @@ Installation.findByApp = function (deviceType, appId, appVersion, cb) {
 };
 
 /**
- * Find installations by user
- * @param userId
- * @param deviceType
- * @param cb
+ * Find installations by user id
+ * @param {String} userId The user id
+ * @param {String} deviceType The device type
+ * @param {Function} cb The callback function
+ *
+ * @callback {Function} cb The callback function
+ * @param {Error|String} err The error object
+ * @param {Installation[]} installations The selected installations
  */
 Installation.findByUser = function (deviceType, userId, cb) {
     var filter = {where: {userId: userId, deviceType: deviceType}};
@@ -65,11 +71,14 @@ Installation.findByUser = function (deviceType, userId, cb) {
 
 /**
  * Find installations by subscriptions
- * @param subscriptions
- * @param deviceType
- * @param cb
+ * @param {String|String[]} subscriptions A list of subscriptions
+ * @param {String} deviceType The device type
+ *
+ * @callback {Function} cb The callback function
+ * @param {Error|String} err The error object
+ * @param {Installation[]} installations The selected installations
  */
-Installation.findBySubscription = function (deviceType, subscriptions, cb) {
+Installation.findBySubscriptions = function (deviceType, subscriptions, cb) {
     if(typeof subscriptions === 'string') {
         subscriptions = subscriptions.split(/[\s,]+/);
     }

@@ -5,9 +5,10 @@ var loopback = require('loopback');
  *
  * See the official documentation for more details on provider-specific
  * properties.
- * [Android (GCM)]{
- * @link http://developer.android.com/google/gcm/server.html#params}
- * [iOS (APN)]{@link http://bit.ly/apns-notification-payload}
+ *
+ * [Android - GCM](http://developer.android.com/google/gcm/server.html#params)
+ *
+ * [iOS - APN](http://bit.ly/apns-notification-payload)
  */
 var Notification = loopback.createModel(
   'Notification',
@@ -19,7 +20,7 @@ var Notification = loopback.createModel(
     },
 
     /**
-     * The device type such as `apns`.
+     * The device type such as `ios`.
      */
     deviceType: String,
 
