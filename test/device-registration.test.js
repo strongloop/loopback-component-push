@@ -6,18 +6,18 @@ var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 var Application = loopback.Application;
 Application.attachTo(ds);
 
-var Device = require('../models/device');
-Device.attachTo(ds);
+var Installation = require('../models/installation');
+Installation.attachTo(ds);
 
 var Notification = require('../models/notification');
 Notification.attachTo(ds);
 
-describe('Device', function () {
+describe('Installation', function () {
     var registration = null;
 
-    it('registers a new device', function (done) {
+    it('registers a new installation', function (done) {
 
-        Device.create({
+        Installation.create({
             appId: 'MyLoopbackApp',
             appVersion: '1',
             userId: 'raymond',
@@ -43,7 +43,7 @@ describe('Device', function () {
 
                 registration = reg;
 
-                Device.findByApp('ios', 'MyLoopbackApp', function (err, results) {
+                Installation.findByApp('ios', 'MyLoopbackApp', function (err, results) {
                     assert(!err);
                     assert.equal(results.length, 1);
                     var reg = results[0];

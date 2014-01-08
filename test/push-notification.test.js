@@ -1,5 +1,4 @@
 var loopback = require('loopback');
-var apn = require('apn');
 var assert = require('assert');
 var path = require('path');
 
@@ -7,33 +6,27 @@ var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 
 var PushModel = require('../index')(null, {dataSource: ds});
 var Application = PushModel.Application;
-var Device = PushModel.Device;
+var Installation = PushModel.Installation;
+var Notification = PushModel.Notification;
 
-var fs = require('fs');
-var certData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_cert_dev.pem"), 'UTF-8');
-var keyData = fs.readFileSync(path.join(__dirname, "../example/credentials/apns_key_dev.pem"), 'UTF-8');
-
+var objectMother = require('./helpers/object-mother');
 
 describe('PushNotification', function () {
-    it('registers a new device', function (done) {
+    it('registers a new installation', function (done) {
         // Sign up an application
         Application.register('test-user', 'TestApp',
             {
                 description: 'My test mobile application',
                 pushSettings: {
                     apns: {
-                        pushOptions: {
-                            gateway: "gateway.sandbox.push.apple.com",
-                            certData: certData,
-                            keyData: keyData
-                        },
-                        feedbackOptions: {
-                            gateway: "feedback.sandbox.push.apple.com",
-                            certData: certData,
-                            keyData: keyData,
-                            batchFeedback: true,
-                            interval: 300
-                        }
+                      certData: objectMother.apnsDevCert(),
+                      keyData: objectMother.apnsDevKey(),
+                      pushOptions: {
+                      },
+                      feedbackOptions: {
+                          batchFeedback: true,
+                          interval: 300
+                      }
                     }
                 }
             }, function (err, result) {
@@ -42,9 +35,9 @@ describe('PushNotification', function () {
                 }
                 var application = result;
 
-                Device.destroyAll(function (err, result) {
+                Installation.destroyAll(function (err, result) {
                     // console.log('Adding a test record');
-                    Device.create({
+                    Installation.create({
                         appId: application.id,
                         userId: 'raymond',
                         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
@@ -60,24 +53,27 @@ describe('PushNotification', function () {
                         }
 
                         PushModel.dataSource.connector.applications[application.id] = {memory: {
-                            push: {
-                                pushNotification: function (notification, deviceToken) {
-                                    // console.log(notification, deviceToken);
-                                    assert.equal(deviceToken, result.deviceToken);
-                                    done();
-                                }
+                            pushNotification: function (notification, deviceToken) {
+                                // console.log(notification, deviceToken);
+                                assert.equal(deviceToken, result.deviceToken);
+                                done();
                             }
                         }};
 
-                        var note = new apn.Notification();
+                        var note = new Notification();
 
-                        note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+                        // Expires 1 hour from now.
+                        note.expirationInterval = Math.floor(Date.now() / 1000) + 3600;
                         note.badge = 5;
-                        note.sound = "ping.aiff";
-                        note.alert = "\uD83D\uDCE7 \u2709 " + 'Hello';
-                        note.payload = {'messageFrom': 'Ray'};
+                        note.sound = 'ping.aiff';
+                        note.alert = '\uD83D\uDCE7 \u2709 ' + 'Hello';
+                        note.messageFrom = 'Ray';
 
-                        PushModel.pushNotificationByRegistrationId(result.id, note);
+                        PushModel.notifyById(
+                          result.id,
+                          note,
+                          function(err) { if(err) throw err; }
+                        );
 
                     });
 
