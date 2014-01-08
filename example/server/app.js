@@ -99,7 +99,6 @@ updateOrCreateApp(function (err, appModel) {
   startServer(function() {
     var url = 'http://127.0.0.1:' + app.get('port');
     console.log('The server is running at %s', url);
-    console.log('REST API is available at %s%s', url, apiPath);
   });
 });
 
