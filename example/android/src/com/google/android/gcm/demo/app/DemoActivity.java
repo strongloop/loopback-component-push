@@ -49,7 +49,7 @@ public class DemoActivity extends Activity {
      * application you registered in your LoopBack server by calling
      * Application.register().
      */
-    String LOOPBACK_APP_ID = "Application.id-generated-by-loopback";
+    String LOOPBACK_APP_ID = "loopback-push-notification-app";
 
     /**
      * Tag used on log messages.
