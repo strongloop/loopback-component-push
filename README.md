@@ -24,8 +24,9 @@ providers such as APNS, GCM, and MPNS.
 
 ### Node.js server
 
-You can find a demo LoopBack server application under 'example/server'. To run
-it:
+An [example LoopBack server application](/example/server) is provided.  To run
+
+To run it:
 
     cd example/server
     node app
@@ -33,19 +34,18 @@ it:
 Open your browser to [http://127.0.0.1:3010](http://127.0.0.1:3010).
 
 By default, the app uses an in-memory store for the application/installation data.
-You can switch it to a MongoDB instance with the MONGODB environment variable
-set to the MongoDB url. For example,
+To change to a MongoDB instance, set the MONGODB environment variable to the MongoDB URL. For example,
 
     MONGODB=mongodb://localhost/demo node app
 
 ### iOS client
 
-An example [iOS app](/example/ios) is provided. It uses LoopBack iOS SDK to enable
+The [iOS example app](/example/ios) uses LoopBack the LoopBack iOS SDK to enable
 and handle push notifications. 
 
 ### Android client
 
-An example [Android app](/example/android) is provided. It uses LoopBack Android SDK to enable
+The [Android example app](/example/android) uses LoopBack Android SDK to enable
 and handle push notifications. 
 
 ## References
