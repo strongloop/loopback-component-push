@@ -9,6 +9,8 @@ See also:
  * [SDK API Reference](http://apidocs.strongloop.com/loopback-ios/api/annotated.html)
  * [LoopBack Node.js API Documentation](http://docs.strongloop.com/display/DOC/LoopBack+API)
 
+This example app is a fork of [apnagent-ios](https://github.com/logicalparadox/apnagent-ios).
+
 ## License
 
 (The MIT License)
