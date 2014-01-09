@@ -1,23 +1,13 @@
-# apnagent for iOS
+This app is an example of getting iOS push notifications from a LoopBack server application.
+For information on creating push notifications for iOs apps, see [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
 
-_apnagent-ios_ is an iOS application that has been developed for use with the [Node.js](http://nodejs.org)
-module [apnagent](https://github.com/qualiancy/apnagent) to facilitate testing and demonstration. It can
-be used to test any APN server-side tool.
+This app uses the [LoopBack iOS SDK](http://docs.strongloop.com/loopback).
+For more information, see the official [LoopBack iOS SDK documentation](http://docs.strongloop.com/display/DOC/iOS+SDK+version+1.1).
 
-## Usage
+See also:
 
-This assumes that you have created a new application in your iOS provisioning portal.
-
-**1. Clone:** Clone a copy of `apnagent-ios`.
-
-    git clone git@github.com:logicalparadox/apnagent-ios.git
-
-**2. xCode Configure:** Open the project in xCode and specify the `BUNDLE_ID`. Select Project > Build Settings, then
-from the bottom right corner click Add Build Setting > Add User-Defined Setting. The key is `BUNDLE_ID` and the value
-will be the application's bundle ID as specified in the iOS Provisioning portal. For example: `com.logicalparadox.apnagent`.
-
-**3. Build/Run:** Run the application on your device. APNs notification cannot be sent to the simulator. Your APN token
-will be logged to the console. Then use the server-side framework of your choice to send notifications to your device.
+ * [SDK API Reference](http://apidocs.strongloop.com/loopback-ios/api/annotated.html)
+ * [LoopBack Node.js API Documentation](http://docs.strongloop.com/display/DOC/LoopBack+API)
 
 ## License
 
