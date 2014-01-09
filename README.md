@@ -1,7 +1,8 @@
 # LoopBack Push Notification
 
-LoopBack Push Notification is a set of server side models to enable mobile push
-notification services.
+This module provides a set of LoopBack models to enable mobile device push notifications.
+
+Please see the full documentation: [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
 
 ## Architecture
 
@@ -18,103 +19,6 @@ notifications
 * Push connector that interact with device registration records and push
 providers such as APNS, GCM, and MPNS.
 * Push model to provide high level APIs for device-independent push notifications
-
-## Models and APIs for push notifications
-
-### Sign up an application with push settings
-
-To support push notifications, the mobile application needs to be registered
-with LoopBack. The `Application` model has APIs for the sign-up.
-
-    var fs = require('fs');
-    var certData = fs.readFileSync(path.join(__dirname,
-        "credentials/apns_cert_dev.pem"), 'UTF-8');
-    var keyData = fs.readFileSync(path.join(__dirname,
-        "credentials/apns_key_dev.pem"), 'UTF-8');
-
-    // Sign up an application
-    Application.register('test-user', 'TestApp',
-        {
-            description: 'My test mobile application',
-            pushSettings: {
-                certData: certData,
-                keyData: keyData,
-                apns: {
-                    pushOptions: {
-                        gateway: "gateway.sandbox.push.apple.com"
-                    },
-                    feedbackOptions: {
-                        gateway: "feedback.sandbox.push.apple.com",
-                        batchFeedback: true,
-                        interval: 300
-                    }
-                }
-            }
-        }, function (err, result) {
-            if (err) {
-                throw err;
-            }
-            ...
-        });
-
-Once you sign up, you will get the application id that the client side should
-use to register the device.
-
-### Register a new device
-
-The mobile device also needs to register itself with the backend using
-Installation model and APIs. To register a device, we can call the
-`Installation.create` API as follows:
-
-    Installation.create({
-        appId: 'MyLoopBackApp',
-        userId: 'raymond',
-        deviceToken: '756244503c9f95b49d7ff82120dc193ca1e3a7cb56f60c2ef2a19241e8f33305',
-        deviceType: 'ios',
-        created: new Date(),
-        modified: new Date(),
-        status: 'Active'
-    }, function (err, result) {
-        console.log('Registration record is created: ', result);
-    });
-
-The Installation model is exposed as CRUD REST APIs.
-
-        POST http://localhost:3010/api/installations
-        {
-            "appId": "MyLoopBackApp",
-            "userId": "raymond",
-            "deviceToken": "756244503c9f95b49d7ff82120dc193ca1e3a7cb56f60c2ef2a19241e8f33305",
-            "deviceType": "ios"
-        }
-
-### Configure LoopBack Push Notification
-
-    var ds = require('./data-sources/db');
-    var PushModel = require('loopback-push-notification')(app, {dataSource: ds});
-
-
-### Send notifications
-
-#### APNS
-
-    var note = new PushModel.Notification({
-      // Expires 1 hour from now.
-      expirationTime: Math.floor(Date.now() / 1000) + 3600,
-      badge: badge++,
-      sound: "ping.aiff",
-      alert: "\uD83D\uDCE7 \u2709 " + 'Hello',
-      // Custom payload
-      messageFrom: 'Ray'
-    });
-
-    PushModel.notifyById(req.params.id, note, function(err) {
-      console.error('Cannot push notification', err);
-    });
-
-#### GCM
-
-(To be done.)
 
 ## Samples
 
@@ -136,15 +40,13 @@ set to the MongoDB url. For example,
 
 ### iOS client
 
-The iOS demo application is under example/ios. It uses LoopBack iOS SDK to enable
-and handle push notifications. It's a folk of [apnagent-ios](https://github.com/logicalparadox/apnagent-ios).
-
+An example [iOS app](/example/ios) is provided. It uses LoopBack iOS SDK to enable
+and handle push notifications. 
 
 ### Android client
 
-There is an Android sample app too (see [example/android]), it's a fork of the
-sample client app provided by Google ([gcm](http://code.google.com/p/gcm)).
-Check out [example/android/README.md] for more details.
+An example [Android app](/example/android) is provided. It uses LoopBack Android SDK to enable
+and handle push notifications. 
 
 ## References
 
