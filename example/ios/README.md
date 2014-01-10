@@ -1,5 +1,7 @@
 This app is an example of an iOS app that gets push notifications from a LoopBack server application.
-For information on creating push notifications for iOs apps, see [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
+For documentation, see [StrongLoop Documentation - Push notifications for iOS apps](http://docs.strongloop.com/display/DOC/Push+notifications+for+iOS+apps).
+
+For information on creating the backend functionality, see [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
 
 This app uses the LoopBack iOS SDK.
 For more information, see the official [LoopBack iOS SDK documentation](http://docs.strongloop.com/display/DOC/iOS+SDK+version+1.1).
