@@ -4,12 +4,20 @@ var loopback = require('loopback');
 var app = loopback();
 var db = require('./data-sources/db');
 
-// Load & configure loopback-push-notification
-var PushModel = require('../../index')(app, { dataSource: db });
-var Application = PushModel.Application;
-var Installation = PushModel.Installation;
-var Notification = PushModel.Notification;
+var Application = loopback.Application;
+Application.attachTo(db);
+app.model(Application);
 
+var PushConnector = require('../../index');
+
+var Notification = PushConnector.Notification;
+
+db.attach(PushConnector.Installation);
+app.model(PushConnector.Installation);
+
+var PushModel = PushConnector.createPushModel();
+
+app.model(PushModel);
 
 // LoopBack REST interface
 var apiPath = '/api';
