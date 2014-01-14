@@ -22,8 +22,9 @@ exports.createPushModel = function (options) {
     notification: options.notification || 'Notification'
   });
 
-  var PushModel = pushDataSource.createModel('push', {}, {plural: 'push'});
+  var PushModel = pushDataSource.createModel(options.name || 'Push', {},
+    {plural: options.plural || 'push'});
   return PushModel;
 };
 
-
+exports.Push = exports.createPushModel();
