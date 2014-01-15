@@ -1,16 +1,25 @@
 var loopback = require('loopback');
 var path = require('path');
 var app = module.exports = loopback();
-var started = new Date();
 
-require('../../index');
-
+// Load up the push data source as the example cannot declaratively define
+// the push data source in datasources.json as it cannot resolve the connector
+// module by name
+var connector = require('../../index');
+app.dataSources.push = loopback.createDataSource("push", {
+  "defaultForType": "push",
+  "connector": connector,
+  "installation": "installation",
+  "notification": "notification",
+  "application": "application"
+});
 /*
  * 1. Configure LoopBack models and datasources
  *
  * Read more at http://apidocs.strongloop.com/loopback#appbootoptions
  */
 app.boot(__dirname);
+
 
 /*
  * 2. Configure request preprocessing
