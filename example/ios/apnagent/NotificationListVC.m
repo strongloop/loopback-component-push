@@ -173,7 +173,7 @@
 
 // Reset application's badge number
 - (IBAction)resetBadge:(id)sender {
-    [LBPushNotification resetBadge:@0];
+    [LBPushNotification resetBadge:0];
 }
 
 // Reset application's badge number

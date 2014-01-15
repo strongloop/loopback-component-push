@@ -4,10 +4,11 @@ var path = require('path');
 
 var ds = loopback.createDataSource('db', {connector: loopback.Memory});
 
-var PushModel = require('../index')(null, {dataSource: ds});
-var Application = PushModel.Application;
-var Installation = PushModel.Installation;
-var Notification = PushModel.Notification;
+var PushConnector = require('../index');
+var PushModel = PushConnector.createPushModel({dataSource: ds});
+var Application = loopback.Application;
+var Installation = PushConnector.Installation;
+var Notification = PushConnector.Notification;
 
 var objectMother = require('./helpers/object-mother');
 

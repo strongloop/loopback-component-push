@@ -1,17 +1,12 @@
-You will need to setup your project to use the
-Google Play Services library as described here:
+This app is an example of an Android app that gets push notifications from a LoopBack server application.
+For documentation, see [StrongLoop Documentation - Push notifications for Android apps](http://docs.strongloop.com/display/DOC/Push+notifications+for+Android+apps).
 
-http://developer.android.com/google/play-services/setup.html
+For information on creating the backend functionality, see [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
 
-To run this application, you must have a Sender ID
-and a GCM server. For details, see:
+This app uses the Android Java SDK. 
+For more information, see the official [LoopBack Android SDK documentation](http://docs.strongloop.com/display/DOC/Android+SDK).
 
-http://developer.android.com/google/gcm/gs.html
+See also:
 
-Enter your Sender ID (Project Number) as the value of `SENDER_ID` field in
-```
-src/com/google/android/gcm/demo/app/DemoActivity.java
-```
-
-You can use `gcm-loopback.js` in the parent folder as a GCM server. Do not
-forget to enter your API key into the `serverKey` property.
+ * [SDK API Reference](http://apidocs.strongloop.com/loopback-android/api/index.html)
+ * [LoopBack Node.js API Documentation](http://docs.strongloop.com/display/DOC/LoopBack+API)
