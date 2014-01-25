@@ -1,6 +1,6 @@
 {
   "name": "loopback-push-notification",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Loopback Push Notification",
   "main": "index.js",
   "scripts": {
@@ -14,10 +14,10 @@
     "mpns": "~2.1.0"
   },
   "peerDependencies": {
-    "loopback": "1.x >=1.5.0"
+    "loopback": "1.x >=1.5.2"
   },
   "devDependencies": {
-    "loopback": "1.x",
+    "loopback": "1.5.x",
     "loopback-connector-mongodb": "1.x",
     "loopback-testing": "~0.1.0",
     "should": "*",

@@ -8,10 +8,7 @@ var app = module.exports = loopback();
 var connector = require('../../index');
 app.dataSources.push = loopback.createDataSource("push", {
   "defaultForType": "push",
-  "connector": connector,
-  "installation": "installation",
-  "notification": "notification",
-  "application": "application"
+  "connector": connector
 });
 /*
  * 1. Configure LoopBack models and datasources
@@ -114,7 +111,7 @@ app.use(loopback.errorHandler());
 var swaggerRemote = app.remotes().exports.swagger;
 if (swaggerRemote) swaggerRemote.requireToken = false;
 
-// app.enableAuth();
+app.enableAuth();
 
 /*
  * 7. Optionally start the server
