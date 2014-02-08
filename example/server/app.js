@@ -131,7 +131,7 @@ function registerApp(cb) {
   // Hack to set the app id to a fixed value so that we don't have to change
   // the client settings
   Application.beforeSave = function(next) {
-      this.id = 'loopback-push-notification-app';
+      this.id = config.appName;
       next();
   };
   Application.register(
