@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Client Applications</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+    <script src="js/applications.js"></script>
+</head>
+<body ng-controller="ApplicationsController" data-ng-init="load()">
+
+<div class="container-fluid">
+    <h1>Client Applications</h1>
+
+    <div class="row-fluid span12">
+        <table class="table table-striped" style="table-layout: fixed">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <!--
+                <th>Description</th>
+                -->
+                <th>REST API Key</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="app in apps">
+                <td>{{app.id}}</td>
+                <td>{{app.name}}</td>
+                <!--
+                <td>{{app.description}}</td>
+                -->
+                <td>{{app.restApiKey}}</td>
+                <td>
+                    <button ng-click="delete($index, app.id)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>{{status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/app-create.html">Sign up</a>
+    <p>
+    <a href="/index.html">Home</a>
+</div>
+</body>
+</html>

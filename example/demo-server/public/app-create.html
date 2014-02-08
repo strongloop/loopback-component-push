@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Client Application Sign Up</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+    <script src="js/applications.js"></script>
+</head>
+<body ng-controller="ApplicationsController">
+
+<h1>Register your client application</h1>
+<form class="form-vertical" data-ng-submit="create()">
+    <div class="control-group">
+        <label class="control-label" for="name">Name</label>
+
+        <div class="controls">
+            <input type="text" data-ng-model="name" id="name"
+                   placeholder="Your Application Name" required>
+        </div>
+        <p>
+
+        <label class="control-label" for="certData">APN Certificate</label>
+        <div class="controls">
+            <textarea data-ng-model="certData" id="certData"></textarea>
+        </div>
+        <p>
+
+        <label class="control-label" for="keyData">APN Key</label>
+        <div class="controls">
+            <textarea data-ng-model="keyData" id="keyData"></textarea>
+        </div>
+
+        <label class="control-label" for="gcmKey">GCM Server API Key</label>
+        <div class="controls">
+            <textarea data-ng-model="gcmKey" id="gcmKey"></textarea>
+        </div>
+
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <input type="submit" class="btn">
+        </div>
+    </div>
+
+</form>
+
+<p>{{id}}
+<p>{{restApiKey}}
+
+<a href="/app-list.html">List Applications</a>
+<p>
+<a href="/index.html">Home</a>
+
+</body>
+</html>
