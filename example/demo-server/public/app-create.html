@@ -22,15 +22,23 @@
 
         <input class="col-sm-10 form-control" type="text" data-ng-model="name"
                id="name"
-               placeholder="Your Application Name" required>
+               placeholder="Your client application name" required>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="description">Description</label>
+
+        <input class="col-sm-10 form-control" type="text" data-ng-model="description"
+               id="description"
+               placeholder="Your client application description" required>
     </div>
 
     <div class="form-group">
 
-        <label class="col-sm-2 control-label" for="certData">APN
-            Certificate</label>
+        <label class="col-sm-2 control-label" for="certData">APN Certificate</label>
         <textarea class="col-sm-10 form-control" data-ng-model="certData"
-                  id="certData" rows="5"></textarea>
+                  id="certData" rows="5"
+                  placeholder="Paste your APN certificate here"></textarea>
     </div>
 
     <div class="form-group">
@@ -38,7 +46,7 @@
 
         <textarea class="col-sm-10 form-control" data-ng-model="keyData"
                   id="keyData"
-                  rows="5"></textarea>
+                  rows="5" placeholder="Paste your APN key here"></textarea>
     </div>
 
     <div class="form-group">
@@ -46,14 +54,11 @@
             Key</label>
 
         <input class="form-control" type="text" data-ng-model="gcmKey"
-               id="gcmKey">
+               id="gcmKey" placeholder="Paste your GCM server API key here">
     </div>
 
-    <div class="form-group">
-        <div class="form-control">
-            <input type="submit" class="btn">
-        </div>
-    </div>
+
+    <input type="submit" class="btn btn-primary btn-lg">
 
 </form>
 
@@ -62,10 +67,8 @@
 <p>{{restApiKey}}
 
 <p>
-    <a href="/app-list.html">List Applications</a>
-
-<p>
-    <a href="/index.html">Home</a>
+    <a class="btn btn-default btn-lg" href="/app-list.html">List client applications</a>
+    <a class="btn btn-default btn-lg" href="/index.html">List device installations</a>
 
 </body>
 </html>

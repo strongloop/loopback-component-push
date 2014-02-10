@@ -8,10 +8,11 @@ function ApplicationsController($scope, $http) {
     });
   };
 
-  $scope.create = function (/* name, certData, keyData, gcmKey */) {
+  $scope.create = function () {
     $http.post('/api/applications',
       {
         name: $scope.name,
+        description: $scope.description,
         pushSettings: {
           apns: {
             certData: $scope.certData,

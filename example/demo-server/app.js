@@ -164,6 +164,7 @@ function startPushServer() {
   var config = require('./config');
 
   var demoApp = {
+    id: 'loopback-push-notification-app',
     userId: 'strongloop',
     name: config.appName,
 
@@ -212,7 +213,9 @@ function startPushServer() {
     // Hack to set the app id to a fixed value so that we don't have to change
     // the client settings
     Application.beforeSave = function (next) {
-      this.id = 'loopback-push-notification-app';
+      if(this.name === demoApp.name) {
+        this.id = 'loopback-push-notification-app';
+      }
       next();
     };
     Application.register(
