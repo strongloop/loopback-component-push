@@ -1,3 +1,4 @@
+# LoopBack push notification demo server
 This is an example LoopBack application for sending mobile push notifications.
 Please see the full documentation: [Creating push notifications](http://docs.strongloop.com/display/DOC/Creating+push+notifications).
 
@@ -10,7 +11,3 @@ To run this LoopBack application:
 
 Open your browser to [http://127.0.0.1:3010](http://127.0.0.1:3010).
 
-By default, the app uses an in-memory store for the application/installation data.
-To change to a MongoDB instance, set the MONGODB environment variable to the MongoDB URL. For example,
-
-    MONGODB=mongodb://localhost/demo node app
