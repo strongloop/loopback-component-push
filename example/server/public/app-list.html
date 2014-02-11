@@ -38,7 +38,12 @@
                 -->
                 <td>{{app.restApiKey}}</td>
                 <td>
-                    <button ng-click="delete($index, app.id)">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            ng-click="delete($index, app.id)"
+                            title="Remove the client application"
+                            >
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -47,9 +52,9 @@
             </tbody>
         </table>
     </div>
-    <a href="/app-create.html">Sign up</a>
-    <p>
-    <a href="/index.html">Home</a>
+
+    <a class="btn btn-primary btn-lg" href="/app-create.html">Sign up a new client application</a>
+    <a class="btn btn-default btn-lg" href="/index.html">List device installations</a>
 </div>
 </body>
 </html>

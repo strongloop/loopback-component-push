@@ -5,20 +5,28 @@
 
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-    <script src="js/controllers.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="/bootstrap/css/bootstrap.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+
+    <script src="js/installations.js"></script>
 
     <style>
-      td {
-        word-wrap: break-word;
-      }
+        td {
+            word-wrap: break-word;
+        }
     </style>
 
 </head>
 
-<body ng-controller="DeviceListControl">
-<h1>Push notification demo</h1>
+<body ng-controller="InstallationsController">
+<h1>Application Device Installations</h1>
+
 
 <div class="container-fluid">
 
@@ -60,11 +68,19 @@
                 <td>{{device.status}}</td>
                 -->
                 <td>
-                    <!--
-                    <button ng-click="switchStatus(device)">{{getAction(device.status)}}</button>
-                    -->
-                    <button ng-click="notify(device.id, 'Hello')">Notify</button>
-                    <button ng-click="delete($index, device.id)">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm"
+                            ng-click="notify(device.id, 'Hello')"
+                            title="Send a notification to the device"
+                            >
+                        <span class="glyphicon glyphicon-send"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-sm"
+                            ng-click="delete($index, device.id)"
+                            title="Remove the installation record"
+                            >
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -74,5 +90,8 @@
         </table>
     </div>
 </div>
+
+<a class="btn btn-default btn-lg" href="/app-list.html">List client applications</a>
+
 </body>
 </html>

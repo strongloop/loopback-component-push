@@ -17,9 +17,9 @@ exports.createPushModel = function (options) {
 
   var pushDataSource = loopback.createDataSource({
     connector: PushConnector,
-    installation: options.installation || 'Installation',
-    application: options.application || 'Application',
-    notification: options.notification || 'Notification'
+    installation: options.installation,
+    application: options.application,
+    notification: options.notification
   });
 
   var PushModel = pushDataSource.createModel(options.name || 'Push', {},
