@@ -361,6 +361,20 @@ describe('PushManager', function() {
 });
 
 describe('PushManager model dependencies', function() {
+  beforeEach(function() {
+    // Clean up the registry to avoid side effects
+    delete loopback.Model.modelBuilder.models.installation;
+    delete loopback.Model.modelBuilder.models.myInstallation;
+    delete loopback.Model.modelBuilder.models.otherInstallation;
+  });
+
+  afterEach(function() {
+    // Clean up the registry to avoid side effects
+    delete loopback.Model.modelBuilder.models.installation;
+    delete loopback.Model.modelBuilder.models.myInstallation;
+    delete loopback.Model.modelBuilder.models.otherInstallation;
+  });
+
   it('creates properties for dependent models', function() {
     var pm = new PushManager();
     expect(pm.Installation).to.be.equal(Installation);
@@ -372,8 +386,6 @@ describe('PushManager model dependencies', function() {
     var pm = new PushManager();
     var installationModel = Installation.extend('installation', {});
     expect(pm.Installation).to.be.equal(installationModel);
-    // Clean up the registry to avoid side effects
-    delete loopback.Model.modelBuilder.models.installation;
   });
 
   it('honors settings', function() {
@@ -383,9 +395,6 @@ describe('PushManager model dependencies', function() {
     var myInstallation = Installation.extend('myInstallation', {});
     var otherInstallation = Installation.extend('otherInstallation', {});
     expect(pm.Installation).to.be.equal(myInstallation);
-    // Clean up the registry to avoid side effects
-    delete loopback.Model.modelBuilder.models.myInstallation;
-    delete loopback.Model.modelBuilder.models.otherInstallation;
   });
 
   it('supports setters', function() {
@@ -397,8 +406,5 @@ describe('PushManager model dependencies', function() {
     expect(pm.Installation).to.be.equal(myInstallation);
     pm.Installation = otherInstallation;
     expect(pm.Installation).to.be.equal(otherInstallation);
-    // Clean up the registry to avoid side effects
-    delete loopback.Model.modelBuilder.models.myInstallation;
-    delete loopback.Model.modelBuilder.models.otherInstallation;
   });
 });
