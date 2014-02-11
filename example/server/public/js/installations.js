@@ -1,4 +1,4 @@
-function DeviceListControl($scope, $http) {
+function InstallationsController($scope, $http) {
 
     $http.get('/api/installations').success(function (data) {
         $scope.devices = data;

@@ -3,7 +3,8 @@ var async = require('async');
 
 var PushManager = require('../lib/push-manager');
 var Notification = require('../models/notification');
-var Application = require('loopback').Application;
+var loopback = require('loopback');
+var Application = loopback.Application;
 var Installation = require('../models/installation');
 
 var expect = require('chai').expect;
@@ -356,5 +357,54 @@ describe('PushManager', function() {
       ], done);
     });
 
+  });
+});
+
+describe('PushManager model dependencies', function() {
+  beforeEach(function() {
+    // Clean up the registry to avoid side effects
+    delete loopback.Model.modelBuilder.models.installation;
+    delete loopback.Model.modelBuilder.models.myInstallation;
+    delete loopback.Model.modelBuilder.models.otherInstallation;
+  });
+
+  afterEach(function() {
+    // Clean up the registry to avoid side effects
+    delete loopback.Model.modelBuilder.models.installation;
+    delete loopback.Model.modelBuilder.models.myInstallation;
+    delete loopback.Model.modelBuilder.models.otherInstallation;
+  });
+
+  it('creates properties for dependent models', function() {
+    var pm = new PushManager();
+    expect(pm.Installation).to.be.equal(Installation);
+    expect(pm.Notification).to.be.equal(Notification);
+    expect(pm.Application).to.be.equal(Application);
+  });
+
+  it('uses subclasses for the dependent models', function() {
+    var pm = new PushManager();
+    var installationModel = Installation.extend('installation', {});
+    expect(pm.Installation).to.be.equal(installationModel);
+  });
+
+  it('honors settings', function() {
+    var pm = new PushManager({
+      installation: 'myInstallation'
+    });
+    var myInstallation = Installation.extend('myInstallation', {});
+    var otherInstallation = Installation.extend('otherInstallation', {});
+    expect(pm.Installation).to.be.equal(myInstallation);
+  });
+
+  it('supports setters', function() {
+    var pm = new PushManager({
+      installation: 'myInstallation'
+    });
+    var myInstallation = Installation.extend('myInstallation', {});
+    var otherInstallation = Installation.extend('otherInstallation', {});
+    expect(pm.Installation).to.be.equal(myInstallation);
+    pm.Installation = otherInstallation;
+    expect(pm.Installation).to.be.equal(otherInstallation);
   });
 });

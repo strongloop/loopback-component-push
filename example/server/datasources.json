@@ -4,13 +4,6 @@
     "connector": "mongodb",
     "url": "mongodb://demo:L00pBack@demo.strongloop.com/demo"
   },
-  "push": {
-    "defaultForType": "push",
-    "connector": "../../index",
-    "installation": "installation",
-    "notification": "notification",
-    "application": "application"
-  },
   "mail": {
     "defaultForType": "mail",
     "connector": "mail"
