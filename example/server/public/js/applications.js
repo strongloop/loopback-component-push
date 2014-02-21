@@ -31,7 +31,7 @@ function ApplicationsController($scope, $http) {
   };
 
   $scope.delete = function (index, id) {
-    $http.delete('/api/applications/' + id).success(function (data, status, headers) {
+    $http.delete('/api/applications/' + encodeURIComponent(id)).success(function (data, status, headers) {
       $scope.apps.splice(index, 1);
       $scope.status = 'Application deleted: ' + id + ' status: ' + status;
     });
