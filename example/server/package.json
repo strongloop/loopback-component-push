@@ -7,10 +7,11 @@
   },
   "dependencies": {
     "loopback": "~1.7.0",
-    "loopback-push-notification": "~1.2.0"
+    "loopback-push-notification": "~1.2.0",
+    "loopback-connector-mongodb": "~1.2.0"
   },
   "optionalDependencies": {
     "loopback-explorer": "~1.1.0"
   },
-  "name": "sandbox"
+  "name": "loopback-example-push-notification"
 }
