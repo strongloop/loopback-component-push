@@ -232,10 +232,10 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = "Jake Luer";
+				ORGANIZATIONNAME = StrongLoop;
 				TargetAttributes = {
 					113011CE16A10E74008A3718 = {
-						DevelopmentTeam = NNZQ54T52J;
+						DevelopmentTeam = B6KXE3456M;
 					};
 				};
 			};
@@ -361,7 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_ID = com.logicalparadox.apnagent;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -393,7 +393,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_ID = com.logicalparadox.apnagent;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -418,7 +418,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_ID = com.strongloop.apns;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -431,7 +431,7 @@
 				INFOPLIST_FILE = "apnagent/apnagent-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -442,7 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_ID = com.strongloop.apns;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -455,7 +455,7 @@
 				INFOPLIST_FILE = "apnagent/apnagent-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8965589E-1717-47E2-ABE3-CD930C376D68";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -465,7 +465,7 @@
 		1130120C16A10E75008A3718 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_ID = com.strongloop.apns;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/apnagent.app/apnagent";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
@@ -483,7 +483,7 @@
 		1130120D16A10E75008A3718 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_ID = com.strongloop.apns;
+				BUNDLE_ID = com.strongloop.loopback.demo.push;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/apnagent.app/apnagent";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
