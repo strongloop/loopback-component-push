@@ -5,11 +5,12 @@ var app = module.exports = loopback();
 // Load up the push data source as the example cannot declaratively define
 // the push data source in datasources.json as it cannot resolve the connector
 // module by name
-var connector = require('../../index');
+var connector = require('loopback-push-notification');
 app.dataSources.push = loopback.createDataSource("push", {
   "defaultForType": "push",
   "connector": connector
 });
+
 /*
  * 1. Configure LoopBack models and datasources
  *

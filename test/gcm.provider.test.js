@@ -127,7 +127,8 @@ describe('GCM provider', function() {
 
     provider.pushNotification(aNotification(), aDeviceToken);
 
-    expect(eventSpy.args[0]).to.deep.equal([aDeviceToken]);
+    var expectedIds = [aDeviceToken];
+    expect(eventSpy.args[0]).to.deep.equal([expectedIds]);
     done();
   });
 
