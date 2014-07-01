@@ -1,5 +1,5 @@
 {
-  "name": "loopback-push-notification",
+  "name": "loopback-component-push",
   "version": "1.2.1",
   "description": "Loopback Push Notification",
   "main": "index.js",
@@ -28,11 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/strongloop/loopback-push-notification.git"
+    "url": "https://github.com/strongloop/loopback-component-push.git"
   },
   "license": {
     "name": "Dual Artistic-2.0/StrongLoop",
-    "url": "https://github.com/strongloop/loopback-push-notification/blob/master/LICENSE"
+    "url": "https://github.com/strongloop/loopback-component-push/blob/master/LICENSE"
   }
 
 }

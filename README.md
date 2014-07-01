@@ -1,4 +1,6 @@
-# LoopBack Push Notification
+# LoopBack Push Notification Component
+
+**NOTE: The loopback-component-push module supersedes [loopback-push-notification](https://www.npmjs.org/package/loopback-push-notification). Please update your package.json accordingly.**
 
 This module provides a set of LoopBack models to enable mobile device push notifications.
 
