@@ -1,6 +1,6 @@
 {
   "name": "loopback-component-push",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Loopback Push Notification",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,6 @@
     "apn": "~1.5.2",
     "node-gcm": "~0.9.11",
     "mpns": "~2.1.0"
-  },
-  "peerDependencies": {
-    "loopback": "1.x >=1.7.0"
   },
   "devDependencies": {
     "loopback": "1.x >=1.7.0",
