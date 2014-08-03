@@ -8,6 +8,7 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var aDeviceToken = 'a-device-token';
+var aDeviceTokenList = ['first-device-token', 'second-device-token', 'third-device-token'];
 
 describe('GCM provider', function() {
   var provider;
@@ -19,7 +20,7 @@ describe('GCM provider', function() {
   afterEach(tearDownFakeTimers);
   afterEach(mockery.tearDown);
 
-  it('sends Notification as a GCM message', function(done) {
+  it('sends Notification as a GCM message for single device token', function(done) {
     var notification = aNotification({ aKey: 'a-value' });
     provider.pushNotification(notification, aDeviceToken);
 
@@ -34,6 +35,24 @@ describe('GCM provider', function() {
     expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
     expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
+    done();
+  });
+
+  it('sends Notification as a GCM message for device token list', function(done) {
+    var notification = aNotification({ aKey: 'a-value' });
+    provider.pushNotification(notification, aDeviceTokenList);
+
+    var gcmArgs = mockery.pushNotification.args[0];
+
+    var msg = gcmArgs[0];
+    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+    expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
+    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+    expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+
+    expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
     done();
   });
 
