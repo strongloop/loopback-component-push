@@ -70,6 +70,66 @@ describe('PushManager', function() {
     ], done);
   });
 
+  describe('.notify', function () {
+    it('should set device type/token from installation', function (done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            // Note: the order in which the installations are created
+            // is important.
+            // The installation that should not receive the notification must
+            // be created first. This way the test fails when PushManager
+            // looks up the installation via
+            //   `Installation.findOne({ deviceToken: token })`
+            .define('anotherDevice', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: 'another-device-type'
+            })
+            .define('installation', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: mockery.deviceType
+            })
+            .buildTo(context, cb);
+        },
+
+        function act(cb) {
+          pushManager.notify(
+            context.installation,
+            context.notification,
+            cb
+          );
+        },
+
+        function verify(cb) {
+          // Wait with the check to give the push manager some time
+          // to load all data and push the message
+          setTimeout(function () {
+            expect(mockery.firstPushNotificationArgs()).to.deep.equal(
+              [context.notification, context.installation.deviceToken]
+            );
+            cb();
+          }, 50);
+        }
+      ], done);
+    });
+
+    it('reports error on invalid notification', function (done) {
+      pushManager.notify(
+        { userId: 'unknown-user' },
+        { invalid: true }, // invalid
+        function (err) {
+          expect(err.name).to.equal('ValidationError');
+          done();
+        }
+      );
+    });
+  });
+
   describe('.notifyById', function() {
     it('sends notification to the correct installation', function(done) {
       async.series([
@@ -308,28 +368,6 @@ describe('PushManager', function() {
             );
             cb();
           }, 50);
-        }
-      ], done);
-    });
-
-    it('reports error on invalid notifications', function(done) {
-      async.series([
-        function arrange(cb) {
-          new TestDataBuilder()
-            .define('myPhone', Installation, {
-              userId: 'myself'
-            })
-            .buildTo(context, cb);
-        },
-        function act(cb) {
-          pushManager.notifyByQuery(
-            { userId: 'myself' },
-            { invalid: true }, // invalid
-            function(err) {
-              expect(err.name).to.equal('ValidationError');
-              cb();
-            }
-          );
         }
       ], done);
     });
