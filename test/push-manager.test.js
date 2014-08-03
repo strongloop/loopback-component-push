@@ -70,6 +70,66 @@ describe('PushManager', function() {
     ], done);
   });
 
+  describe('.notify', function () {
+    it('should set device type/token from installation', function (done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            // Note: the order in which the installations are created
+            // is important.
+            // The installation that should not receive the notification must
+            // be created first. This way the test fails when PushManager
+            // looks up the installation via
+            //   `Installation.findOne({ deviceToken: token })`
+            .define('anotherDevice', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: 'another-device-type'
+            })
+            .define('installation', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'a-device-token',
+              deviceType: mockery.deviceType
+            })
+            .buildTo(context, cb);
+        },
+
+        function act(cb) {
+          pushManager.notify(
+            context.installation,
+            context.notification,
+            cb
+          );
+        },
+
+        function verify(cb) {
+          // Wait with the check to give the push manager some time
+          // to load all data and push the message
+          setTimeout(function () {
+            expect(mockery.firstPushNotificationArgs()).to.deep.equal(
+              [context.notification, context.installation.deviceToken]
+            );
+            cb();
+          }, 50);
+        }
+      ], done);
+    });
+
+    it('reports error on invalid notification', function (done) {
+      pushManager.notify(
+        { userId: 'unknown-user' },
+        { invalid: true }, // invalid
+        function (err) {
+          expect(err.name).to.equal('ValidationError');
+          done();
+        }
+      );
+    });
+  });
+
   describe('.notifyById', function() {
     it('sends notification to the correct installation', function(done) {
       async.series([
@@ -312,28 +372,6 @@ describe('PushManager', function() {
       ], done);
     });
 
-    it('reports error on invalid notifications', function(done) {
-      async.series([
-        function arrange(cb) {
-          new TestDataBuilder()
-            .define('myPhone', Installation, {
-              userId: 'myself'
-            })
-            .buildTo(context, cb);
-        },
-        function act(cb) {
-          pushManager.notifyByQuery(
-            { userId: 'myself' },
-            { invalid: true }, // invalid
-            function(err) {
-              expect(err.name).to.equal('ValidationError');
-              cb();
-            }
-          );
-        }
-      ], done);
-    });
-
     it('reports error on non-object notifications', function(done) {
       async.series([
         function arrange(cb) {
@@ -357,6 +395,101 @@ describe('PushManager', function() {
       ], done);
     });
 
+  });
+
+  describe('.notifyMany', function() {
+    it('sends notifications to the correct installations', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: { } }
+            })
+            .define('firstPhone', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'first-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'myself'
+            })
+            .define('secondPhone', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'second-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'myself'
+            })
+            .define('thirdPhone', Installation, {
+              appId: ref('application.id'),
+              deviceToken: 'third-phone-token',
+              deviceType: mockery.deviceType,
+              userId: 'somebody else'
+            })
+            .buildTo(context, cb);
+        },
+        function act(cb) {
+          pushManager.notifyMany(
+              context.application.id,
+              mockery.deviceType,
+              ['first-phone-token', 'second-phone-token'],
+              context.notification,
+              cb
+          );
+        },
+        function verify(cb) {
+          // Wait with the check to give the push manager some time
+          // to load all data and push the message
+          setTimeout(function() {
+            var callsArgs = mockery.pushNotification.args;
+
+            expect(callsArgs[0], 'number of arguments').to.have.length(2);
+            expect(callsArgs[0]).to.deep.equal(
+                [context.notification, [context.firstPhone.deviceToken, context.secondPhone.deviceToken]]
+            );
+            cb();
+          }, 50);
+        }
+      ], done);
+    });
+
+    it('reports error if device token is not an array', function(done) {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('myPhone', Installation, {
+              userId: 'myself'
+            })
+            .buildTo(context, cb);
+        },
+        function act(cb) {
+          pushManager.notifyMany(
+            '1',
+            'ios',
+            'invalid-phone-token',
+            context.notification,
+            function(err) {
+              expect(err.message).to.equal('deviceTokens must be an array');
+              cb();
+            }
+          );
+        }
+      ], done);
+    });
+
+    it('reports error on non-object notifications', function(done) {
+      async.series([
+        function verify(cb) {
+          pushManager.notifyMany(
+            '1',
+            'ios',
+            ['phone-token'],
+            'invalid-notification',
+            function(err) {
+              expect(err.message).to.equal('notification must be an object');
+              cb();
+            }
+          );
+        }
+      ], done);
+    });
   });
 });
 
