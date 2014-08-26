@@ -1,0 +1,10 @@
+{
+  "db": {
+    "connector": "mongodb",
+    "url": "mongodb://demo:L00pBack@demo.strongloop.com/demo"
+  },
+  "push": {
+    "name": "push",
+    "connector": "loopback-component-push"
+  }
+}

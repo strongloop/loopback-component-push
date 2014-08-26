@@ -1,0 +1,13 @@
+{
+  "name": "push",
+  "base": "Model",
+  "plural": "Push",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "installation": "installation",
+  "notification": "notification",
+  "application": "application"
+}
