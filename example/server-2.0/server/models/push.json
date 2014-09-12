@@ -6,8 +6,5 @@
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": [],
-  "installation": "installation",
-  "notification": "notification",
-  "application": "application"
+  "methods": []
 }
