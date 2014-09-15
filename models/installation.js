@@ -51,7 +51,7 @@ Installation.findByApp = function (deviceType, appId, appVersion, cb) {
         appVersion = undefined;
     }
     var filter = {where: {appId: appId, appVersion: appVersion, deviceType: deviceType}};
-    Installation.find(filter, cb);
+    this.find(filter, cb);
 };
 
 /**
@@ -66,7 +66,7 @@ Installation.findByApp = function (deviceType, appId, appVersion, cb) {
  */
 Installation.findByUser = function (deviceType, userId, cb) {
     var filter = {where: {userId: userId, deviceType: deviceType}};
-    Installation.find(filter, cb);
+    this.find(filter, cb);
 };
 
 /**
@@ -83,7 +83,7 @@ Installation.findBySubscriptions = function (deviceType, subscriptions, cb) {
         subscriptions = subscriptions.split(/[\s,]+/);
     }
     var filter = {where: {subscriptions: {inq: subscriptions}, deviceType: deviceType}};
-    Installation.find(filter, cb);
+    this.find(filter, cb);
 };
 
 /*!
