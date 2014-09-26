@@ -4,7 +4,7 @@
 
 This module provides a set of LoopBack models to enable mobile device push notifications.
 
-Please see the full documentation: [Creating push notifications](http://docs.strongloop.com/display/LB/Creating+push+notifications).
+> Please see the full documentation: [Push notifications](http://docs.strongloop.com/display/LB/Push+notifications).
 
 ## Architecture
 
