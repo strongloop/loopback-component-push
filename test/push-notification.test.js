@@ -74,7 +74,6 @@ describe('PushNotification', function () {
                           result.id,
                           note,
                           function(err) { if(err) throw err; done();}
-
                         );
 
                     });

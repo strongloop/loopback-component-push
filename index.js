@@ -19,7 +19,9 @@ exports.createPushModel = function (options) {
     connector: PushConnector,
     installation: options.installation,
     application: options.application,
-    notification: options.notification
+    notification: options.notification,
+    stdTTL: options.stdTTL,
+    checkPeriod: options.checkPeriod
   });
 
   var PushModel = pushDataSource.createModel(options.name || 'Push', {},
