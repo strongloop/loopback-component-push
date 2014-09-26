@@ -11,7 +11,8 @@
     "debug": "~1.0.2",
     "apn": "~1.6.0",
     "node-gcm": "~0.9.11",
-    "mpns": "~2.1.0"
+    "mpns": "~2.1.0",
+    "node-cache": "~1.0.2"
   },
   "devDependencies": {
     "loopback": "1.x >=1.7.0",
