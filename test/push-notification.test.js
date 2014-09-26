@@ -42,7 +42,7 @@ describe('PushNotification', function () {
                         appId: application.id,
                         userId: 'raymond',
                         deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
-                        deviceType: 'memory',
+                        deviceType: 'ios',
                         created: new Date(),
                         modified: new Date(),
                         status: 'Active'
@@ -53,13 +53,13 @@ describe('PushNotification', function () {
                             // console.log('Registration record is created: ', result);
                         }
 
-                        PushModel.dataSource.connector.applications[application.id] = {memory: {
+                        PushModel.dataSource.connector.applicationsCache.set(application.id, {memory: {
                             pushNotification: function (notification, deviceToken) {
                                 // console.log(notification, deviceToken);
                                 assert.equal(deviceToken, result.deviceToken);
                                 done();
                             }
-                        }};
+                        }});
 
                         var note = new Notification();
 
@@ -73,7 +73,8 @@ describe('PushNotification', function () {
                         PushModel.notifyById(
                           result.id,
                           note,
-                          function(err) { if(err) throw err; }
+                          function(err) { if(err) throw err; done();}
+
                         );
 
                     });

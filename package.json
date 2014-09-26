@@ -21,7 +21,8 @@
     "mocha": "*",
     "sinon": "*",
     "chai": "*",
-    "deep-extend": "*"
+    "deep-extend": "*",
+    "node-cache": "~1.0.2"
   },
   "repository": {
     "type": "git",
