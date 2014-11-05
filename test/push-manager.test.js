@@ -6,6 +6,7 @@ var Notification = require('../models/notification');
 var loopback = require('loopback');
 var Application = loopback.Application;
 var Installation = require('../models/installation');
+var NodeCache = require('node-cache');
 
 var expect = require('chai').expect;
 var sinon = require('sinon');
@@ -489,6 +490,60 @@ describe('PushManager', function() {
           );
         }
       ], done);
+    });
+  });
+
+  describe('PushManager applicationsCache', function() {
+
+    it('settings', function() {
+      var ttlInSeconds, checkPeriodInSeconds;
+      ttlInSeconds = checkPeriodInSeconds = 10;
+      var pm = new PushManager({
+        ttlInSeconds: 10,
+        checkPeriodInSeconds: 10
+      });
+      expect(pm.ttlInSeconds).to.be.equal(ttlInSeconds);
+      expect(pm.checkPeriodInSeconds).to.be.equal(checkPeriodInSeconds);
+    });
+
+    it('is NodeCache instance', function() {
+      var pm = new PushManager();
+      expect(pm.applicationsCache).to.be.a('Object');
+      expect(pm.applicationsCache).to.be.instanceOf(NodeCache);
+    });
+
+    it('has set and get methods', function() {
+      var pm = new PushManager();
+      expect(pm.applicationsCache).to.have.property('set');
+      expect(pm.applicationsCache).to.have.property('get');
+    });
+
+    it('stores application data', function() {
+      async.series([
+        function arrange(cb) {
+          new TestDataBuilder()
+            .define('application', Application, {
+              pushSettings: { stub: {  } }
+            })
+            .define('installation', Installation, {
+              appId: ref('application.id'),
+              deviceType: mockery.deviceType
+            })
+            .buildTo(context, cb);
+        },
+
+        function configureProvider(cb) {
+          pushManager.configureApplication(
+            context.application.id,
+            context.installation.deviceType,
+            cb);
+        },
+
+        function verify(cb) {
+          var cacheApp = pushManager.applicationsCache.get(context.installation.appId);
+          expect(cacheApp).to.have.property(context.installation.appId);
+        }
+      ]);
     });
   });
 });
