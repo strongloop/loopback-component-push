@@ -8,7 +8,13 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 
 var aDeviceToken = 'a-device-token';
-var aDeviceTokenList = ['first-device-token', 'second-device-token', 'third-device-token'];
+var aDeviceTokenList = [
+  'first-device-token',
+  'second-device-token',
+  'third-device-token',
+  'fourth-device-token',
+  'fifth-device-token'
+];
 
 describe('GCM provider', function() {
   var provider;
@@ -20,44 +26,116 @@ describe('GCM provider', function() {
   afterEach(tearDownFakeTimers);
   afterEach(mockery.tearDown);
 
-  it('sends Notification as a GCM message for single device token', function(done) {
-    var notification = aNotification({ aKey: 'a-value' });
-    provider.pushNotification(notification, aDeviceToken);
 
-    var gcmArgs = mockery.firstPushNotificationArgs();
+  describe('for single device token', function() {
+    it('sends Notification as a GCM message', function(done) {
+      var notification = aNotification({ aKey: 'a-value' });
+      provider.pushNotification(notification, aDeviceToken);
 
-    var msg = gcmArgs[0];
-    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-    expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
-    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-    expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      var gcmArgs = mockery.firstPushNotificationArgs();
 
-    expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
-    done();
+      var msg = gcmArgs[0];
+      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
+      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+
+      expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
+      done();
+    });
+
+    it('emits "error" when GCM send fails', function() {
+      var anError = new Error('test-error');
+      mockery.givenPushNotificationFailsWith(anError);
+
+      var eventSpy = spyOnProviderError();
+
+      provider.pushNotification(aNotification(), aDeviceToken);
+
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.args[0]).to.deep.equal([anError]);
+    });
+
+    it('emits "error" event when GCM returns error result', function() {
+      // This is a real result returned by GCM
+      var errorResult = aGcmResult([{ 'error': 'MismatchSenderId' }]);
+
+      mockery.pushNotificationCallbackArgs = [null, errorResult];
+
+      var eventSpy = spyOnProviderError();
+
+      provider.pushNotification(aNotification(), aDeviceToken);
+
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
+    });
+
+    it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
+      var errorResult = aGcmResult([{ 'error': 'NotRegistered' }])
+
+      mockery.pushNotificationCallbackArgs = [null, errorResult];
+
+      var eventSpy = sinon.spy();
+      provider.on('devicesGone', eventSpy);
+      provider.on('error', function(err) { throw err; });
+
+      provider.pushNotification(aNotification(), aDeviceToken);
+
+      var expectedIds = [aDeviceToken];
+      expect(eventSpy.args[0]).to.deep.equal([expectedIds]);
+      done();
+    });
   });
 
-  it('sends Notification as a GCM message for device token list', function(done) {
-    var notification = aNotification({ aKey: 'a-value' });
-    provider.pushNotification(notification, aDeviceTokenList);
+  describe('for multiple device tokens', function() {
+    it('sends Notification as a GCM message', function(done) {
+      var notification = aNotification({ aKey: 'a-value' });
+      provider.pushNotification(notification, aDeviceTokenList);
 
-    var gcmArgs = mockery.pushNotification.args[0];
+      var gcmArgs = mockery.pushNotification.args[0];
 
-    var msg = gcmArgs[0];
-    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-    expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
-    expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-    expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-    expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      var msg = gcmArgs[0];
+      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
+      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
-    expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
-    done();
+      expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
+      done();
+    });
+
+    it('handles GCM response for multiple device tokens', function(done) {
+      var gcmError = new Error('GCM error code: MismatchSenderId, deviceToken: third-device-token\n' +
+        'GCM error code: MismatchSenderId, deviceToken: fifth-device-token');
+
+      var gcmResult = aGcmResult([
+        { 'error': 'InvalidRegistration' },
+        { 'message_id': '1234567890' },
+        { 'error': 'MismatchSenderId' },
+        { 'error': 'NotRegistered' },
+        { 'error': 'MismatchSenderId' },
+      ]);
+
+      mockery.pushNotificationCallbackArgs = [null, gcmResult];
+
+      var eventSpy = sinon.spy();
+      provider.on('devicesGone', eventSpy);
+      provider.on('error', function(err) {
+        expect(err.message).to.equal(gcmError.message);
+      });
+
+      provider.pushNotification(aNotification(), aDeviceTokenList);
+
+      var expectedIds = [aDeviceTokenList[0], aDeviceTokenList[3]];
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.args[0][0]).to.deep.equal(expectedIds);
+      done();
+    });
   });
-
-  // TODO(bajtos) - NotRegistered and InvalidRegistration errors should
-  // emit "device gone" event
 
   it('converts expirationInterval to GCM timeToLive', function() {
     var notification = aNotification({ expirationInterval: 1 /* second */});
@@ -98,59 +176,6 @@ describe('GCM provider', function() {
     expect(message.data).to.eql({ });
   });
 
-  it('emits "error" when GCM send fails', function() {
-    var anError = new Error('test-error');
-    mockery.givenPushNotificationFailsWith(anError);
-
-    var eventSpy = spyOnProviderError();
-
-    provider.pushNotification(aNotification(), aDeviceToken);
-
-    expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
-    expect(eventSpy.args[0]).to.deep.equal([anError]);
-  });
-
-  it('emits "error" event when GCM returns error result', function() {
-    // This is a real result returned by GCM
-    var errorResult = {
-      'multicast_id': 5504081219335647631,
-      'success': 0,
-      'failure': 1,
-      'canonical_ids': 0,
-      'results': [{ 'error': 'MismatchSenderId' }]
-    };
-
-    mockery.pushNotificationCallbackArgs = [null, errorResult];
-
-    var eventSpy = spyOnProviderError();
-
-    provider.pushNotification(aNotification(), aDeviceToken);
-
-    expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
-    expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
-  });
-
-  it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
-    var errorResult = {
-      'multicast_id': 5504081219335647631,
-      'success': 0,
-      'failure': 1,
-      'canonical_ids': 0,
-      'results': [{ 'error': 'NotRegistered' }]
-    };
-    mockery.pushNotificationCallbackArgs = [null, errorResult];
-
-    var eventSpy = sinon.spy();
-    provider.on('devicesGone', eventSpy);
-    provider.on('error', function(err) { throw err; });
-
-    provider.pushNotification(aNotification(), aDeviceToken);
-
-    var expectedIds = [aDeviceToken];
-    expect(eventSpy.args[0]).to.deep.equal([expectedIds]);
-    done();
-  });
-
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
     pushSettings.gcm = extend({}, pushSettings.gcm);
@@ -163,6 +188,25 @@ describe('GCM provider', function() {
 
   function aNotification(properties) {
     return new Notification(properties);
+  }
+
+  function aGcmResult(results) {
+
+    var success = results.filter(function(item){
+      return item.message_id;
+    }).length;
+
+    var failure = results.filter(function(item){
+      return item.error;
+    }).length;
+
+    return {
+      'multicast_id': 5504081219335647631,
+      'success': success,
+      'failure': failure,
+      'canonical_ids': 0,
+      'results': results
+    };
   }
 
   function setUpFakeTimers() {
