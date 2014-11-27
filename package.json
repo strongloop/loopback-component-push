@@ -1,6 +1,6 @@
 {
   "name": "loopback-component-push",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Loopback Push Notification",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,8 @@
   "license": {
     "name": "Dual Artistic-2.0/StrongLoop",
     "url": "https://github.com/strongloop/loopback-component-push/blob/master/LICENSE"
+  },
+  "optionalDependencies": {
+    "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.4.1"
   }
-
 }
