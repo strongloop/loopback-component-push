@@ -36,8 +36,6 @@
 
  * Upgrade to apn version 1.6.0. (ariskemper)
 
- * Fix gcm pushNotification and add test case for array of device tokens. Signed-off-by: Aris Kemper <aris.github@gmail.com> (Aris Kemper)
-
  * Fix gcm pushNotification and add test case for array of device tokens. (Aris Kemper)
 
  * Add fixes to notifyMany and tests. (Aris Kemper)
