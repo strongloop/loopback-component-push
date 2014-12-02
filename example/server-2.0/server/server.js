@@ -14,6 +14,8 @@ app.use(loopback.compress());
 // boot scripts mount components like REST API
 boot(app, __dirname);
 
+require('./push-demo')(app);
+
 // -- Mount static files here--
 // All static middleware should be registered at the end, as all requests
 // passing the static middleware are hitting the file system
@@ -36,8 +38,6 @@ app.start = function() {
     console.log('Web server listening at: %s', app.get('url'));
   });
 };
-
-require('./push-demo')(app);
 
 // start the server if `$ node server.js`
 if (require.main === module) {

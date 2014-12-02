@@ -1,3 +1,11 @@
+2014-12-02, Version 1.4.2
+=========================
+
+ * Add gcm response handling for multiple device tokens, tests (Aris Kemper)
+
+ * Fix the order of routes (Raymond Feng)
+
+
 2014-11-27, Version 1.4.1
 =========================
 
