@@ -1,3 +1,11 @@
+2014-12-02, Version 1.4.2
+=========================
+
+ * Add gcm response handling for multiple device tokens, tests (Aris Kemper)
+
+ * Fix the order of routes (Raymond Feng)
+
+
 2014-11-27, Version 1.4.1
 =========================
 
@@ -35,6 +43,8 @@
  * Ensure deviceType/token are populated from installation (Raymond Feng)
 
  * Upgrade to apn version 1.6.0. (ariskemper)
+
+ * Fix gcm pushNotification and add test case for array of device tokens. Signed-off-by: Aris Kemper <aris.github@gmail.com> (Aris Kemper)
 
  * Fix gcm pushNotification and add test case for array of device tokens. (Aris Kemper)
 
