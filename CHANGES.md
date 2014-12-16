@@ -42,17 +42,11 @@
 
  * Ensure deviceType/token are populated from installation (Raymond Feng)
 
- * Upgrade to apn version 1.6.0. (ariskemper)
-
- * Fix gcm pushNotification and add test case for array of device tokens. Signed-off-by: Aris Kemper <aris.github@gmail.com> (Aris Kemper)
+ * Upgrade to apn version 1.6.0. (Aris Kemper)
 
  * Fix gcm pushNotification and add test case for array of device tokens. (Aris Kemper)
 
- * Add fixes to notifyMany and tests. (Aris Kemper)
-
- * Push notification to many installations (ariskemper)
-
- * push notification to many devices support (ariskemper)
+ * Push notification to many installations, tests (Aris Kemper)
 
 
 2014-07-22, Version 1.2.3
