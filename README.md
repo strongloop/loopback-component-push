@@ -8,7 +8,7 @@ GitHub.
 
 This module provides a set of LoopBack models to enable mobile device push notifications.
 
-> Please see the full documentation: [Push notifications](http://docs.strongloop.com/display/LB/Push+notifications).
+Please see the full documentation: [Push notifications](http://docs.strongloop.com/display/LB/Push+notifications).
 
 NOTE: The loopback-component-push module supersedes [loopback-push-notification](https://www.npmjs.org/package/loopback-push-notification). Please update your package.json accordingly.
 
@@ -32,7 +32,7 @@ providers such as APNS, GCM, and MPNS.
 
 ### Node.js server
 
-An [example LoopBack server application](/example/server) is provided.  To run
+An [example LoopBack server application](/example/server) is provided.  
 
 To run it:
 
