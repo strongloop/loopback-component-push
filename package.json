@@ -2,6 +2,13 @@
   "name": "loopback-component-push",
   "version": "1.4.2",
   "description": "Loopback Push Notification",
+    "keywords": [
+    "StrongLoop Labs",
+    "LoopBack",
+    "Push Notification",
+    "mobile",
+    "component"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
