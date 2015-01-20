@@ -1,10 +1,9 @@
 # LoopBack Push Notification Component
 
-**This is a StrongLoop Labs project**: 
-It provides early access to advanced or experimental functionality. It may lack usability, completeness,
-documentation, and robustness, and may be outdated.  However, StrongLoop supports this project: Paying customers
-can open issues using the StrongLoop customer support system (Zendesk). Community users, please report bugs on
-GitHub.
+![StrongLoop Labs](http://docs.strongloop.com/download/thumbnails/5310165/StrongLoop%20Labs%20Logo%20Cropped.png "StrongLoop Labs")
+
+> StrongLoop Labs projects provide early access to advanced or experimental functionality.  In general, these projects may lack usability, completeness, documentation, and robustness, and may be outdated.
+However, StrongLoop supports these projects: Paying customers can open issues using the StrongLoop customer support system (Zendesk), and community users can report bugs on GitHub.
 
 This module provides a set of LoopBack models to enable mobile device push notifications.
 
