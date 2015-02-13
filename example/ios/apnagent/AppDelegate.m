@@ -32,7 +32,19 @@
         NSLog(@"Payload from notification: %@", notification.userInfo);
         [self.pnListVC addPushNotification:notification];
     }
-    
+
+    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+#ifdef __IPHONE_8_0
+      UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
+          |UIRemoteNotificationTypeSound
+          |UIRemoteNotificationTypeAlert) categories:nil];
+      [application registerUserNotificationSettings:settings];
+#endif
+    } else {
+      UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+      [application registerForRemoteNotificationTypes:myTypes];
+    }
+
     return YES;
 }
             
@@ -70,6 +82,23 @@
     // Called when the application is about to terminate. Save data if appropriate. See also
     // applicationDidEnterBackground:.
 }
+
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler
+{
+    //handle the actions
+    if ([identifier isEqualToString:@"declineAction"]){
+    }
+    else if ([identifier isEqualToString:@"answerAction"]){
+    }
+}
+#endif
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
