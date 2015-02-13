@@ -50,6 +50,12 @@ var Notification = loopback.createModel(
     sound: String,
 
     /**
+     * (iOS8+ only)
+     * The category for the push notification action
+     */
+    category: String,
+
+    /**
      * (Android only)
      * An arbitrary string (such as "Updates Available") that is used
      * to collapse a group of like messages when the device is offline,
