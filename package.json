@@ -1,25 +1,30 @@
 {
-  "name": "loopback-push-notification",
-  "version": "1.2.0",
+  "name": "loopback-component-push",
+  "version": "1.4.2",
   "description": "Loopback Push Notification",
+    "keywords": [
+    "StrongLoop Labs",
+    "LoopBack",
+    "Push Notification",
+    "mobile",
+    "component"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 30000 test/*test.js"
   },
   "dependencies": {
-    "async": "~0.2.10",
-    "debug": "~0.7.4",
-    "apn": "~1.4.4",
-    "node-gcm": "~0.9.9",
-    "mpns": "~2.1.0"
-  },
-  "peerDependencies": {
-    "loopback": "1.x >=1.7.0"
+    "async": "~0.9.0",
+    "debug": "~1.0.2",
+    "apn": "~1.6.0",
+    "node-gcm": "~0.9.11",
+    "mpns": "~2.1.0",
+    "node-cache": "~1.0.2"
   },
   "devDependencies": {
     "loopback": "1.x >=1.7.0",
     "loopback-connector-mongodb": "1.x",
-    "loopback-testing": "~0.1.2",
+    "loopback-testing": "~0.2.0",
     "should": "*",
     "mocha": "*",
     "sinon": "*",
@@ -28,11 +33,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/strongloop/loopback-push-notification.git"
+    "url": "https://github.com/strongloop/loopback-component-push.git"
   },
   "license": {
     "name": "Dual Artistic-2.0/StrongLoop",
-    "url": "https://github.com/strongloop/loopback-push-notification/blob/master/LICENSE"
+    "url": "https://github.com/strongloop/loopback-component-push/blob/master/LICENSE"
+  },
+  "optionalDependencies": {
+    "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.4.2"
   }
-
 }

@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "loopback": "~1.7.0",
-    "loopback-push-notification": "~1.2.0",
+    "loopback-component-push": "~1.2.0",
     "loopback-connector-mongodb": "~1.2.0"
   },
   "optionalDependencies": {

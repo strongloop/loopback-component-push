@@ -5,7 +5,7 @@ var app = module.exports = loopback();
 // Load up the push data source as the example cannot declaratively define
 // the push data source in datasources.json as it cannot resolve the connector
 // module by name
-var connector = require('loopback-push-notification');
+var connector = require('loopback-component-push');
 app.dataSources.push = loopback.createDataSource("push", {
   "defaultForType": "push",
   "connector": connector
@@ -165,7 +165,7 @@ function startPushServer() {
   var config = require('./config');
 
   var demoApp = {
-    id: 'loopback-push-notification-app',
+    id: 'loopback-component-push-app',
     userId: 'strongloop',
     name: config.appName,
 
@@ -215,7 +215,7 @@ function startPushServer() {
     // the client settings
     Application.beforeSave = function (next) {
       if(this.name === demoApp.name) {
-        this.id = 'loopback-push-notification-app';
+        this.id = 'loopback-component-push-app';
       }
       next();
     };

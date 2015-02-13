@@ -5,7 +5,7 @@
 	<key>RootPath</key>
 	<string>http://demo.strongloop.com:3010/api</string>
 	<key>AppId</key>
-	<string>loopback-push-notification-app</string>
+	<string>loopback-component-push-app</string>
 	<key>AppVersion</key>
 	<string>1.0.0</string>
 </dict>

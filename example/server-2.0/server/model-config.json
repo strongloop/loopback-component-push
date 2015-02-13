@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "sources": [
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "db"
+  },
+  "AccessToken": {
+    "public": false,
+    "dataSource": "db"
+  },
+  "ACL": {
+    "public": false,
+    "dataSource": "db"
+  },
+  "RoleMapping": {
+    "public": false,
+    "dataSource": "db"
+  },
+  "Role": {
+    "public": false,
+    "dataSource": "db"
+  },
+  "application": {
+    "public": true,
+    "dataSource": "db"
+  },
+  "installation": {
+    "public": true,
+    "dataSource": "db"
+  },
+  "notification": {
+    "public": true,
+    "dataSource": "db"
+  },
+  "push": {
+    "public": true,
+    "dataSource": "push"
+  }
+}

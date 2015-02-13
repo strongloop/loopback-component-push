@@ -102,6 +102,9 @@ var Notification = loopback.createModel(
   }
 );
 
+// Avoid exposure of internal properties such __data
+Notification.hideInternalProperties = true;
+
 Notification.beforeCreate = function(next) {
   var notification = this;
   notification.created = notification.modified = notification.scheduledTime = new Date();
