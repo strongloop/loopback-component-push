@@ -1,8 +1,8 @@
 {
   "name": "loopback-component-push",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Loopback Push Notification",
-    "keywords": [
+  "keywords": [
     "StrongLoop Labs",
     "LoopBack",
     "Push Notification",
@@ -40,6 +40,6 @@
     "url": "https://github.com/strongloop/loopback-component-push/blob/master/LICENSE"
   },
   "optionalDependencies": {
-    "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.4.2"
+    "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.4.3"
   }
 }

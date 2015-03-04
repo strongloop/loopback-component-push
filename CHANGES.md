@@ -1,3 +1,27 @@
+2015-03-04, Version 1.4.3
+=========================
+
+ * Fix for iOS8 category parameter (Andrej Šinigoj)
+
+ * Support ios notification app on iOS8 version (xcode 6) (Vine Brancho)
+
+ * Fix a build error from xcode (Vine Brancho)
+
+ * Update README.md (Rand McKinney)
+
+ * Typo (Rand McKinney)
+
+ * Added keywords (Rand McKinney)
+
+ * Fix bad CLA URL in CONTRIBUTING.md (Ryan Graham)
+
+ * Cleanup CHANGES.md (ariskemper)
+
+ * Fix to GCM provider "devicesGone" test (Andrej Šinigoj)
+
+ * Update gcm.js (Andrej Šinigoj)
+
+
 2014-12-02, Version 1.4.2
 =========================
 
@@ -42,11 +66,17 @@
 
  * Ensure deviceType/token are populated from installation (Raymond Feng)
 
- * Upgrade to apn version 1.6.0. (Aris Kemper)
+ * Upgrade to apn version 1.6.0. (ariskemper)
+
+ * Fix gcm pushNotification and add test case for array of device tokens. Signed-off-by: Aris Kemper <aris.github@gmail.com> (Aris Kemper)
 
  * Fix gcm pushNotification and add test case for array of device tokens. (Aris Kemper)
 
- * Push notification to many installations, tests (Aris Kemper)
+ * Add fixes to notifyMany and tests. (Aris Kemper)
+
+ * Push notification to many installations (ariskemper)
+
+ * push notification to many devices support (ariskemper)
 
 
 2014-07-22, Version 1.2.3
