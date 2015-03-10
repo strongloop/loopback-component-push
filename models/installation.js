@@ -7,6 +7,8 @@ var loopback = require('loopback');
  * Installation Model connects a mobile application to the device, the user and
  * other information for the server side to locate devices using application
  * id/version, user id, device type, and subscriptions.
+ * @class
+ * @header Installation
  */
 var Installation = loopback.createModel('Installation',
     {
@@ -134,7 +136,3 @@ setRemoting(Installation.findBySubscriptions, {
 });
 
 module.exports = Installation;
-
-
-
-
