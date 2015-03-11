@@ -10,26 +10,28 @@ var loopback = require('loopback');
  *
  * [iOS - APN](http://bit.ly/apns-notification-payload)
  *
- * @property {String} deviceType The device type such as `ios`.
- * @property {String} deviceToken The device token as provided by GCM or APN.
- * @property {Any} alert The notification's message (iOS only).
+ * @property {Any} alert The notification's message (iOS only - use `message` on Android).
  * @property {Number} badge The value indicated in the top right corner of the app icon.
- * Set to -1 to increment the current value by one (iOS only).
- * @property {String} sound  The name of a sound file in the application bundle (iOS only).
  * @property {String} category The category for the push notification action (iOS8+ only).
  * @property {String} collapseKey  An arbitrary string (such as "Updates Available") used
  * to collapse a group of like messages when the device is offline,
  * so only the last message gets sent to the client (Android only).
- * @property {Boolean} delayWhileIdle  Indicates that the message should not be sent immediately
- * if the device is idle. The server will wait for the device
- * to become active, and then only the last message for each `collapse_key` value will be sent (Android only).
  * @property {Date} created The date that the notification is created.
- * @property {Date} modified The date that the notifcation is modified.
- * @property {Date} scheduledTime The time that the notification should be sent (not supported yet).
- * @property {Date} expirationTime The time that the notification expires.
+ * @property {Boolean} delayWhileIdle  If the device is idle, do not send the message immediately.
+ * The server will wait for the device to become active, and then only the last message for
+ * each `collapse_key` value will be sent (Android only).
+ * @property {String} deviceToken The device token as provided by GCM or APN.
+ * @property {String} deviceType The device type such as `ios`.
+ * Set to -1 to increment the current value by one (iOS only).
  * @property {Number} expirationInterval The expiration interval in seconds.
  * The interval starts at the time when the notification is sent to the push notification provider.
- * @property {String} expirationInterval Status of the notification (not supported yet).
+ * @property {Date} expirationTime The time that the notification expires.
+ * @property {String} message  The notification's message (Android only - use `alert` on iOS).
+ * @property {Date} modified The date that the notifcation is modified.
+ * @property {Date} scheduledTime The time that the notification should be sent (not supported yet).
+ * @property {String} sound  The name of a sound file in the application bundle (iOS only).
+ * @property {String} status Status of the notification (not supported yet).
+ * 
  * @class Notification
  * @header Notification
  */
