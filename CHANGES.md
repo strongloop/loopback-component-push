@@ -1,3 +1,9 @@
+2015-03-11, Version 1.4.4
+=========================
+
+ * Fix API doc and add Notification properties per #69 (crandmck)
+
+
 2015-03-04, Version 1.4.3
 =========================
 
