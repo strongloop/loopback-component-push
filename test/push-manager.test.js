@@ -71,6 +71,50 @@ describe('PushManager', function() {
     ], done);
   });
 
+  it('changes status for devices no longer registered', function(done) {
+    async.series([
+      function arrange(cb) {
+        Installation.settings.markDevicesGone = true;
+
+        new TestDataBuilder()
+          .define('application', Application, {
+            pushSettings: { stub: { } }
+          })
+          .define('installation', Installation, {
+            appId: ref('application.id'),
+            deviceType: mockery.deviceType
+          })
+          .buildTo(context, cb);
+      },
+
+      function configureProvider(cb) {
+        pushManager.configureApplication(
+          context.installation.appId,
+          context.installation.deviceType,
+          cb);
+      },
+
+      function act(cb) {
+        mockery.emitDevicesGone(context.installation.deviceToken);
+
+        // Wait until the feedback is processed
+        // We can use process.nextTick because Memory store
+        // deletes the data within this event loop
+        process.nextTick(cb);
+      },
+
+      function verify(cb) {
+        delete Installation.settings.markDevicesGone;
+        Installation.find(function(err, result) {
+          if (err) return cb(err);
+          expect(result).to.have.length(1);
+          expect(result[0]).to.have.property('status', 'Deleted');
+          cb();
+        });
+      }
+    ], done);
+  });
+
   describe('.notify', function () {
     it('should set device type/token from installation', function (done) {
       async.series([
