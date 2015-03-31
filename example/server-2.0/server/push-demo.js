@@ -75,6 +75,7 @@ module.exports = function (app) {
           if (err) cb(err);
           if (result) {
             console.log('Updating application: ' + result.id);
+            delete demoApp.id;
             result.updateAttributes(demoApp, cb);
           } else {
             return registerApp(cb);

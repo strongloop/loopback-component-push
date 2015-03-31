@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "main": "server/server.js",
   "scripts": {
-    "pretest": "jshint ."
+    "start": "slc run"
   },
   "dependencies": {
     "compression": "^1.0.3",
     "errorhandler": "^1.1.1",
     "loopback": "^2.0.0",
     "loopback-boot": "^2.0.0",
-    "loopback-component-push": "~1.3.0",
+    "loopback-component-push": "file:../../",
     "loopback-connector-mongodb": "~1.4.2",
     "loopback-datasource-juggler": "^2.0.0",
     "serve-favicon": "^2.0.1"

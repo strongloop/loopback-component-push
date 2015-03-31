@@ -20,3 +20,4 @@ coverage
 .loopbackrc
 xunit.xml
 checkstyle.xml
+example/server-2.0/client/public/vendor
