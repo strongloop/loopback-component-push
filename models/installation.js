@@ -1,138 +1,139 @@
-/*!
- * Module Dependencies
- */
-var loopback = require('loopback');
+var _ = require('lodash');
 
 /**
- * Installation Model connects a mobile application to the device, the user and
+ * Installation Model connects a mobile application to a device, the user and
  * other information for the server side to locate devices using application
- * id/version, user id, device type, and subscriptions.
- * @class
+ * id/version, user id, device type, and subscriptions.  Users may have many
+ * devices, or Installations, which can receive Notifications from the Application.
+ *
+ * @property {String} appId The unique identifier for the application this
+ * {{Installation}} is registered for.
+ * @property {String} appVersion Version of the application currently running on the client (optional).
+ * @property {Number} badge The number of the last displayed badge icon (iOS only).
+ * @property {Date} created The date the Installation was created.
+ * @property {String} deviceToken The device token as provided by GCM or APN.
+ * @property {String} deviceType The device type such as `ios`.
+ * @property {Date} modified The date the Installation was last updated.
+ * @property {String} status Status of the installation, provider dependent, like 'Active'.
+ * @property {Array} subscriptions The type of notifications the device is subscribed to.
+ * @property {String} timeZone The Time Zone ID of the device, ex: America/Vancouver.
+ * @property {String} userId The user id that reported by the device.
+ *
+ * @class Installation
  * @header Installation
  */
-var Installation = loopback.createModel('Installation',
-    {
-        // The registration id
-        id: {
-            type: String,
-            id: true,
-            generated: true
-        },
-        appId: {type: String, required: true}, // The application id
-        appVersion: String, // The application version, optional
-        userId: String,
-        deviceType: {type: String, required: true},
-        deviceToken: {type: String, required: true},
-        badge: Number,
-        subscriptions: [String],
-        timeZone: String,
-        created: Date,
-        modified: Date,
-        status: String
-    }
-);
+module.exports = function(Installation) {
 
-Installation.beforeCreate = function (next) {
-    var reg = this;
-    reg.created = reg.modified = new Date();
+  Installation.observe('before save', function trip(ctx, next) {
+    var install = ctx.instance || ctx.data;
+    install.modified = new Date();
     next();
-};
+  });
 
-/**
- * Find installations by application id/version
- * @param {String} deviceType The device type
- * @param {String} appId The application id
- * @param {String} [appVersion] The application version
- * @callback {Function} cb The callback function
- * @param {Error|String} err The error object
- * @param {Installation[]} installations The selected installations
- */
-Installation.findByApp = function (deviceType, appId, appVersion, cb) {
-    if(!cb && typeof appVersion === 'function') {
-        cb = appVersion;
-        appVersion = undefined;
+  /**
+   * Find installations by application id/version
+   * @param {String} deviceType The device type
+   * @param {String} appId The application id
+   * @param {String} [appVersion] The application version
+   * @callback {Function} cb The callback function
+   * @param {Error|String} err The error object
+   * @param {Installation[]} installations The selected installations
+   */
+  Installation.findByApp = function(deviceType, appId, appVersion, cb) {
+    if (!cb && typeof appVersion === 'function') {
+      cb = appVersion;
+      appVersion = undefined;
     }
-    var filter = {where: {appId: appId, appVersion: appVersion, deviceType: deviceType}};
+    var filter = {where: {
+      appId: appId,
+      appVersion: appVersion,
+      deviceType: deviceType}
+    };
     this.find(filter, cb);
-};
+  };
 
-/**
- * Find installations by user id
- * @param {String} userId The user id
- * @param {String} deviceType The device type
- * @param {Function} cb The callback function
- *
- * @callback {Function} cb The callback function
- * @param {Error|String} err The error object
- * @param {Installation[]} installations The selected installations
- */
-Installation.findByUser = function (deviceType, userId, cb) {
+  /**
+   * Find installations by user id
+   * @param {String} userId The user id
+   * @param {String} deviceType The device type
+   * @param {Function} cb The callback function
+   *
+   * @callback {Function} cb The callback function
+   * @param {Error|String} err The error object
+   * @param {Installation[]} installations The selected installations
+   */
+  Installation.findByUser = function(deviceType, userId, cb) {
     var filter = {where: {userId: userId, deviceType: deviceType}};
     this.find(filter, cb);
-};
+  };
 
-/**
- * Find installations by subscriptions
- * @param {String|String[]} subscriptions A list of subscriptions
- * @param {String} deviceType The device type
- *
- * @callback {Function} cb The callback function
- * @param {Error|String} err The error object
- * @param {Installation[]} installations The selected installations
- */
-Installation.findBySubscriptions = function (deviceType, subscriptions, cb) {
-    if(typeof subscriptions === 'string') {
-        subscriptions = subscriptions.split(/[\s,]+/);
+  /**
+   * Find installations by subscriptions
+   * @param {String|String[]} subscriptions A list of subscriptions
+   * @param {String} deviceType The device type
+   *
+   * @callback {Function} cb The callback function
+   * @param {Error|String} err The error object
+   * @param {Installation[]} installations The selected installations
+   */
+  Installation.findBySubscriptions = function(deviceType, subscriptions, cb) {
+    if (typeof subscriptions === 'string') {
+      subscriptions = subscriptions.split(/[\s,]+/);
     }
-    var filter = {where: {subscriptions: {inq: subscriptions}, deviceType: deviceType}};
+    var filter = {where: {
+        subscriptions: {inq: subscriptions},
+        deviceType: deviceType
+      }
+    };
     this.find(filter, cb);
-};
+  };
 
-/*!
- * Configure the remoting attributes for a given function
- * @param {Function} fn The function
- * @param {Object} options The options
- * @private
- */
-function setRemoting(fn, options) {
+  /*!
+   * Configure the remoting attributes for a given function
+   * @param {Function} fn The function
+   * @param {Object} options The options
+   * @private
+   */
+  function setRemoting(fn, options) {
     options = options || {};
-    for(var opt in options) {
-        if(options.hasOwnProperty(opt)) {
-            fn[opt] = options[opt];
-        }
-    }
+    _.forOwn(options, function(value, key) {
+      fn[key] = value;
+    });
     fn.shared = true;
-}
+  }
 
-setRemoting(Installation.findByApp, {
+  var aDefs = {type: 'string', http: {source: 'query'}};
+
+  setRemoting(Installation.findByApp, {
     description: 'Find installations by application id',
     accepts: [
-        {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
-        {arg: 'appId', type: 'string', description: 'Application id', http: {source: 'query'}},
-        {arg: 'appVersion', type: 'string', description: 'Application version', http: {source: 'query'}}
+        _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
+        _.extend({arg: 'appId', description: 'Application id'}, aDefs),
+        _.extend({arg: 'appVersion', description: 'Application version'}, aDefs)
     ],
     returns: {arg: 'data', type: 'object', root: true},
     http: {verb: 'get', path: '/byApp'}
-});
+  });
 
-setRemoting(Installation.findByUser, {
+  setRemoting(Installation.findByUser, {
     description: 'Find installations by user id',
     accepts: [
-        {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
-        {arg: 'userId', type: 'string', description: 'User id', http: {source: 'query'}}
+      _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
+      _.extend({arg: 'userId', description: 'User id'}, aDefs)
     ],
     returns: {arg: 'data', type: 'object', root: true},
     http: {verb: 'get', path: '/byUser'}
-});
+  });
 
-setRemoting(Installation.findBySubscriptions, {
+  setRemoting(Installation.findBySubscriptions, {
     description: 'Find installations by subscriptions',
     accepts: [
-        {arg: 'deviceType', type: 'string', description: 'Device type', http: {source: 'query'}},
-        {arg: 'subscriptions', type: 'string', description: 'Subscriptions', http: {source: 'query'}}
+      _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
+      _.extend({arg: 'subscriptions', description: 'Subscriptions'}, aDefs)
     ],
     returns: {arg: 'data', type: 'object', root: true},
     http: {verb: 'get', path: '/bySubscriptions'}
-});
+  });
 
-module.exports = Installation;
+  return Installation;
+};

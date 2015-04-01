@@ -1,0 +1,31 @@
+{
+  "name": "Notification",
+  "plural": "Notifications",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "alert": "any",
+    "badge": "number",
+    "category": "string",
+    "collapseKey": "string",
+    "created": {
+      "defaultFn": "now",
+      "type": "date"
+    },
+    "delayWhileIdle": "boolean",
+    "deviceToken": {
+      "required": true,
+      "type": "string"
+    },
+    "deviceType": {
+      "required": true,
+      "type": "string"
+    },
+    "expirationInterval": "number",
+    "expirationTime": "date",
+    "modified": "date",
+    "scheduledTime": "date",
+    "sound": "string",
+    "status": "string"
+  }
+}

@@ -20,3 +20,4 @@ coverage
 .loopbackrc
 xunit.xml
 checkstyle.xml
+doc
