@@ -69,12 +69,13 @@ module.exports = function (app) {
 //--- Helper functions ---
     function updateOrCreateApp(cb) {
       Application.findOne({
-          where: { name: demoApp.name }
+          where: { id: demoApp.id }
         },
         function (err, result) {
           if (err) cb(err);
           if (result) {
             console.log('Updating application: ' + result.id);
+            delete demoApp.id;
             result.updateAttributes(demoApp, cb);
           } else {
             return registerApp(cb);

@@ -2,14 +2,13 @@
 <html ng-app>
 <head>
     <title>Client Applications</title>
-    <!-- Latest compiled and minified CSS -->
+    <meta charset="utf-8">
     <link rel="stylesheet"
-          href="/bootstrap/css/bootstrap.min.css">
+          href="/vendor/bootstrap/dist/css/bootstrap.min.css">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="/vendor/jquery/dist/jquery.js"></script>
+    <script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/vendor/angular/angular.js"></script>
     <script src="js/applications.js"></script>
 </head>
 <body ng-controller="ApplicationsController" data-ng-init="load()">
@@ -17,7 +16,7 @@
 <div class="container-fluid">
     <h1>Client Applications</h1>
 
-    <div class="row-fluid span12">
+    <div class="col-sm-12">
         <table class="table table-striped" style="table-layout: fixed">
             <thead>
             <tr>
@@ -46,15 +45,21 @@
                     </button>
                 </td>
             </tr>
-            <tr>
-                <td>{{status}}</td>
-            </tr>
             </tbody>
         </table>
     </div>
 
-    <a class="btn btn-primary btn-lg" href="/app-create.html">Sign up a new client application</a>
-    <a class="btn btn-default btn-lg" href="/index.html">List device installations</a>
+    <div ng-show="status" class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>{{status}}</p>
+    </div>
+
+    <p>
+      <a class="btn btn-primary btn-lg" href="/app-create.html">Sign up a new client application</a>
+      <a class="btn btn-default btn-lg" href="/index.html">List device installations</a>
+    </p>
 </div>
 </body>
 </html>
