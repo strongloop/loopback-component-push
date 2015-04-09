@@ -1,0 +1,33 @@
+{
+  "name": "Installation",
+  "plural": "Installations",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "properties": {
+    "appId": {
+      "required": true,
+      "type": "string"
+    },
+    "appVersion": "string",
+    "badge": "number",
+    "created": {
+      "defaultFn": "now",
+      "type": "date"
+    },
+    "deviceToken": {
+      "required": true,
+      "type": "string"
+    },
+    "deviceType": {
+      "required": true,
+      "type": "string"
+    },
+    "modified": "date",
+    "status": "string",
+    "subscriptions": [
+      "string"
+    ],
+    "timeZone": "string",
+    "userId": "string"
+  }
+}

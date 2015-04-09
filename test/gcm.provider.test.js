@@ -1,11 +1,8 @@
 
 var extend = require('util')._extend;
 var GcmProvider = require('../lib/providers/gcm');
-var Notification = require('../models/notification');
 var mockery = require('./helpers/mockery').gcm;
 var objectMother = require('./helpers/object-mother');
-var expect = require('chai').expect;
-var sinon = require('sinon');
 
 var aDeviceToken = 'a-device-token';
 var aDeviceTokenList = [

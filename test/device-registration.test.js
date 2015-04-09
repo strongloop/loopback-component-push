@@ -1,17 +1,3 @@
-var loopback = require(('loopback'));
-var assert = require('assert');
-
-var ds = loopback.createDataSource('db', {connector: loopback.Memory});
-
-var Application = loopback.Application;
-Application.attachTo(ds);
-
-var Installation = require('../models/installation');
-Installation.attachTo(ds);
-
-var Notification = require('../models/notification');
-Notification.attachTo(ds);
-
 describe('Installation', function () {
     var registration = null;
 
@@ -60,4 +46,3 @@ describe('Installation', function () {
     });
 
 });
-

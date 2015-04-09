@@ -1,5 +1,3 @@
-var loopback = require('loopback');
-
 /**
  * Notification Model
  *
@@ -31,125 +29,32 @@ var loopback = require('loopback');
  * @property {Date} scheduledTime The time that the notification should be sent (not supported yet).
  * @property {String} sound  The name of a sound file in the application bundle (iOS only).
  * @property {String} status Status of the notification (not supported yet).
- * 
+ *
  * @class Notification
  * @header Notification
  */
-var Notification = loopback.createModel(
-  'Notification',
-  {
-    id: {
-      type: String,
-      id: true,
-      generated: true
-    },
+module.exports = function(Notification) {
 
-    /**
-     * The device type such as `ios`.
-     */
-    deviceType: {type: String, required: true},
+  // Avoid exposure of internal properties such __data
+  Notification.hideInternalProperties = true;
 
-    /**
-     * The device token as provided by GCM/APN/etc.
-     */
-    deviceToken: {type: String, required: true},
+  Notification.observe('before save', function trip(ctx, next) {
+    var notification = ctx.instance || ctx.data;
+    notification.modified = notification.scheduledTime = new Date();
+    next();
+  });
 
-    /**
-     * (iOS only)
-     * The notification's message.
-     */
-    alert: 'any',
+  Notification.prototype.getTimeToLiveInSecondsFromNow = function() {
+    if (this.expirationInterval) {
+      return this.expirationInterval;
+    }
 
-    /**
-     * (iOS only)
-     * The value indicated in the top right corner of the app icon.
-     * This can be set to a value or to -1 in order to increment
-     * the current value by 1.
-     */
-    badge: Number,
+    if (this.expirationTime) {
+      return (this.expirationTime.getTime() - Date.now()) / 1000;
+    }
 
-    /**
-     * (iOS only)
-     * The name of a sound file in the application bundle.
-     */
-    sound: String,
+    return undefined;
+  };
 
-    /**
-     * (iOS8+ only)
-     * The category for the push notification action
-     */
-    category: String,
-
-    /**
-     * (Android only)
-     * An arbitrary string (such as "Updates Available") that is used
-     * to collapse a group of like messages when the device is offline,
-     * so that only the last message gets sent to the client.
-     */
-    collapseKey: String,
-
-    /**
-     * (Android only)
-     * Indicates that the message should not be sent immediately
-     * if the device is idle. The server will wait for the device
-     * to become active, and then only the last message for each
-     * collapse_key value will be sent.
-     */
-    delayWhileIdle: Boolean,
-
-    /**
-     * The date that the notification is created.
-     */
-    created: Date,
-
-    /**
-     *The date that the notifcation is modified.
-     */
-    modified: Date,
-
-    /**
-     * The time that the notification should be sent.
-     * (not supported yet)
-     */
-    scheduledTime: Date,
-
-    /**
-     * The time that the notification should be expired.
-     */
-    expirationTime: Date,
-
-    /**
-     * The expiration interval in seconds.
-     * The interval starts at the time when the notification is sent
-     * to the push notification provider.
-     */
-    expirationInterval: Number,
-
-    /**
-     * The status of the notification.
-     * (not supported yet)
-     */
-    status: String
-  }
-);
-
-// Avoid exposure of internal properties such __data
-Notification.hideInternalProperties = true;
-
-Notification.beforeCreate = function(next) {
-  var notification = this;
-  notification.created = notification.modified = notification.scheduledTime = new Date();
-  next();
+  return Notification;
 };
-
-Notification.prototype.getTimeToLiveInSecondsFromNow = function() {
-  if (this.expirationInterval)
-    return this.expirationInterval;
-
-  if (this.expirationTime)
-    return (this.expirationTime.getTime() - Date.now()) / 1000;
-
-  return undefined;
-};
-
-module.exports = Notification;

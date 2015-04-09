@@ -7,10 +7,8 @@ exports = module.exports = PushConnector;
 /**
  * Export two model classes as properties
  */
-exports.Installation = require('./models/installation');
-exports.Notification = require('./models/notification');
-
-var loopback = require('loopback');
+exports.Installation = require('./models').Installation;
+exports.Notification = require('./models').Notification;
 
 exports.createPushModel = function (options) {
   options = options || {};

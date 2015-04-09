@@ -1,14 +1,4 @@
-var loopback = require('loopback');
-var assert = require('assert');
-var path = require('path');
-
-var ds = loopback.createDataSource('db', {connector: loopback.Memory});
-
-var PushConnector = require('../index');
 var PushModel = PushConnector.createPushModel({dataSource: ds});
-var Application = loopback.Application;
-var Installation = PushConnector.Installation;
-var Notification = PushConnector.Notification;
 
 var objectMother = require('./helpers/object-mother');
 
@@ -83,4 +73,3 @@ describe('PushNotification', function () {
     });
 
 });
-
