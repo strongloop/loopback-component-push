@@ -1,3 +1,15 @@
+2015-04-09, Version 1.5.0
+=========================
+
+ * Fix the package.json (Raymond Feng)
+
+ * update module to loopback 2.0 (Bryan Clark)
+
+ * update the example/server-2.0 demo (Bryan Clark)
+
+ * Update notification.js (Rand McKinney)
+
+
 2015-03-11, Version 1.4.4
 =========================
 
