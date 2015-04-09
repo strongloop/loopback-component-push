@@ -69,7 +69,7 @@ module.exports = function (app) {
 //--- Helper functions ---
     function updateOrCreateApp(cb) {
       Application.findOne({
-          where: { name: demoApp.name }
+          where: { id: demoApp.id }
         },
         function (err, result) {
           if (err) cb(err);
