@@ -2,11 +2,8 @@
 var fs = require('fs');
 var path = require('path');
 var ApnsProvider = require('../lib/providers/apns');
-var Notification = require('../models/notification');
 var mockery = require('./helpers/mockery').apns;
 var objectMother = require('./helpers/object-mother');
-var expect = require('chai').expect;
-var sinon = require('sinon');
 
 var aDeviceToken = 'a-device-token';
 

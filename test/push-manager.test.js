@@ -2,14 +2,8 @@
 var async = require('async');
 
 var PushManager = require('../lib/push-manager');
-var Notification = require('../models/notification');
-var loopback = require('loopback');
-var Application = loopback.Application;
-var Installation = require('../models/installation');
 var NodeCache = require('node-cache');
 
-var expect = require('chai').expect;
-var sinon = require('sinon');
 var mockery = require('./helpers/mockery').stub;
 var TestDataBuilder = require('loopback-testing').TestDataBuilder;
 var ref = TestDataBuilder.ref;
