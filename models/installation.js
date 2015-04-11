@@ -20,7 +20,6 @@ var Installation = loopback.createModel('Installation',
         },
         appId: {type: String, required: true}, // The application id
         appVersion: String, // The application version, optional
-        userId: String,
         deviceType: {type: String, required: true},
         deviceToken: {type: String, required: true},
         badge: Number,
@@ -29,6 +28,15 @@ var Installation = loopback.createModel('Installation',
         created: Date,
         modified: Date,
         status: String
+    },
+    {
+        relations:{
+            user:{
+                type:'belongsTo',
+                model:'user',
+                foreignKey:'userId'
+            }
+        }
     }
 );
 
