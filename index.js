@@ -1,6 +1,7 @@
 /**
  * Export the connector
  */
+var loopback = require('loopback');
 var PushConnector = require('./lib/push-connector');
 exports = module.exports = PushConnector;
 
