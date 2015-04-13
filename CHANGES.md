@@ -1,3 +1,9 @@
+2015-04-13, Version 1.5.1
+=========================
+
+ * Add the missing require statement (Raymond Feng)
+
+
 2015-04-09, Version 1.5.0
 =========================
 
