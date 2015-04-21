@@ -33,7 +33,7 @@ providers such as APNS, GCM, and MPNS.
 
 An [example LoopBack server application](/example/server) is provided.  
 
-To run it:
+To run it, use these commands:
 
     cd example/server
     node app
@@ -47,12 +47,12 @@ To change to a MongoDB instance, set the MONGODB environment variable to the Mon
 
 ### iOS client
 
-The [iOS example app](/example/ios) uses LoopBack the LoopBack iOS SDK to enable
+The [iOS example app](/example/ios) uses the LoopBack iOS SDK to enable
 and handle push notifications. 
 
 ### Android client
 
-The [Android example app](/example/android) uses LoopBack Android SDK to enable
+The [Android example app](/example/android) uses the LoopBack Android SDK to enable
 and handle push notifications. 
 
 ## References
