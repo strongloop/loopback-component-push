@@ -24,7 +24,7 @@ android
 notifications
 * Optional Job to take scheduled notification requests
 * Push connector that interact with device registration records and push
-providers such as APNS, GCM, and MPNS.
+providers such as APNS, GCM, and MPNS
 * Push model to provide high level APIs for device-independent push notifications
 
 ## Samples
@@ -40,7 +40,7 @@ To run it, use these commands:
 
 Open your browser to [http://127.0.0.1:3010](http://127.0.0.1:3010).
 
-By default, the app uses an in-memory store for the application/installation data.
+By default, the application uses an in-memory store for the application/installation data.
 To change to a MongoDB instance, set the MONGODB environment variable to the MongoDB URL. For example,
 
     MONGODB=mongodb://localhost/demo node app
