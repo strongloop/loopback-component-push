@@ -5,7 +5,7 @@
   },
   "push": {
     "name": "push",
-    "connector": "loopback-component-push",
+    "connector": "loopback-component-push/lib/push-connector",
     "installation": "installation",
     "notification": "notification",
     "application": "application"
