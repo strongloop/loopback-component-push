@@ -35,8 +35,8 @@ An [example LoopBack server application](/example/server) is provided.
 
 To run it, use these commands:
 
-    cd example/server
-    node app
+    $ cd example/server
+    $ node app
 
 Open your browser to [http://127.0.0.1:3010](http://127.0.0.1:3010).
 
