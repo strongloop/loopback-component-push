@@ -8,6 +8,7 @@
     "badge": "number",
     "category": "string",
     "collapseKey": "string",
+    "contentAvailable": "boolean",
     "created": {
       "defaultFn": "now",
       "type": "date"
