@@ -36,6 +36,35 @@ describe('APNS provider', function() {
       done();
     });
 
+    it('passes through special APN parameters', function(done) {
+      givenProviderWithConfig();
+
+      var notification = aNotification({
+        alert: 'Alert text',
+        badge: 99,
+        sound: 'ding',
+        contentAvailable: true,
+        category: 'my-category',
+        urlArgs: ['foo', 'bar'],
+        arbitrary: 'baz'
+      });
+      provider.pushNotification(notification, aDeviceToken);
+
+      var apnArgs =  mockery.firstPushNotificationArgs();
+
+      var note = apnArgs[0];
+      var payload = note.toJSON();
+      expect(payload.aps.alert, 'aps.alert').to.equal('Alert text');
+      expect(payload.aps.badge, 'aps.badge').to.equal(99);
+      expect(payload.aps.sound, 'aps.sound').to.equal('ding');
+      expect(payload.aps['content-available'], 'aps.content-available').to.equal(1);
+      expect(payload.aps.category, 'aps.category').to.equal('my-category');
+      expect(payload.aps['url-args'], 'aps.url-args').to.have.length(2);
+      expect(payload.arbitrary, 'arbitrary').to.equal('baz');
+
+      done();
+    });
+
     it('raises "devicesGone" event when feedback arrives', function(done) {
       givenProviderWithConfig({ apns: { feedbackOptions: {}}});
       var eventSpy = sinon.spy();
