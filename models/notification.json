@@ -27,6 +27,7 @@
     "modified": "date",
     "scheduledTime": "date",
     "sound": "string",
-    "status": "string"
+    "status": "string",
+    "urlArgs": ["string"]
   }
 }
