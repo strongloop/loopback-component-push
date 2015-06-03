@@ -70,7 +70,7 @@ describe('GCM provider', function() {
     });
 
     it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
-      var errorResult = aGcmResult([{ 'error': 'NotRegistered' }])
+      var errorResult = aGcmResult([{ 'error': 'NotRegistered' }]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
@@ -171,6 +171,19 @@ describe('GCM provider', function() {
 
     var message = mockery.firstPushNotificationArgs()[0];
     expect(message.data).to.eql({ });
+  });
+
+  it('ignores Notification properties null or undefined', function() {
+    var notification = aNotification({
+      aFalse: false,
+      aTrue: true,
+      aNull: null,
+      anUndefined: undefined
+    });
+    provider.pushNotification(notification, aDeviceToken);
+
+    var message = mockery.firstPushNotificationArgs()[0];
+    expect(message.data).to.eql({ aFalse: false, aTrue: true });
   });
 
   function givenProviderWithConfig(pushSettings) {

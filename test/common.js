@@ -22,5 +22,3 @@ global.Installation.attachTo(global.ds);
 
 global.Notification = PushConnector.Notification;
 global.Notification.attachTo(global.ds);
-
-// global.chai.use(require('sinon-chai'));

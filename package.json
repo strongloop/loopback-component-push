@@ -11,6 +11,7 @@
   ],
   "main": "index.js",
   "scripts": {
+    "pretest": "jscs . && jshint .",
     "test": "mocha"
   },
   "dependencies": {
@@ -27,6 +28,8 @@
     "deep-extend": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jsdoc": "^0.6.6",
+    "jscs": "^1.13.1",
+    "jshint": "^2.8.0",
     "loopback": "^2.18.0",
     "loopback-connector-mongodb": "^1.8.0",
     "loopback-datasource-juggler": "^2.29.0",
