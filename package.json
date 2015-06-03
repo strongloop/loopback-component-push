@@ -19,7 +19,7 @@
     "debug": "^2.2.0",
     "lodash": "^3.9.3",
     "mpns": "^2.1.0",
-    "node-cache": "^2.2.0",
+    "node-cache": "^2.1.1",
     "node-gcm": "^0.9.15"
   },
   "devDependencies": {
