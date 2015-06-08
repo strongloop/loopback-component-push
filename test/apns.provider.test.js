@@ -92,9 +92,9 @@ describe('APNS provider', function() {
     it('emits "error" event when certData is invalid', function(done) {
       givenProviderWithConfig({
         apns: {
+          certData: 'invalid-data',
           pushOptions: {
-            gateway: '127.0.0.1',
-            certData: 'invalid-data'
+            gateway: '127.0.0.1'
           }
         }
       });
@@ -116,10 +116,13 @@ describe('APNS provider', function() {
     it('emits "error" when gateway cannot be reached', function(done) {
       givenProviderWithConfig({
         apns: {
+          certData: objectMother.apnsDevCert(),
+          keyData: objectMother.apnsDevKey(),
           pushOptions: {
-            gateway: '127.0.0.1',
-            certData: objectMother.apnsDevCert(),
-            keyData: objectMother.apnsDevKey()
+            gateway: '127.0.0.1'
+          },
+          feedbackOptions: {
+            gateway: '127.0.0.1'
           }
         }
       });
@@ -155,11 +158,15 @@ describe('APNS provider', function() {
       expect(provider._pushOptions).to.deep.equal({
         certData: objectMother.apnsDevCert(),
         keyData: objectMother.apnsDevKey(),
+        cert: null,
+        key: null,
         gateway: '127.0.0.1'
       });
       expect(provider._feedbackOptions).to.deep.equal({
         certData: objectMother.apnsDevCert(),
         keyData: objectMother.apnsDevKey(),
+        cert: null,
+        key: null,
         gateway: 'feedback.sandbox.push.apple.com'
       });
       done();
