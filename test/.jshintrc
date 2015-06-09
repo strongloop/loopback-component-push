@@ -1,0 +1,14 @@
+{
+"mocha": true,
+"globals": {
+  "expect": true,
+  "assert": true,
+  "Application": true,
+  "Notification": true,
+  "PushConnector": true,
+  "Installation": true,
+  "loopback": true,
+  "sinon": true,
+  "ds": true
+ }
+}
