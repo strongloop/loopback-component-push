@@ -28,6 +28,11 @@
 		47A7516517931ED300BCD60D /* strongloop-logo-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 47A7516417931ED300BCD60D /* strongloop-logo-1.png */; };
 		47D7BF6318383C8C00786B93 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47D7BF6218383C8C00786B93 /* Settings.plist */; };
 		47F8E82C185B894E0088BB73 /* LoopBack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8E82B185B894E0088BB73 /* LoopBack.framework */; };
+		89112BBB1B3D0A14008C94F5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89112BBA1B3D0A14008C94F5 /* MobileCoreServices.framework */; };
+		89112BBD1B3D0A1F008C94F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89112BBC1B3D0A1F008C94F5 /* SystemConfiguration.framework */; };
+		89112BBE1B3D0A2F008C94F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89112BBC1B3D0A1F008C94F5 /* SystemConfiguration.framework */; };
+		89112BBF1B3D0A32008C94F5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89112BBA1B3D0A14008C94F5 /* MobileCoreServices.framework */; };
+		89112BC01B3D0AC7008C94F5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113011D716A10E75008A3718 /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +74,8 @@
 		47A7516417931ED300BCD60D /* strongloop-logo-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strongloop-logo-1.png"; sourceTree = "<group>"; };
 		47D7BF6218383C8C00786B93 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		47F8E82B185B894E0088BB73 /* LoopBack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopBack.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/LoopBack-hfsxjzlaympvodehsrfsoyrfomsl/Build/Products/Debug-iphoneos/LoopBack.framework"; sourceTree = "<group>"; };
+		89112BBA1B3D0A14008C94F5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		89112BBC1B3D0A1F008C94F5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +87,8 @@
 				113011D416A10E75008A3718 /* UIKit.framework in Frameworks */,
 				113011D616A10E75008A3718 /* Foundation.framework in Frameworks */,
 				113011D816A10E75008A3718 /* CoreGraphics.framework in Frameworks */,
+				89112BBB1B3D0A14008C94F5 /* MobileCoreServices.framework in Frameworks */,
+				89112BBD1B3D0A1F008C94F5 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,8 +96,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89112BC01B3D0AC7008C94F5 /* CoreGraphics.framework in Frameworks */,
 				113011F816A10E75008A3718 /* SenTestingKit.framework in Frameworks */,
 				113011F916A10E75008A3718 /* UIKit.framework in Frameworks */,
+				89112BBE1B3D0A2F008C94F5 /* SystemConfiguration.framework in Frameworks */,
+				89112BBF1B3D0A32008C94F5 /* MobileCoreServices.framework in Frameworks */,
 				113011FA16A10E75008A3718 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +136,8 @@
 				113011D316A10E75008A3718 /* UIKit.framework */,
 				113011D516A10E75008A3718 /* Foundation.framework */,
 				113011D716A10E75008A3718 /* CoreGraphics.framework */,
+				89112BBA1B3D0A14008C94F5 /* MobileCoreServices.framework */,
+				89112BBC1B3D0A1F008C94F5 /* SystemConfiguration.framework */,
 				113011F716A10E75008A3718 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
@@ -223,7 +237,7 @@
 			name = apnagentTests;
 			productName = apnagentTests;
 			productReference = 113011F616A10E75008A3718 /* apnagentTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 

@@ -2,12 +2,12 @@ describe('Installation', function () {
     var registration = null;
 
     it('registers a new installation', function (done) {
-
+        var token = '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305';
         Installation.create({
             appId: 'MyLoopbackApp',
             appVersion: '1',
             userId: 'raymond',
-            deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305',
+            deviceToken: token,
             deviceType: 'ios',
             created: new Date(),
             modified: new Date(),
@@ -22,7 +22,7 @@ describe('Installation', function () {
                 assert.equal(reg.appId, 'MyLoopbackApp');
                 assert.equal(reg.userId, 'raymond');
                 assert.equal(reg.deviceType, 'ios');
-                assert.equal(reg.deviceToken, '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305');
+                assert.equal(reg.deviceToken, token);
 
                 assert(reg.created);
                 assert(reg.modified);
@@ -36,7 +36,7 @@ describe('Installation', function () {
                     assert.equal(reg.appId, 'MyLoopbackApp');
                     assert.equal(reg.userId, 'raymond');
                     assert.equal(reg.deviceType, 'ios');
-                    assert.equal(reg.deviceToken, '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305');
+                    assert.equal(reg.deviceToken, token);
                     done(err, results);
 
                 });

@@ -8,6 +8,7 @@
     "badge": "number",
     "category": "string",
     "collapseKey": "string",
+    "contentAvailable": "boolean",
     "created": {
       "defaultFn": "now",
       "type": "date"
@@ -26,6 +27,7 @@
     "modified": "date",
     "scheduledTime": "date",
     "sound": "string",
-    "status": "string"
+    "status": "string",
+    "urlArgs": ["string"]
   }
 }

@@ -32,12 +32,10 @@ module.exports = function(Installation) {
 
   /**
    * Find installations by application id/version
-   * @param {String} deviceType The device type
+   * @param {String} deviceType The type of device (android, ios)
    * @param {String} appId The application id
    * @param {String} [appVersion] The application version
-   * @callback {Function} cb The callback function
-   * @param {Error|String} err The error object
-   * @param {Installation[]} installations The selected installations
+   * @param {function(Error=,Installation[])} cb Callback function passed to find() with `cb(err, obj[])` signature.
    */
   Installation.findByApp = function(deviceType, appId, appVersion, cb) {
     if (!cb && typeof appVersion === 'function') {
@@ -54,13 +52,9 @@ module.exports = function(Installation) {
 
   /**
    * Find installations by user id
+   * @param {String} deviceType The type of device (android, ios)
    * @param {String} userId The user id
-   * @param {String} deviceType The device type
-   * @param {Function} cb The callback function
-   *
-   * @callback {Function} cb The callback function
-   * @param {Error|String} err The error object
-   * @param {Installation[]} installations The selected installations
+   * @param {function(Error=,Installation[])} cb Callback function passed to find() with `cb(err, obj[])` signature.
    */
   Installation.findByUser = function(deviceType, userId, cb) {
     var filter = {where: {userId: userId, deviceType: deviceType}};
@@ -69,12 +63,9 @@ module.exports = function(Installation) {
 
   /**
    * Find installations by subscriptions
-   * @param {String|String[]} subscriptions A list of subscriptions
-   * @param {String} deviceType The device type
-   *
-   * @callback {Function} cb The callback function
-   * @param {Error|String} err The error object
-   * @param {Installation[]} installations The selected installations
+   * @param {String} deviceType The type of device (android, ios)
+   * @param {String|String[]} subscriptions Either a comma/space delimited string or array of subscriptions
+   * @param {function(Error=,Installation[])} cb Callback function passed to find() with `cb(err, obj[])` signature.
    */
   Installation.findBySubscriptions = function(deviceType, subscriptions, cb) {
     if (typeof subscriptions === 'string') {

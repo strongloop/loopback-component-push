@@ -49,7 +49,7 @@ mockery.pushNotificationCallbackArgs = [];
  * Function for emitting "devicesGone" event.
  * It reports a warning when the Provider was not
  * by the subject under test.
- * @param devices {Array.<Object>|Object}
+ * @param {Array.<Object>|Object} devices
  */
 mockery.emitDevicesGone = function(devices) {
   console.error('Warning: cannot emit devicesGone, as the provider' +

@@ -38,7 +38,7 @@ mockery.pushNotificationCallbackArgs = [];
 
 /**
  * Setup GCM send to always return the given error.
- * @param err
+ * @param {Error} err
  */
 mockery.givenPushNotificationFailsWith = function(err) {
   mockery.pushNotificationCallbackArgs = [err];
