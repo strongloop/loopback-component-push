@@ -15,7 +15,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "apn": "~1.7.4",
+    "apn": "~1.6.0",
     "async": "^1.0.0",
     "debug": "^2.2.0",
     "lodash": "^3.9.3",
