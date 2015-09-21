@@ -42,10 +42,7 @@
     "type": "git",
     "url": "https://github.com/strongloop/loopback-component-push.git"
   },
-  "license": {
-    "name": "Dual Artistic-2.0/StrongLoop",
-    "url": "https://github.com/strongloop/loopback-component-push/blob/master/LICENSE"
-  },
+  "license": "Artistic-2.0",
   "optionalDependencies": {
     "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.0.0"
   }
