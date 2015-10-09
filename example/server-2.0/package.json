@@ -16,7 +16,7 @@
     "serve-favicon": "^2.2.1"
   },
   "optionalDependencies": {
-    "loopback-explorer": "^1.7.2"
+    "loopback-component-explorer": "^2.1.0"
   },
   "devDependencies": {
     "bower": "^1.4.1"
