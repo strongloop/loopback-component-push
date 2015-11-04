@@ -12,7 +12,8 @@ module.exports = function (app) {
         badge: badge++,
         sound: 'ping.aiff',
         alert: '\uD83D\uDCE7 \u2709 ' + 'Hello',
-        messageFrom: 'Ray'
+        messageFrom: 'Ray',
+        priority: 'high' //normal by default
       });
 
       PushModel.notifyById(req.params.id, note, function (err) {
