@@ -15,13 +15,14 @@
     "test": "mocha"
   },
   "dependencies": {
-    "apn": "~1.7.4",
+    "apn": "^1.7.5",
     "async": "^1.0.0",
     "debug": "^2.2.0",
     "lodash": "^3.9.3",
     "mpns": "^2.1.0",
     "node-cache": "^2.1.1",
-    "node-gcm": "^0.11.0"
+    "node-gcm": "^0.12.1",
+    "wns": "git://github.com/futurice/wns.git#28bfe39a3be8c64f3d72b7c7a5cac77c049b137a"
   },
   "devDependencies": {
     "chai": "^2.3.0",
