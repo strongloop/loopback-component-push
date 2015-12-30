@@ -1,4 +1,32 @@
-2015-04-13, Version 1.5.1
+2015-12-30, Version 1.5.2
+=========================
+
+ * Remove examples (Simon Ho)
+
+ * Refer to licenses with a link (Sam Roberts)
+
+ * Upgrade LB Explorer and related changes (crandmck)
+
+ * Use strongloop conventions for licensing (Sam Roberts)
+
+ * Fix iOS sample app's push registration handling Changes introduced by PR #67 should have been done in loopback-sdk-ios rather than inside the app. Those changes has been moved to loopback-sdk-ios (PR #38) and this PR removes them from the sample. This fixes Issue #75. Add MobileCoreServices and SystemConfiguration frameworks that are needed for the recent SDK. (hideya kawahara)
+
+ * adding jscs and jshint to the pretest with jsdocs updates (Bryan Clark)
+
+ * downgrade to node-cache@2.1.1 (Bryan Clark)
+
+ * Forward "contentAvailable" and "urlArgs" to APNS (Jonathon Mah)
+
+ * Update deps (Raymond Feng)
+
+ * Fix links to example (Rand McKinney)
+
+ * Update README.md (DeniseLee)
+
+ * Style changes and edits. (DeniseLee)
+
+
+2015-04-12, Version 1.5.1
 =========================
 
  * Add the missing require statement (Raymond Feng)
