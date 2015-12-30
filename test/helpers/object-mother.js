@@ -31,7 +31,7 @@ exports.apnsDevKey = function() {
 var path = require('path');
 var fs = require('fs');
 function readCredentialsSync(fileName) {
-  var relativePath = '../../example/server/credentials';
+  var relativePath = '../fixtures';
   var credentialsDir = path.resolve(__dirname, relativePath);
   return fs.readFileSync(path.join(credentialsDir, fileName), 'UTF-8');
 }
