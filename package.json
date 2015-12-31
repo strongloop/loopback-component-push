@@ -33,7 +33,6 @@
     "loopback": "^2.18.0",
     "loopback-connector-mongodb": "^1.8.0",
     "loopback-datasource-juggler": "^2.29.0",
-    "loopback-testing": "^1.1.0",
     "mocha": "^2.2.0",
     "should": "^6.0.0",
     "sinon": "^1.14.0"
