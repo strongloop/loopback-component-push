@@ -1,4 +1,12 @@
-2015-12-30, Version 1.5.2
+2016-02-19, Version 1.5.3
+=========================
+
+ * Remove sl-blip from dependencies (Miroslav Bajtoš)
+
+ * Remove dependency on loopback-testing (Simon Ho)
+
+
+2015-12-29, Version 1.5.2
 =========================
 
  * Remove examples (Simon Ho)
