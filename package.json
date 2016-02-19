@@ -21,7 +21,7 @@
     "lodash": "^3.9.3",
     "mpns": "^2.1.0",
     "node-cache": "^2.1.1",
-    "node-gcm": "^0.12.1",
+    "node-gcm": "^0.14.0",
     "wns": "git://github.com/futurice/wns.git#28bfe39a3be8c64f3d72b7c7a5cac77c049b137a"
   },
   "devDependencies": {
