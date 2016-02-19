@@ -41,8 +41,5 @@
     "type": "git",
     "url": "https://github.com/strongloop/loopback-component-push.git"
   },
-  "license": "Artistic-2.0",
-  "optionalDependencies": {
-    "sl-blip": "http://blip.strongloop.com/loopback-component-push@1.5.2"
-  }
+  "license": "Artistic-2.0"
 }
