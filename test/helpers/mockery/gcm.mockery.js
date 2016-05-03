@@ -1,3 +1,7 @@
+// Copyright IBM Corp. 2013,2015. All Rights Reserved.
+// Node module: loopback-component-push
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
 
 // This module provides a mocked environment where GCM connections
 // are calling callbacks provided by tests instead of communicating with

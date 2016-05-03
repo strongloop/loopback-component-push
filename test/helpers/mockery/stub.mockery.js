@@ -1,3 +1,7 @@
+// Copyright IBM Corp. 2013,2015. All Rights Reserved.
+// Node module: loopback-component-push
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
 
 // This module provides a mocked environment with a special "stub"
 // provider that does not depend on any real implementation (GCM, APNS)
