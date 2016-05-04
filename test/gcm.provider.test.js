@@ -31,17 +31,17 @@ describe('GCM provider', function() {
   describe('for single device token', function() {
     it('sends Notification as a GCM message', function(done) {
       var notification = aNotification({ aKey: 'a-value' });
+      notification.alert = 'alert message';
+      notification.badge = 1;
       provider.pushNotification(notification, aDeviceToken);
 
       var gcmArgs = mockery.firstPushNotificationArgs();
 
       var msg = gcmArgs[0];
-      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-      expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
+      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value', alert: 'alert message', badge: 1 });
 
       expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
       done();
@@ -101,8 +101,6 @@ describe('GCM provider', function() {
       expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
-      expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
       expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
@@ -174,7 +172,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to.equal(undefined);
+    expect(message.params.data).to.deep.equal({ alert: 'an-alert', badge: 1230001 });
   });
 
   it('ignores Notification properties null or undefined', function() {
@@ -187,7 +185,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to.eql({ aFalse: false, aTrue: true });
+    expect(message.params.data).to.deep.equal({ aFalse: false, aTrue: true });
   });
 
   function givenProviderWithConfig(pushSettings) {
