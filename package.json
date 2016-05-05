@@ -22,6 +22,7 @@
     "mpns": "^2.1.0",
     "node-cache": "^2.1.1",
     "node-gcm": "^0.14.0",
+    "node-gcm-ccs": "git+https://github.com/jacobp100/node-gcm-ccs.git",
     "wns": "git://github.com/futurice/wns.git#28bfe39a3be8c64f3d72b7c7a5cac77c049b137a"
   },
   "devDependencies": {
