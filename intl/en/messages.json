@@ -1,0 +1,13 @@
+{
+  "0a11bfdd7655e825fbd1f998b2e24db9": "Empty payload",
+  "71a2b601d1e750aa05c7a28ed76b9973": "Invalid field (empty)",
+  "8bc87eb582af546d32505f2839234119": "Invalid payload",
+  "db1e3eb9bf0934d72eb8b0b110281f39": "Invalid field: {0}",
+  "e254b20a16461c7379202f6a5f8350cc": "Invalid variable type for ${{0}}",
+  "f5146dece5cd70db519daf8c7e6d8478": "The ${{0}} does not exist",
+  "f95c75ae3da1e88794fff4be7188f3dc": "Invalid value for `{0}`",
+  "e9023b2ab0a052c9ccbd257198c7429f": "Cannot send {{APNS}} notification: {0}",
+  "704e7bf9910b8532f7c4889366fdcbac": "{{GCM}} error code: {0}, deviceToken: {1}",
+  "033d31e7bd62a420f23e4b154945a2b8": "notification must be an object",
+  "1ec12f42dab8979b9fc90a95a023419e": "deviceTokens must be an array"
+}

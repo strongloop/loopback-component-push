@@ -9,6 +9,8 @@
 var loopback = require('loopback');
 var PushConnector = require('./lib/push-connector');
 exports = module.exports = PushConnector;
+var SG = require('strong-globalize');
+SG.SetRootDir(__dirname);
 
 /**
  * Export two model classes as properties
