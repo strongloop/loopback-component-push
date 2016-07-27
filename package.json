@@ -21,7 +21,8 @@
     "lodash": "^3.10.1",
     "mpns": "^2.1.0",
     "node-cache": "^3.2.1",
-    "node-gcm": "^0.14.0"
+    "node-gcm": "^0.14.0",
+    "strong-globalize": "^2.5.6"
   },
   "devDependencies": {
     "chai": "^2.3.0",
