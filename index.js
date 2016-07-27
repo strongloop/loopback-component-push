@@ -3,14 +3,15 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+var SG = require('strong-globalize');
+SG.SetRootDir(__dirname);
+
 /**
  * Export the connector
  */
 var loopback = require('loopback');
 var PushConnector = require('./lib/push-connector');
 exports = module.exports = PushConnector;
-var SG = require('strong-globalize');
-SG.SetRootDir(__dirname);
 
 /**
  * Export two model classes as properties
