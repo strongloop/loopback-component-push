@@ -1,3 +1,7 @@
+// Copyright IBM Corp. 2013,2015. All Rights Reserved.
+// Node module: loopback-component-push
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
 
 var extend = require('util')._extend;
 var GcmProvider = require('../lib/providers/gcm');
@@ -37,7 +41,7 @@ describe('GCM provider', function() {
       expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
       expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-      expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
       expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
       done();
@@ -94,12 +98,12 @@ describe('GCM provider', function() {
       var gcmArgs = mockery.pushNotification.args[0];
 
       var msg = gcmArgs[0];
-      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-      expect(msg.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.collapseKey, 'collapseKey').to.equal(undefined);
-      expect(msg.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
-      expect(msg.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
+      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
+      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value' });
 
       expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
       done();
@@ -139,7 +143,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.timeToLive).to.equal(1);
+    expect(message.params.timeToLive).to.equal(1);
   });
 
   it('converts expirationTime to GCM timeToLive relative to now', function() {
@@ -149,7 +153,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.timeToLive).to.equal(1);
+    expect(message.params.timeToLive).to.equal(1);
   });
 
   it('forwards android parameters', function() {
@@ -161,8 +165,8 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.collapseKey).to.equal('a-collapse-key');
-    expect(message.delayWhileIdle, 'delayWhileIdle').to.equal(true);
+    expect(message.params.collapseKey).to.equal('a-collapse-key');
+    expect(message.params.delayWhileIdle, 'delayWhileIdle').to.equal(true);
   });
 
   it('ignores Notification properties not applicable', function() {
@@ -170,7 +174,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.data).to.eql({ });
+    expect(message.params.data).to.equal(undefined);
   });
 
   it('ignores Notification properties null or undefined', function() {
@@ -183,7 +187,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.data).to.eql({ aFalse: false, aTrue: true });
+    expect(message.params.data).to.eql({ aFalse: false, aTrue: true });
   });
 
   function givenProviderWithConfig(pushSettings) {

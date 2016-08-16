@@ -1,3 +1,7 @@
+// Copyright IBM Corp. 2013,2015. All Rights Reserved.
+// Node module: loopback-component-push
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
 
 var async = require('async');
 
@@ -5,7 +9,7 @@ var PushManager = require('../lib/push-manager');
 var NodeCache = require('node-cache');
 
 var mockery = require('./helpers/mockery').stub;
-var TestDataBuilder = require('loopback-testing').TestDataBuilder;
+var TestDataBuilder = require('./helpers/test-data-builder');
 var ref = TestDataBuilder.ref;
 
 describe('PushManager', function() {

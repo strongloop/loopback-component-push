@@ -1,9 +1,13 @@
+// Copyright IBM Corp. 2015. All Rights Reserved.
+// Node module: loopback-component-push
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
+
 /* exported global */
 global.chai = require('chai');
 global.should = require('chai').should();
 global.expect = require('chai').expect;
 global.AssertionError = require('chai').AssertionError;
-global.lt = require('loopback-testing');
 global.loopback = require('loopback');
 global.assert = require('assert');
 
