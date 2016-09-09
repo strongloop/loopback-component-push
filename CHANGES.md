@@ -1,3 +1,21 @@
+2016-09-09, Version 1.6.0
+=========================
+
+ * Fix alert and badge not included in GCM (Benjamin Boudreau)
+
+ * Update strong-globalize to 2.6.2 (Simon Ho)
+
+ * Update strong-globalize to 2.6.0 (Simon Ho)
+
+ * Globalization cleanup (Simon Ho)
+
+ * Add globalization (Simon Ho)
+
+ * Update URLs in CONTRIBUTING.md (#115) (Ryan Graham)
+
+ * Upgrading dependencies (Benjamin Boudreau)
+
+
 2016-05-03, Version 1.5.4
 =========================
 
