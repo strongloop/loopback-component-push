@@ -31,9 +31,8 @@
     "grunt-jsdoc": "^0.6.6",
     "jscs": "1.13.1",
     "jshint": "^2.8.0",
-    "loopback": "^3.0.0-alpha.5",
+    "loopback": "^3.0.0",
     "loopback-connector-mongodb": "^1.8.0",
-    "loopback-datasource-juggler": "^2.29.0",
     "mocha": "^2.2.0",
     "should": "^6.0.0",
     "sinon": "^1.14.0"
