@@ -11,13 +11,16 @@
   ],
   "main": "index.js",
   "scripts": {
-    "pretest": "jscs . && jshint .",
-    "test": "mocha"
+    "lint": "eslint .",
+    "test": "mocha",
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "apn": "^1.7.5",
     "async": "^1.5.2",
     "debug": "^2.2.0",
+    "eslint": "^3.7.1",
+    "eslint-config-loopback": "^4.0.0",
     "lodash": "^3.10.1",
     "mpns": "^2.1.0",
     "node-cache": "^3.2.1",
@@ -29,8 +32,6 @@
     "deep-extend": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jsdoc": "^0.6.6",
-    "jscs": "1.13.1",
-    "jshint": "^2.8.0",
     "loopback": "^3.0.0",
     "loopback-connector-mongodb": "^1.8.0",
     "mocha": "^2.2.0",
