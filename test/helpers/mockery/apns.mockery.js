@@ -49,7 +49,6 @@ mockery.firstPushNotificationArgs = function() {
   return mockery.pushNotification.firstCall.args;
 };
 
-
 var apnsSnapshot = {};
 var defaultExports = {};
 

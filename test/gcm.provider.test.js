@@ -14,7 +14,7 @@ var aDeviceTokenList = [
   'second-device-token',
   'third-device-token',
   'fourth-device-token',
-  'fifth-device-token'
+  'fifth-device-token',
 ];
 
 describe('GCM provider', function() {
@@ -27,10 +27,9 @@ describe('GCM provider', function() {
   afterEach(tearDownFakeTimers);
   afterEach(mockery.tearDown);
 
-
   describe('for single device token', function() {
     it('sends Notification as a GCM message', function(done) {
-      var notification = aNotification({ aKey: 'a-value' });
+      var notification = aNotification({aKey: 'a-value'});
       notification.alert = 'alert message';
       notification.badge = 1;
       provider.pushNotification(notification, aDeviceToken);
@@ -41,7 +40,7 @@ describe('GCM provider', function() {
       expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value', alert: 'alert message', badge: 1 });
+      expect(msg.params.data, 'data').to.deep.equal({aKey: 'a-value', alert: 'alert message', badge: 1});
 
       expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
       done();
@@ -61,7 +60,7 @@ describe('GCM provider', function() {
 
     it('emits "error" event when GCM returns error result', function() {
       // This is a real result returned by GCM
-      var errorResult = aGcmResult([{ 'error': 'MismatchSenderId' }]);
+      var errorResult = aGcmResult([{'error': 'MismatchSenderId'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
@@ -74,7 +73,7 @@ describe('GCM provider', function() {
     });
 
     it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
-      var errorResult = aGcmResult([{ 'error': 'NotRegistered' }]);
+      var errorResult = aGcmResult([{'error': 'NotRegistered'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
@@ -92,7 +91,7 @@ describe('GCM provider', function() {
 
   describe('for multiple device tokens', function() {
     it('sends Notification as a GCM message', function(done) {
-      var notification = aNotification({ aKey: 'a-value' });
+      var notification = aNotification({aKey: 'a-value'});
       provider.pushNotification(notification, aDeviceTokenList);
 
       var gcmArgs = mockery.pushNotification.args[0];
@@ -101,7 +100,7 @@ describe('GCM provider', function() {
       expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.params.data, 'data').to.deep.equal({ aKey: 'a-value' });
+      expect(msg.params.data, 'data').to.deep.equal({aKey: 'a-value'});
 
       expect(gcmArgs[1]).to.deep.equal(aDeviceTokenList);
       done();
@@ -112,11 +111,11 @@ describe('GCM provider', function() {
         'GCM error code: MismatchSenderId, deviceToken: fifth-device-token');
 
       var gcmResult = aGcmResult([
-        { 'error': 'InvalidRegistration' },
-        { 'message_id': '1234567890' },
-        { 'error': 'MismatchSenderId' },
-        { 'error': 'NotRegistered' },
-        { 'error': 'MismatchSenderId' },
+        {'error': 'InvalidRegistration'},
+        {'message_id': '1234567890'},
+        {'error': 'MismatchSenderId'},
+        {'error': 'NotRegistered'},
+        {'error': 'MismatchSenderId'},
       ]);
 
       mockery.pushNotificationCallbackArgs = [null, gcmResult];
@@ -137,7 +136,7 @@ describe('GCM provider', function() {
   });
 
   it('converts expirationInterval to GCM timeToLive', function() {
-    var notification = aNotification({ expirationInterval: 1 /* second */});
+    var notification = aNotification({expirationInterval: 1});
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
@@ -146,7 +145,7 @@ describe('GCM provider', function() {
 
   it('converts expirationTime to GCM timeToLive relative to now', function() {
     var notification = aNotification({
-      expirationTime: new Date(this.clock.now + 1000 /* 1 second */)
+      expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
     });
     provider.pushNotification(notification, aDeviceToken);
 
@@ -157,7 +156,7 @@ describe('GCM provider', function() {
   it('forwards android parameters', function() {
     var notification = aNotification({
       collapseKey: 'a-collapse-key',
-      delayWhileIdle: true
+      delayWhileIdle: true,
     });
 
     provider.pushNotification(notification, aDeviceToken);
@@ -172,7 +171,7 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to.deep.equal({ alert: 'an-alert', badge: 1230001 });
+    expect(message.params.data).to.deep.equal({alert: 'an-alert', badge: 1230001});
   });
 
   it('ignores Notification properties null or undefined', function() {
@@ -180,19 +179,19 @@ describe('GCM provider', function() {
       aFalse: false,
       aTrue: true,
       aNull: null,
-      anUndefined: undefined
+      anUndefined: undefined,
     });
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to.deep.equal({ aFalse: false, aTrue: true });
+    expect(message.params.data).to.deep.equal({aFalse: false, aTrue: true});
   });
 
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
     pushSettings.gcm = extend({}, pushSettings.gcm);
     pushSettings.gcm.pushOptions = extend(
-      { serverKey: 'a-test-server-key' },
+      {serverKey: 'a-test-server-key'},
       pushSettings.gcm.pushOptions);
 
     provider = new GcmProvider(pushSettings);
@@ -203,12 +202,11 @@ describe('GCM provider', function() {
   }
 
   function aGcmResult(results) {
-
-    var success = results.filter(function(item){
+    var success = results.filter(function(item) {
       return item.message_id;
     }).length;
 
-    var failure = results.filter(function(item){
+    var failure = results.filter(function(item) {
       return item.error;
     }).length;
 
@@ -217,7 +215,7 @@ describe('GCM provider', function() {
       'success': success,
       'failure': failure,
       'canonical_ids': 0,
-      'results': results
+      'results': results,
     };
   }
 

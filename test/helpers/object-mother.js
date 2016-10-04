@@ -21,7 +21,7 @@ exports.allNotificationProperties = function() {
     scheduledTime: new Date(2222, 3, 3),
     expirationTime: new Date(2222, 4, 4),
     expirationInterval: 123002,
-    status: 'a-status'
+    status: 'a-status',
   };
 };
 

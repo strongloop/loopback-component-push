@@ -65,7 +65,7 @@ exports.setUp = function() {
   }
 
   mockery.pushNotification = sinon.spy();
-  mockery.pushNotificationCallbackArgs = [null, { success: 1, failure: 0 }];
+  mockery.pushNotificationCallbackArgs = [null, {success: 1, failure: 0}];
 
   gcm.Sender = function(opts) {
     mockery.senderOptions = Array.prototype.slice.call(arguments);

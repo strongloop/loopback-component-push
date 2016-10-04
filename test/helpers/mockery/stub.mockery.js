@@ -77,7 +77,6 @@ StubProvider.prototype.emitDevicesGone = function(devices) {
   this.emit('devicesGone', devices);
 };
 
-
 var defaultExports = {};
 
 /**

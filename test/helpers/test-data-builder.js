@@ -55,7 +55,7 @@ TestDataBuilder.prototype.define = function(name, Model, properties) {
   this._definitions.push({
     name: name,
     model: Model,
-    properties: properties
+    properties: properties,
   });
   return this;
 };

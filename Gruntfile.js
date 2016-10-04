@@ -5,18 +5,18 @@
 
 module.exports = function(grunt) {
   grunt.initConfig({
-    jsdoc : {
-      dist : {
+    jsdoc: {
+      dist: {
         src: ['lib/*.js', 'models/installation.js', 'models/notification.js'],
         options: {
-          destination: 'doc'
-        }
-      }
+          destination: 'doc',
+        },
+      },
     },
     watch: {
       files: ['lib/*.js', 'models/*.js'],
       tasks: ['jsdoc'],
-    }
+    },
   });
 
   grunt.loadNpmTasks('grunt-jsdoc');

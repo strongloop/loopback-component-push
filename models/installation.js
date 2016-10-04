@@ -28,7 +28,6 @@ var _ = require('lodash');
  * @header Installation
  */
 module.exports = function(Installation) {
-
   Installation.observe('before save', function trip(ctx, next) {
     var install = ctx.instance || ctx.data;
     install.modified = new Date();
@@ -50,7 +49,7 @@ module.exports = function(Installation) {
     var filter = {where: {
       appId: appId,
       appVersion: appVersion,
-      deviceType: deviceType}
+      deviceType: deviceType},
     };
     this.find(filter, cb);
   };
@@ -77,9 +76,9 @@ module.exports = function(Installation) {
       subscriptions = subscriptions.split(/[\s,]+/);
     }
     var filter = {where: {
-        subscriptions: {inq: subscriptions},
-        deviceType: deviceType
-      }
+      subscriptions: {inq: subscriptions},
+      deviceType: deviceType,
+    },
     };
     this.find(filter, cb);
   };
@@ -103,32 +102,32 @@ module.exports = function(Installation) {
   setRemoting(Installation.findByApp, {
     description: 'Find installations by application id',
     accepts: [
-        _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
-        _.extend({arg: 'appId', description: 'Application id'}, aDefs),
-        _.extend({arg: 'appVersion', description: 'Application version'}, aDefs)
+      _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
+      _.extend({arg: 'appId', description: 'Application id'}, aDefs),
+      _.extend({arg: 'appVersion', description: 'Application version'}, aDefs),
     ],
     returns: {arg: 'data', type: 'object', root: true},
-    http: {verb: 'get', path: '/byApp'}
+    http: {verb: 'get', path: '/byApp'},
   });
 
   setRemoting(Installation.findByUser, {
     description: 'Find installations by user id',
     accepts: [
       _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
-      _.extend({arg: 'userId', description: 'User id'}, aDefs)
+      _.extend({arg: 'userId', description: 'User id'}, aDefs),
     ],
     returns: {arg: 'data', type: 'object', root: true},
-    http: {verb: 'get', path: '/byUser'}
+    http: {verb: 'get', path: '/byUser'},
   });
 
   setRemoting(Installation.findBySubscriptions, {
     description: 'Find installations by subscriptions',
     accepts: [
       _.extend({arg: 'deviceType', description: 'Device type'}, aDefs),
-      _.extend({arg: 'subscriptions', description: 'Subscriptions'}, aDefs)
+      _.extend({arg: 'subscriptions', description: 'Subscriptions'}, aDefs),
     ],
     returns: {arg: 'data', type: 'object', root: true},
-    http: {verb: 'get', path: '/bySubscriptions'}
+    http: {verb: 'get', path: '/bySubscriptions'},
   });
 
   return Installation;

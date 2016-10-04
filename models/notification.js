@@ -39,7 +39,6 @@
  * @header Notification
  */
 module.exports = function(Notification) {
-
   // Avoid exposure of internal properties such __data
   Notification.hideInternalProperties = true;
 

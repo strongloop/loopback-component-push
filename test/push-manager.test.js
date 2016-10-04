@@ -34,11 +34,11 @@ describe('PushManager', function() {
       function arrange(cb) {
         new TestDataBuilder()
           .define('application', Application, {
-            pushSettings: { stub: { } }
+            pushSettings: {stub: { }},
           })
           .define('installation', Installation, {
             appId: ref('application.id'),
-            deviceType: mockery.deviceType
+            deviceType: mockery.deviceType,
           })
           .buildTo(context, cb);
       },
@@ -65,17 +65,17 @@ describe('PushManager', function() {
           expect(result).to.have.length(0);
           cb();
         });
-      }
+      },
     ], done);
   });
 
-  describe('.notify', function () {
-    it('should set device type/token from installation', function (done) {
+  describe('.notify', function() {
+    it('should set device type/token from installation', function(done) {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: { } }
+              pushSettings: {stub: { }},
             })
             // Note: the order in which the installations are created
             // is important.
@@ -86,12 +86,12 @@ describe('PushManager', function() {
             .define('anotherDevice', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
-              deviceType: 'another-device-type'
+              deviceType: 'another-device-type',
             })
             .define('installation', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
-              deviceType: mockery.deviceType
+              deviceType: mockery.deviceType,
             })
             .buildTo(context, cb);
         },
@@ -107,21 +107,21 @@ describe('PushManager', function() {
         function verify(cb) {
           // Wait with the check to give the push manager some time
           // to load all data and push the message
-          setTimeout(function () {
+          setTimeout(function() {
             expect(mockery.firstPushNotificationArgs()).to.deep.equal(
               [context.notification, context.installation.deviceToken]
             );
             cb();
           }, 50);
-        }
+        },
       ], done);
     });
 
-    it('reports error on invalid notification', function (done) {
+    it('reports error on invalid notification', function(done) {
       pushManager.notify(
-        { userId: 'unknown-user' },
-        { invalid: true }, // invalid
-        function (err) {
+        {userId: 'unknown-user'},
+        {invalid: true}, // invalid
+        function(err) {
           expect(err.name).to.equal('ValidationError');
           done();
         }
@@ -135,7 +135,7 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: { } }
+              pushSettings: {stub: { }},
             })
             // Note: the order in which the installations are created
             // is important.
@@ -146,12 +146,12 @@ describe('PushManager', function() {
             .define('anotherDevice', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
-              deviceType: 'another-device-type'
+              deviceType: 'another-device-type',
             })
             .define('installation', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
-              deviceType: mockery.deviceType
+              deviceType: mockery.deviceType,
             })
             .buildTo(context, cb);
         },
@@ -173,7 +173,7 @@ describe('PushManager', function() {
             );
             cb();
           }, 50);
-        }
+        },
       ], done);
     });
 
@@ -192,7 +192,7 @@ describe('PushManager', function() {
               .to.have.property('installationId', 'unknown-installation-id');
             cb();
           }
-        }
+        },
       ], done);
     });
 
@@ -200,7 +200,7 @@ describe('PushManager', function() {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
-            .define('installation', Installation, { appId: 'unknown-app-id' })
+            .define('installation', Installation, {appId: 'unknown-app-id'})
             .buildTo(context, cb);
         },
 
@@ -217,7 +217,7 @@ describe('PushManager', function() {
               .to.have.property('appId', 'unknown-app-id');
             cb();
           }
-        }
+        },
       ], done);
     });
 
@@ -225,10 +225,10 @@ describe('PushManager', function() {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
-            .define('application', Application, { pushSettings: null })
+            .define('application', Application, {pushSettings: null})
             .define('installation', Installation, {
               appId: ref('application.id'),
-              deviceType: 'unknown-device-type'
+              deviceType: 'unknown-device-type',
             })
             .buildTo(context, cb);
         },
@@ -245,19 +245,18 @@ describe('PushManager', function() {
             expect(err.details).to.have.property('application');
             cb();
           }
-        }
+        },
       ], done);
-
     });
 
     it('reports error for unknown device type', function(done) {
       async.series([
         function arrange(cb) {
           new TestDataBuilder()
-            .define('application', Application, { pushSettings: {}})
+            .define('application', Application, {pushSettings: {}})
             .define('installation', Installation, {
               appId: ref('application.id'),
-              deviceType: 'unknown-device-type'
+              deviceType: 'unknown-device-type',
             })
             .buildTo(context, cb);
         },
@@ -273,9 +272,8 @@ describe('PushManager', function() {
             expect(err).to.be.instanceOf(Error);
             cb();
           }
-        }
+        },
       ], done);
-
     });
 
     it('emits error when push fails inside provider', function(done) {
@@ -283,12 +281,12 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: { } }
+              pushSettings: {stub: { }},
             })
             .define('installation', Installation, {
               appId: ref('application.id'),
               deviceToken: 'a-device-token',
-              deviceType: mockery.deviceType
+              deviceType: mockery.deviceType,
             })
             .buildTo(context, cb);
         },
@@ -311,7 +309,7 @@ describe('PushManager', function() {
               cb();
             }
           );
-        }
+        },
       ], done);
     });
   });
@@ -322,32 +320,32 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: { } }
+              pushSettings: {stub: { }},
             })
             .define('myPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'my-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'myself'
+              userId: 'myself',
             })
             .define('myOtherPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'my-other-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'myself'
+              userId: 'myself',
             })
             .define('friendsPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'friends-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'somebody else'
+              userId: 'somebody else',
             })
             .buildTo(context, cb);
         },
 
         function act(cb) {
           pushManager.notifyByQuery(
-            { userId: 'myself' },
+            {userId: 'myself'},
             context.notification,
             cb
           );
@@ -367,7 +365,7 @@ describe('PushManager', function() {
             );
             cb();
           }, 50);
-        }
+        },
       ], done);
     });
 
@@ -376,24 +374,23 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('myPhone', Installation, {
-              userId: 'myself'
+              userId: 'myself',
             })
             .buildTo(context, cb);
         },
 
         function act(cb) {
           pushManager.notifyByQuery(
-            { userId: 'myself' },
-            "invalid notification", // invalid
+            {userId: 'myself'},
+            'invalid notification', // invalid
             function(err) {
               expect(err.message).to.equal('notification must be an object');
               cb();
             }
           );
-        }
+        },
       ], done);
     });
-
   });
 
   describe('.notifyMany', function() {
@@ -402,25 +399,25 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: { } }
+              pushSettings: {stub: { }},
             })
             .define('firstPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'first-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'myself'
+              userId: 'myself',
             })
             .define('secondPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'second-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'myself'
+              userId: 'myself',
             })
             .define('thirdPhone', Installation, {
               appId: ref('application.id'),
               deviceToken: 'third-phone-token',
               deviceType: mockery.deviceType,
-              userId: 'somebody else'
+              userId: 'somebody else',
             })
             .buildTo(context, cb);
         },
@@ -445,7 +442,7 @@ describe('PushManager', function() {
             );
             cb();
           }, 50);
-        }
+        },
       ], done);
     });
 
@@ -454,7 +451,7 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('myPhone', Installation, {
-              userId: 'myself'
+              userId: 'myself',
             })
             .buildTo(context, cb);
         },
@@ -469,7 +466,7 @@ describe('PushManager', function() {
               cb();
             }
           );
-        }
+        },
       ], done);
     });
 
@@ -486,19 +483,18 @@ describe('PushManager', function() {
               cb();
             }
           );
-        }
+        },
       ], done);
     });
   });
 
   describe('PushManager applicationsCache', function() {
-
     it('settings', function() {
       var ttlInSeconds, checkPeriodInSeconds;
       ttlInSeconds = checkPeriodInSeconds = 10;
       var pm = new PushManager({
         ttlInSeconds: 10,
-        checkPeriodInSeconds: 10
+        checkPeriodInSeconds: 10,
       });
       expect(pm.ttlInSeconds).to.be.equal(ttlInSeconds);
       expect(pm.checkPeriodInSeconds).to.be.equal(checkPeriodInSeconds);
@@ -521,11 +517,11 @@ describe('PushManager', function() {
         function arrange(cb) {
           new TestDataBuilder()
             .define('application', Application, {
-              pushSettings: { stub: {  } }
+              pushSettings: {stub: {  }},
             })
             .define('installation', Installation, {
               appId: ref('application.id'),
-              deviceType: mockery.deviceType
+              deviceType: mockery.deviceType,
             })
             .buildTo(context, cb);
         },
@@ -540,7 +536,7 @@ describe('PushManager', function() {
         function verify(cb) {
           var cacheApp = pushManager.applicationsCache.get(context.installation.appId);
           expect(cacheApp).to.have.property(context.installation.appId);
-        }
+        },
       ]);
     });
   });
@@ -576,7 +572,7 @@ describe('PushManager model dependencies', function() {
 
   it('honors settings', function() {
     var pm = new PushManager({
-      installation: 'myInstallation'
+      installation: 'myInstallation',
     });
     var myInstallation = Installation.extend('myInstallation', {});
     var otherInstallation = Installation.extend('otherInstallation', {});
@@ -585,7 +581,7 @@ describe('PushManager model dependencies', function() {
 
   it('supports setters', function() {
     var pm = new PushManager({
-      installation: 'myInstallation'
+      installation: 'myInstallation',
     });
     var myInstallation = Installation.extend('myInstallation', {});
     var otherInstallation = Installation.extend('otherInstallation', {});
