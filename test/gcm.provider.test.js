@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var extend = require('util')._extend;
 var GcmProvider = require('../lib/providers/gcm');
 var mockery = require('./helpers/mockery').gcm;
@@ -37,10 +39,12 @@ describe('GCM provider', function() {
       var gcmArgs = mockery.firstPushNotificationArgs();
 
       var msg = gcmArgs[0];
-      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
+      expect(msg.params.collapseKey, 'collapseKey').to
+        .equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.params.data, 'data').to.deep.equal({aKey: 'a-value', alert: 'alert message', badge: 1});
+      expect(msg.params.data, 'data').to
+        .deep.equal({aKey: 'a-value', alert: 'alert message', badge: 1});
 
       expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
       done();
@@ -54,7 +58,8 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
-      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to
+        .equal(true);
       expect(eventSpy.args[0]).to.deep.equal([anError]);
     });
 
@@ -68,7 +73,8 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
-      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to
+        .equal(true);
       expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
     });
 
@@ -107,8 +113,9 @@ describe('GCM provider', function() {
     });
 
     it('handles GCM response for multiple device tokens', function(done) {
-      var gcmError = new Error('GCM error code: MismatchSenderId, deviceToken: third-device-token\n' +
-        'GCM error code: MismatchSenderId, deviceToken: fifth-device-token');
+      var gcmError = new Error('GCM error code: MismatchSenderId, ' +
+          'deviceToken: third-device-token\nGCM error code: ' +
+          'MismatchSenderId, deviceToken: fifth-device-token');
 
       var gcmResult = aGcmResult([
         {'error': 'InvalidRegistration'},
@@ -129,7 +136,8 @@ describe('GCM provider', function() {
       provider.pushNotification(aNotification(), aDeviceTokenList);
 
       var expectedIds = [aDeviceTokenList[0], aDeviceTokenList[3]];
-      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to
+        .equal(true);
       expect(eventSpy.args[0][0]).to.deep.equal(expectedIds);
       done();
     });
@@ -171,7 +179,8 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to.deep.equal({alert: 'an-alert', badge: 1230001});
+    expect(message.params.data).to
+      .deep.equal({alert: 'an-alert', badge: 1230001});
   });
 
   it('ignores Notification properties null or undefined', function() {

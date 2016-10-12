@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var ApnsProvider = require('../lib/providers/apns');
@@ -59,7 +61,8 @@ describe('APNS provider', function() {
 
       var note = apnArgs[0];
       var payload = note.toJSON();
-      expect(payload.aps['content-available'], 'aps.content-available').to.equal(1);
+      expect(payload.aps['content-available'], 'aps.content-available').to
+        .equal(1);
       expect(payload.aps.category, 'aps.category').to.equal('my-category');
       expect(payload.aps['url-args'], 'aps.url-args').to.have.length(2);
       expect(payload.arbitrary, 'arbitrary').to.equal('baz');
@@ -110,7 +113,8 @@ describe('APNS provider', function() {
     it('ignores Notification properties not applicable', function() {
       givenProviderWithConfig();
 
-      var notification = aNotification(objectMother.allNotificationProperties());
+      var notification = aNotification(
+        objectMother.allNotificationProperties());
       provider.pushNotification(notification, aDeviceToken);
 
       var note = mockery.firstPushNotificationArgs()[0];

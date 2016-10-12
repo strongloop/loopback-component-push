@@ -3,11 +3,14 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 describe('Installation', function() {
   var registration = null;
 
   it('registers a new installation', function(done) {
-    var token = '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e f2a19241 e8f33305';
+    var token = '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e ' +
+      'f2a19241 e8f33305';
     Installation.create({
       appId: 'MyLoopbackApp',
       appVersion: '1',

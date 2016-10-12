@@ -3,6 +3,7 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
 var async = require('async');
 
 var PushManager = require('../lib/push-manager');
@@ -18,8 +19,7 @@ describe('PushManager', function() {
   beforeEach(Installation.deleteAll.bind(Installation));
   afterEach(mockery.tearDown);
 
-  var pushManager;
-  var context;
+  var pushManager, context;
 
   beforeEach(function(done) {
     pushManager = new PushManager();
@@ -437,9 +437,10 @@ describe('PushManager', function() {
             var callsArgs = mockery.pushNotification.args;
 
             expect(callsArgs[0], 'number of arguments').to.have.length(2);
-            expect(callsArgs[0]).to.deep.equal(
-                [context.notification, [context.firstPhone.deviceToken, context.secondPhone.deviceToken]]
-            );
+            expect(callsArgs[0]).to.deep.equal([
+              context.notification,
+              [context.firstPhone.deviceToken, context.secondPhone.deviceToken],
+            ]);
             cb();
           }, 50);
         },
@@ -534,7 +535,9 @@ describe('PushManager', function() {
         },
 
         function verify(cb) {
-          var cacheApp = pushManager.applicationsCache.get(context.installation.appId);
+          var cacheApp = pushManager
+            .applicationsCache
+            .get(context.installation.appId);
           expect(cacheApp).to.have.property(context.installation.appId);
         },
       ]);
