@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // mostly borrowed from
 // https://github.com/strongloop/loopback-component-passport/blob/master/lib/index.js
 var loopback = require('loopback');

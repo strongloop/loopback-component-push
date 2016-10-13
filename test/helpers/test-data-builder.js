@@ -3,6 +3,7 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
 var extend = require('util')._extend;
 var async = require('async');
 
@@ -55,7 +56,7 @@ TestDataBuilder.prototype.define = function(name, Model, properties) {
   this._definitions.push({
     name: name,
     model: Model,
-    properties: properties
+    properties: properties,
   });
   return this;
 };

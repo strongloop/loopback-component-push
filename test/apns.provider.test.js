@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var ApnsProvider = require('../lib/providers/apns');
@@ -25,7 +27,7 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
-        aKey: 'a-value'
+        aKey: 'a-value',
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -37,7 +39,7 @@ describe('APNS provider', function() {
       expect(note.badge, 'badge').to.equal(undefined);
       expect(note.sound, 'sound').to.equal(undefined);
       expect(note.payload, 'payload').to.deep.equal({
-        aKey: 'a-value'
+        aKey: 'a-value',
       });
 
       expect(apnArgs[1]).to.equal(aDeviceToken);
@@ -51,7 +53,7 @@ describe('APNS provider', function() {
         contentAvailable: true,
         category: 'my-category',
         urlArgs: ['foo', 'bar'],
-        arbitrary: 'baz'
+        arbitrary: 'baz',
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -59,7 +61,8 @@ describe('APNS provider', function() {
 
       var note = apnArgs[0];
       var payload = note.toJSON();
-      expect(payload.aps['content-available'], 'aps.content-available').to.equal(1);
+      expect(payload.aps['content-available'], 'aps.content-available').to
+        .equal(1);
       expect(payload.aps.category, 'aps.category').to.equal('my-category');
       expect(payload.aps['url-args'], 'aps.url-args').to.have.length(2);
       expect(payload.arbitrary, 'arbitrary').to.equal('baz');
@@ -70,8 +73,8 @@ describe('APNS provider', function() {
     it('raises "devicesGone" event when feedback arrives', function(done) {
       givenProviderWithConfig({
         apns: {
-          feedbackOptions: {}
-        }
+          feedbackOptions: {},
+        },
       });
       var eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
@@ -87,7 +90,7 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
-        expirationInterval: 1 /* second */
+        expirationInterval: 1, /* second */
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -99,7 +102,7 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
-        expirationTime: new Date(this.clock.now + 1000 /* 1 second */ )
+        expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -110,13 +113,13 @@ describe('APNS provider', function() {
     it('ignores Notification properties not applicable', function() {
       givenProviderWithConfig();
 
-      var notification = aNotification(objectMother.allNotificationProperties());
+      var notification = aNotification(
+        objectMother.allNotificationProperties());
       provider.pushNotification(notification, aDeviceToken);
 
       var note = mockery.firstPushNotificationArgs()[0];
       expect(note.payload).to.eql({});
     });
-
   });
 
   describe('in dev env', function() {
@@ -132,8 +135,8 @@ describe('APNS provider', function() {
           certData: 'invalid-data',
           pushOptions: {
             gateway: '127.0.0.1',
-          }
-        }
+          },
+        },
       });
 
       var eventSpy = sinon.spy();
@@ -157,8 +160,8 @@ describe('APNS provider', function() {
           keyData: objectMother.apnsDevKey(),
           pushOptions: {
             gateway: '127.0.0.1',
-          }
-        }
+          },
+        },
       });
 
       var eventSpy = sinon.spy();
@@ -185,9 +188,9 @@ describe('APNS provider', function() {
           certData: objectMother.apnsDevCert(),
           keyData: objectMother.apnsDevKey(),
           pushOptions: {
-            gateway: '127.0.0.1'
-          }
-        }
+            gateway: '127.0.0.1',
+          },
+        },
       });
       expect(provider._pushOptions).to.deep.equal({
         cert: objectMother.apnsDevCert(),
@@ -208,13 +211,13 @@ describe('APNS provider', function() {
         apns: {
           pushOptions: {
             gateway: 'push.test.com',
-            port: 1111
+            port: 1111,
           },
           feedbackOptions: {
             gateway: 'feedback.test.com',
-            port: 1112
-          }
-        }
+            port: 1112,
+          },
+        },
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'push.test.com',
@@ -237,9 +240,9 @@ describe('APNS provider', function() {
            },
            */
           feedbackOptions: {
-            interval: 300
-          }
-        }
+            interval: 300,
+          },
+        },
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'gateway.sandbox.push.apple.com',
@@ -260,8 +263,8 @@ describe('APNS provider', function() {
           feedbackOptions: {
             interval: 300,
             production: false,
-          }
-        }
+          },
+        },
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'gateway.push.apple.com',
@@ -280,14 +283,14 @@ describe('APNS provider', function() {
           production: true,
           pushOptions: {
             gateway: 'invalid',
-            port: 1111
+            port: 1111,
           },
           feedbackOptions: {
             gateway: 'invalid',
             port: 1112,
-            interval: 300
-          }
-        }
+            interval: 300,
+          },
+        },
       });
       expect(provider._pushOptions).to.deep.equal({
         gateway: 'gateway.push.apple.com',
