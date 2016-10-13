@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 /**
  * Notification Model
  *
@@ -39,7 +41,6 @@
  * @header Notification
  */
 module.exports = function(Notification) {
-
   // Avoid exposure of internal properties such __data
   Notification.hideInternalProperties = true;
 

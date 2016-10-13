@@ -3,20 +3,22 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 module.exports = function(grunt) {
   grunt.initConfig({
-    jsdoc : {
-      dist : {
+    jsdoc: {
+      dist: {
         src: ['lib/*.js', 'models/installation.js', 'models/notification.js'],
         options: {
-          destination: 'doc'
-        }
-      }
+          destination: 'doc',
+        },
+      },
     },
     watch: {
       files: ['lib/*.js', 'models/*.js'],
       tasks: ['jsdoc'],
-    }
+    },
   });
 
   grunt.loadNpmTasks('grunt-jsdoc');
