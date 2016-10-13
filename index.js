@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var SG = require('strong-globalize');
 SG.SetRootDir(__dirname);
 
@@ -19,7 +21,7 @@ exports = module.exports = PushConnector;
 exports.Installation = require('./models').Installation;
 exports.Notification = require('./models').Notification;
 
-exports.createPushModel = function (options) {
+exports.createPushModel = function(options) {
   options = options || {};
 
   var pushDataSource = loopback.createDataSource({
@@ -28,7 +30,7 @@ exports.createPushModel = function (options) {
     application: options.application,
     notification: options.notification,
     ttlInSeconds: options.ttlInSeconds,
-    checkPeriodInSeconds: options.checkPeriodInSeconds
+    checkPeriodInSeconds: options.checkPeriodInSeconds,
   });
 
   var PushModel = pushDataSource.createModel(options.name || 'Push', {},

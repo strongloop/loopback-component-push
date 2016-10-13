@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // This module provides a mocked environment where GCM connections
 // are calling callbacks provided by tests instead of communicating with
 // the real service
@@ -65,7 +67,7 @@ exports.setUp = function() {
   }
 
   mockery.pushNotification = sinon.spy();
-  mockery.pushNotificationCallbackArgs = [null, { success: 1, failure: 0 }];
+  mockery.pushNotificationCallbackArgs = [null, {success: 1, failure: 0}];
 
   gcm.Sender = function(opts) {
     mockery.senderOptions = Array.prototype.slice.call(arguments);

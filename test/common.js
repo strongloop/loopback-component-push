@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 /* exported global */
 global.chai = require('chai');
 global.should = require('chai').should();
@@ -14,7 +16,7 @@ global.assert = require('assert');
 global.sinon = require('sinon');
 
 global.ds = global.loopback.createDataSource('db', {
-  connector: global.loopback.Memory
+  connector: global.loopback.Memory,
 });
 
 global.Application = global.loopback.Application;

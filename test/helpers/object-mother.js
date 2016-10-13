@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // An object mother is a kind of class used in testing to help create
 // example objects that you use for testing.
 // See http://martinfowler.com/bliki/ObjectMother.html
@@ -21,7 +23,7 @@ exports.allNotificationProperties = function() {
     scheduledTime: new Date(2222, 3, 3),
     expirationTime: new Date(2222, 4, 4),
     expirationInterval: 123002,
-    status: 'a-status'
+    status: 'a-status',
   };
 };
 

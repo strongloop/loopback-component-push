@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // This module provides a mocked environment where APN/GCM/etc. connections
 // are calling callbacks provided by tests instead of communicating with
 // the real service
