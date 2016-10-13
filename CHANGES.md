@@ -1,3 +1,17 @@
+2016-10-13, Version 1.7.0
+=========================
+
+ * Use eslint in favour of JSHint (#129) (Simon Ho)
+
+ * Update translation files - round#2 (Candy)
+
+ * Add translated files (gunjpan)
+
+ * Update deps to LB 3.0.0 RC (Miroslav Bajtoš)
+
+ * Use loopback@3.0.0-alpha for running the tests. (Miroslav Bajtoš)
+
+
 2016-09-09, Version 1.6.0
 =========================
 
