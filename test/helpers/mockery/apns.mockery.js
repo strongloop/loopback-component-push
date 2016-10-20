@@ -25,7 +25,7 @@ mockery.connectionOptions = null;
  * The spy installed instead of `apn.Connection.pushNotification`.
  * The value is initialized by `setup()`.
  */
-mockery.pushNotification = null;
+mockery.send = null;
 
 /**
  * The options passed to `apn.Feedback` constructor.
@@ -48,7 +48,7 @@ mockery.emitFeedback = function(devices) {
  * @returns {Array.<Object>}
  */
 mockery.firstPushNotificationArgs = function() {
-  return mockery.pushNotification.firstCall.args;
+  return mockery.send.firstCall.args;
 };
 
 var apnsSnapshot = {};
@@ -67,23 +67,23 @@ exports.setUp = function() {
     defaultExports[key] = exports[key];
   }
 
-  mockery.pushNotification = sinon.spy();
-
-  apn.Connection = apn.connection = function(opts) {
-    mockery.connectionOptions = opts;
-    var conn = new EventEmitter();
-    conn.pushNotification = mockery.pushNotification;
-    return conn;
+  var expectedResponse = {
+    failed: [
+      {
+        device: 'some_failing_device_token',
+      },
+    ],
   };
 
-  apn.Feedback = apn.feedback = function(opts) {
-    mockery.feedbackOptions = opts;
-    var feedback = new EventEmitter();
-    mockery.emitFeedback = function(devices) {
-      if (!(devices instanceof Array)) devices = [devices];
-      feedback.emit('feedback', devices);
-    };
-    return feedback;
+  mockery.send = sinon.spy(function() {
+    return Promise.resolve(expectedResponse);
+  });
+
+  apn.Provider = apn.provider = function(opts) {
+    mockery.connectionOptions = opts;
+    var conn = new EventEmitter();
+    conn.send = mockery.send;
+    return conn;
   };
 };
 

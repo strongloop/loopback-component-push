@@ -16,7 +16,7 @@
     "posttest": "npm run lint"
   },
   "dependencies": {
-    "apn": "^1.7.5",
+    "apn": "^2.1.1",
     "async": "^1.5.2",
     "debug": "^2.2.0",
     "lodash": "^3.10.1",
