@@ -12,6 +12,16 @@ var mockery = require('./helpers/mockery').apns;
 var objectMother = require('./helpers/object-mother');
 
 var aDeviceToken = 'a-device-token';
+var defaultConfiguration = {
+  apns: {
+    token: {
+      keyId: 'key_id',
+      key: 'key',
+      teamId: 'team_id'
+    },
+    bundle: 'ch.test.app'
+  }
+};
 
 describe('APNS provider', function() {
   var provider;
@@ -24,7 +34,7 @@ describe('APNS provider', function() {
     afterEach(mockery.tearDown);
 
     it('sends Notification as an APN message', function(done) {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -47,7 +57,7 @@ describe('APNS provider', function() {
     });
 
     it('passes through special APN parameters', function(done) {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         contentAvailable: true,
@@ -71,16 +81,18 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
-      givenProviderWithConfig({
-        apns: {
-          feedbackOptions: {},
-        },
+      givenProviderWithConfig(defaultConfiguration);
+
+      var notification = aNotification({
+        aKey: 'a-value',
       });
+
       var eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
 
       var devices = [aDeviceToken];
-      mockery.emitFeedback(devices);
+
+      provider.pushNotification(notification, aDeviceToken);
 
       expect(eventSpy.args[0]).to.deep.equal([devices]);
       done();
