@@ -70,12 +70,21 @@ exports.setUp = function() {
   var expectedResponse = {
     failed: [
       {
+<<<<<<< HEAD
         device: 'some_failing_device_token',
       },
     ],
   };
 
   mockery.send = sinon.spy(function() {
+=======
+        device: 'some_failing_device_token'
+      }
+    ]
+  };
+
+  mockery.send = sinon.spy(function(){
+>>>>>>> 07d0cd0... enhance: Make some unit tests work
     return Promise.resolve(expectedResponse);
   });
 

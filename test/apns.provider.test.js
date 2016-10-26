@@ -17,10 +17,17 @@ var defaultConfiguration = {
     token: {
       keyId: 'key_id',
       key: 'key',
+<<<<<<< HEAD
       teamId: 'team_id',
     },
     bundle: 'ch.test.app',
   },
+=======
+      teamId: 'team_id'
+    },
+    bundle: 'ch.test.app'
+  }
+>>>>>>> 07d0cd0... enhance: Make some unit tests work
 };
 
 describe('APNS provider', function() {
@@ -34,7 +41,7 @@ describe('APNS provider', function() {
     afterEach(mockery.tearDown);
 
     it('sends Notification as an APN message', function(done) {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -57,7 +64,7 @@ describe('APNS provider', function() {
     });
 
     it('passes through special APN parameters', function(done) {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         contentAvailable: true,
@@ -81,7 +88,11 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
+<<<<<<< HEAD
       givenProviderWithConfig();
+=======
+      givenProviderWithConfig(defaultConfiguration);
+>>>>>>> 07d0cd0... enhance: Make some unit tests work
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -92,10 +103,16 @@ describe('APNS provider', function() {
       provider.on('devicesGone', eventSpy);
       provider.pushNotification(notification, aDeviceToken);
 
+<<<<<<< HEAD
       // HACK: Timeout does not work at this point
       Promise.resolve(true).then(function() {
         assert(eventSpy.called);
         expect(eventSpy.args[0]).to.deep.equal([['some_failing_device_token']]);
+=======
+      var devices = [aDeviceToken];
+
+      provider.pushNotification(notification, aDeviceToken);
+>>>>>>> 07d0cd0... enhance: Make some unit tests work
 
         done();
       }, function() {
