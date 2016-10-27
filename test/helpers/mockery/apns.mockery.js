@@ -70,12 +70,12 @@ exports.setUp = function() {
   var expectedResponse = {
     failed: [
       {
-        device: 'some_failing_device_token'
-      }
-    ]
+        device: 'some_failing_device_token',
+      },
+    ],
   };
 
-  mockery.send = sinon.spy(function(){
+  mockery.send = sinon.spy(function() {
     return Promise.resolve(expectedResponse);
   });
 
