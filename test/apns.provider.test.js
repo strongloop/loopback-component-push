@@ -17,10 +17,10 @@ var defaultConfiguration = {
     token: {
       keyId: 'key_id',
       key: 'key',
-      teamId: 'team_id'
+      teamId: 'team_id',
     },
-    bundle: 'ch.test.app'
-  }
+    bundle: 'ch.test.app',
+  },
 };
 
 describe('APNS provider', function() {
@@ -93,7 +93,7 @@ describe('APNS provider', function() {
       provider.pushNotification(notification, aDeviceToken);
 
       // HACK: Timeout does not work at this point
-      Promise.resolve(true).then(function(){
+      Promise.resolve(true).then(function() {
         assert(eventSpy.called);
         done();
       });
@@ -142,9 +142,9 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-            teamId: 'team_id'
+            teamId: 'team_id',
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
       });
 
@@ -155,7 +155,7 @@ describe('APNS provider', function() {
           teamId: 'team_id',
         },
         bundle: 'my_bundle_id',
-        production: false
+        production: false,
       });
 
       done();
@@ -167,9 +167,9 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-            teamId: 'team_id'
+            teamId: 'team_id',
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
       });
 
@@ -183,11 +183,11 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-            teamId: 'team_id'
+            teamId: 'team_id',
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
-        production: true
+        production: true,
       });
 
       expect(provider._pushOptions.production === true);
@@ -200,11 +200,11 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-            teamId: 'team_id'
+            teamId: 'team_id',
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
-        production: false
+        production: false,
       });
 
       expect(provider._pushOptions.production === false);
@@ -212,15 +212,15 @@ describe('APNS provider', function() {
     });
 
     it('reports error when bundle is not specified', function(done) {
-      var test = function(){
+      var test = function() {
         givenProviderWithConfig({
           apns: {
             token: {
               keyId: 'my_key_id',
               key: 'my_key',
-              teamId: 'team_id'
-            }
-          }
+              teamId: 'team_id',
+            },
+          },
         });
       };
 
@@ -229,9 +229,9 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is not specified', function(done) {
-      var test = function(){
+      var test = function() {
         givenProviderWithConfig({
-          bundle: 'the_bundle'
+          bundle: 'the_bundle',
         });
       };
 
@@ -240,13 +240,13 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is missing a property', function(done) {
-      var test = function(){
+      var test = function() {
         givenProviderWithConfig({
           token: {
             keyId: 'key_id',
-            key: 'key'
+            key: 'key',
           },
-          bundle: 'the_bundle'
+          bundle: 'the_bundle',
         });
       };
 
