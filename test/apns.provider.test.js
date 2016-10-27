@@ -18,6 +18,7 @@ var defaultConfiguration = {
       keyId: 'key_id',
       key: 'key',
 <<<<<<< HEAD
+<<<<<<< HEAD
       teamId: 'team_id',
     },
     bundle: 'ch.test.app',
@@ -28,6 +29,12 @@ var defaultConfiguration = {
     bundle: 'ch.test.app'
   }
 >>>>>>> 07d0cd0... enhance: Make some unit tests work
+=======
+      teamId: 'team_id',
+    },
+    bundle: 'ch.test.app',
+  },
+>>>>>>> 74e5fdd... enhance: make linter not fail
 };
 
 describe('APNS provider', function() {
@@ -123,7 +130,7 @@ describe('APNS provider', function() {
       }, function() {
 =======
       // HACK: Timeout does not work at this point
-      Promise.resolve(true).then(function(){
+      Promise.resolve(true).then(function() {
         assert(eventSpy.called);
         done();
 >>>>>>> d6def49... enhance: Done sandbox tests
@@ -174,6 +181,7 @@ describe('APNS provider', function() {
             keyId: 'my_key_id',
             key: 'my_key',
 <<<<<<< HEAD
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
@@ -182,6 +190,11 @@ describe('APNS provider', function() {
           },
           bundle: 'my_bundle_id'
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+            teamId: 'team_id',
+          },
+          bundle: 'my_bundle_id',
+>>>>>>> 74e5fdd... enhance: make linter not fail
         },
       });
 
@@ -193,10 +206,14 @@ describe('APNS provider', function() {
         },
         bundle: 'my_bundle_id',
 <<<<<<< HEAD
+<<<<<<< HEAD
         production: false,
 =======
         production: false
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+        production: false,
+>>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       done();
@@ -209,6 +226,7 @@ describe('APNS provider', function() {
             keyId: 'my_key_id',
             key: 'my_key',
 <<<<<<< HEAD
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
@@ -217,6 +235,11 @@ describe('APNS provider', function() {
           },
           bundle: 'my_bundle_id'
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+            teamId: 'team_id',
+          },
+          bundle: 'my_bundle_id',
+>>>>>>> 74e5fdd... enhance: make linter not fail
         },
       });
 
@@ -231,6 +254,7 @@ describe('APNS provider', function() {
             keyId: 'my_key_id',
             key: 'my_key',
 <<<<<<< HEAD
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
@@ -238,11 +262,18 @@ describe('APNS provider', function() {
         production: true,
 =======
             teamId: 'team_id'
+=======
+            teamId: 'team_id',
+>>>>>>> 74e5fdd... enhance: make linter not fail
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
+<<<<<<< HEAD
         production: true
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+        production: true,
+>>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       expect(provider._pushOptions.production === true);
@@ -256,6 +287,7 @@ describe('APNS provider', function() {
             keyId: 'my_key_id',
             key: 'my_key',
 <<<<<<< HEAD
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
@@ -263,11 +295,18 @@ describe('APNS provider', function() {
         production: false,
 =======
             teamId: 'team_id'
+=======
+            teamId: 'team_id',
+>>>>>>> 74e5fdd... enhance: make linter not fail
           },
-          bundle: 'my_bundle_id'
+          bundle: 'my_bundle_id',
         },
+<<<<<<< HEAD
         production: false
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+        production: false,
+>>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       expect(provider._pushOptions.production === false);
@@ -276,15 +315,20 @@ describe('APNS provider', function() {
 
     it('reports error when bundle is not specified', function(done) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       var test = function() {
 =======
       var test = function(){
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+      var test = function() {
+>>>>>>> 74e5fdd... enhance: make linter not fail
         givenProviderWithConfig({
           apns: {
             token: {
               keyId: 'my_key_id',
               key: 'my_key',
+<<<<<<< HEAD
 <<<<<<< HEAD
               teamId: 'team_id',
             },
@@ -294,6 +338,11 @@ describe('APNS provider', function() {
             }
           }
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+              teamId: 'team_id',
+            },
+          },
+>>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 
@@ -303,6 +352,7 @@ describe('APNS provider', function() {
 
     it('reports error when token is not specified', function(done) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
           bundle: 'the_bundle',
@@ -311,6 +361,11 @@ describe('APNS provider', function() {
         givenProviderWithConfig({
           bundle: 'the_bundle'
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+      var test = function() {
+        givenProviderWithConfig({
+          bundle: 'the_bundle',
+>>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 
@@ -319,6 +374,7 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is missing a property', function(done) {
+<<<<<<< HEAD
 <<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
@@ -329,13 +385,20 @@ describe('APNS provider', function() {
           bundle: 'the_bundle',
 =======
       var test = function(){
+=======
+      var test = function() {
+>>>>>>> 74e5fdd... enhance: make linter not fail
         givenProviderWithConfig({
           token: {
             keyId: 'key_id',
-            key: 'key'
+            key: 'key',
           },
+<<<<<<< HEAD
           bundle: 'the_bundle'
 >>>>>>> a94d4b1... add: Enhanced tests for APNS provider
+=======
+          bundle: 'the_bundle',
+>>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 

@@ -71,6 +71,7 @@ exports.setUp = function() {
     failed: [
       {
 <<<<<<< HEAD
+<<<<<<< HEAD
         device: 'some_failing_device_token',
       },
     ],
@@ -85,6 +86,14 @@ exports.setUp = function() {
 
   mockery.send = sinon.spy(function(){
 >>>>>>> 07d0cd0... enhance: Make some unit tests work
+=======
+        device: 'some_failing_device_token',
+      },
+    ],
+  };
+
+  mockery.send = sinon.spy(function() {
+>>>>>>> 74e5fdd... enhance: make linter not fail
     return Promise.resolve(expectedResponse);
   });
 
