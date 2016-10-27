@@ -99,6 +99,7 @@ describe('APNS provider', function() {
       });
 
       var eventSpy = sinon.spy();
+<<<<<<< HEAD
 
       provider.on('devicesGone', eventSpy);
       provider.pushNotification(notification, aDeviceToken);
@@ -110,17 +111,27 @@ describe('APNS provider', function() {
         expect(eventSpy.args[0]).to.deep.equal([['some_failing_device_token']]);
 =======
       var devices = [aDeviceToken];
+=======
+>>>>>>> d6def49... enhance: Done sandbox tests
 
+      provider.on('devicesGone', eventSpy);
       provider.pushNotification(notification, aDeviceToken);
 >>>>>>> 07d0cd0... enhance: Make some unit tests work
 
+<<<<<<< HEAD
         done();
       }, function() {
+=======
+      // HACK: Timeout does not work at this point
+      Promise.resolve(true).then(function(){
+        assert(eventSpy.called);
+        done();
+>>>>>>> d6def49... enhance: Done sandbox tests
       });
     });
 
     it('converts expirationInterval to APNS expiry', function() {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         expirationInterval: 1, /* second */
@@ -132,7 +143,7 @@ describe('APNS provider', function() {
     });
 
     it('converts expirationTime to APNS expiry relative to now', function() {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification({
         expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
@@ -144,7 +155,7 @@ describe('APNS provider', function() {
     });
 
     it('ignores Notification properties not applicable', function() {
-      givenProviderWithConfig();
+      givenProviderWithConfig(defaultConfiguration);
 
       var notification = aNotification(
         objectMother.allNotificationProperties());
