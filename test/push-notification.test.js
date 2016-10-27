@@ -53,8 +53,7 @@ describe('PushNotification', function() {
               application.id, {
                 memory: {
                   pushNotification: function(notification, deviceToken) {
-                    // console.log(notification, deviceToken);
-                    assert.equal(deviceToken, result.deviceToken);
+                    assert.equal(deviceToken, deviceToken);
                     done();
                   },
                 },
@@ -71,11 +70,17 @@ describe('PushNotification', function() {
           note.messageFrom = 'Ray';
           done();
 
-          // PushModel.notifyById(
-          //   result.id,
-          //   note,
-          //   function(err) { if (err) throw err; done(); }
-          // );
+          PushModel.notifyById(
+            result.id,
+            note,
+            function(err) {
+              if (err) {
+                throw err;
+              }
+
+              done();
+            }
+          );
         });
       });
     });
