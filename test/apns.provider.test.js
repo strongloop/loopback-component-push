@@ -173,9 +173,15 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
+=======
+            teamId: 'team_id'
+          },
+          bundle: 'my_bundle_id'
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         },
       });
 
@@ -186,7 +192,11 @@ describe('APNS provider', function() {
           teamId: 'team_id',
         },
         bundle: 'my_bundle_id',
+<<<<<<< HEAD
         production: false,
+=======
+        production: false
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
       });
 
       done();
@@ -198,9 +208,15 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
+=======
+            teamId: 'team_id'
+          },
+          bundle: 'my_bundle_id'
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         },
       });
 
@@ -214,11 +230,19 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
         },
         production: true,
+=======
+            teamId: 'team_id'
+          },
+          bundle: 'my_bundle_id'
+        },
+        production: true
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
       });
 
       expect(provider._pushOptions.production === true);
@@ -231,11 +255,19 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
+<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
         },
         production: false,
+=======
+            teamId: 'team_id'
+          },
+          bundle: 'my_bundle_id'
+        },
+        production: false
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
       });
 
       expect(provider._pushOptions.production === false);
@@ -243,15 +275,25 @@ describe('APNS provider', function() {
     });
 
     it('reports error when bundle is not specified', function(done) {
+<<<<<<< HEAD
       var test = function() {
+=======
+      var test = function(){
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         givenProviderWithConfig({
           apns: {
             token: {
               keyId: 'my_key_id',
               key: 'my_key',
+<<<<<<< HEAD
               teamId: 'team_id',
             },
           },
+=======
+              teamId: 'team_id'
+            }
+          }
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         });
       };
 
@@ -260,9 +302,15 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is not specified', function(done) {
+<<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
           bundle: 'the_bundle',
+=======
+      var test = function(){
+        givenProviderWithConfig({
+          bundle: 'the_bundle'
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         });
       };
 
@@ -271,6 +319,7 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is missing a property', function(done) {
+<<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
           token: {
@@ -278,6 +327,15 @@ describe('APNS provider', function() {
             key: 'key',
           },
           bundle: 'the_bundle',
+=======
+      var test = function(){
+        givenProviderWithConfig({
+          token: {
+            keyId: 'key_id',
+            key: 'key'
+          },
+          bundle: 'the_bundle'
+>>>>>>> a94d4b1... add: Enhanced tests for APNS provider
         });
       };
 
