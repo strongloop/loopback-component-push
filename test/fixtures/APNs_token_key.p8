@@ -1,0 +1,3 @@
+-----BEGIN PRIVATE KEY-----
+YES OF COURSE
+-----END PRIVATE KEY-----
