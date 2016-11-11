@@ -15,6 +15,9 @@
     "test": "mocha",
     "posttest": "npm run lint"
   },
+  "engines": {
+    "node": ">=4"
+  },
   "dependencies": {
     "apn": "^1.7.5",
     "async": "^1.5.2",
