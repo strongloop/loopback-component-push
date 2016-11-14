@@ -1,0 +1,14 @@
+{
+  "0a11bfdd7655e825fbd1f998b2e24db9": "Payload vuoto",
+  "71a2b601d1e750aa05c7a28ed76b9973": "Campo non valido (vuoto)",
+  "8bc87eb582af546d32505f2839234119": "Payload non valido",
+  "db1e3eb9bf0934d72eb8b0b110281f39": "Campo non valido: {0}",
+  "e254b20a16461c7379202f6a5f8350cc": "Tipo di variabile non valido per ${{0}}",
+  "f5146dece5cd70db519daf8c7e6d8478": "${{0}} non esiste",
+  "f95c75ae3da1e88794fff4be7188f3dc": "Valore non valido per `{0}`",
+  "e9023b2ab0a052c9ccbd257198c7429f": "Impossibile inviare la notifica {{APNS}}: {0}",
+  "704e7bf9910b8532f7c4889366fdcbac": "Codice di errore {{GCM}}: {0}, deviceToken: {1}",
+  "033d31e7bd62a420f23e4b154945a2b8": "la notifica deve essere un oggetto",
+  "1ec12f42dab8979b9fc90a95a023419e": "deviceTokens deve essere un array"
+}
+

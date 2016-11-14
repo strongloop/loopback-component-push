@@ -1,6 +1,6 @@
 {
   "name": "loopback-component-push",
-  "version": "1.6.0",
+  "version": "3.0.0-alpha.1",
   "description": "Loopback Push Notification",
   "keywords": [
     "StrongLoop Labs",
@@ -14,6 +14,9 @@
     "lint": "eslint .",
     "test": "mocha",
     "posttest": "npm run lint"
+  },
+  "engines": {
+    "node": ">=4"
   },
   "dependencies": {
     "apn": "^1.7.5",
@@ -30,8 +33,6 @@
     "deep-extend": "^0.4.0",
     "eslint": "^2.13.1",
     "eslint-config-loopback": "^4.0.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-jsdoc": "^0.6.6",
     "loopback": "^2.18.0",
     "loopback-connector-mongodb": "^1.8.0",
     "loopback-datasource-juggler": "^2.29.0",
