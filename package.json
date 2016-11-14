@@ -30,8 +30,6 @@
     "deep-extend": "^0.4.0",
     "eslint": "^2.13.1",
     "eslint-config-loopback": "^4.0.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-jsdoc": "^0.6.6",
     "loopback": "^3.0.0",
     "loopback-connector-mongodb": "^1.8.0",
     "mocha": "^2.2.0",
