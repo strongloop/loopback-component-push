@@ -154,6 +154,8 @@ describe('APNS provider', function() {
     });
 
     it('emits "error" when gateway cannot be reached', function(done) {
+      var CONNECT_TIMEOUT = 2000;
+      this.timeout(1.5 * CONNECT_TIMEOUT);
       givenProviderWithConfig({
         apns: {
           certData: objectMother.apnsDevCert(),
@@ -169,15 +171,25 @@ describe('APNS provider', function() {
 
       provider.pushNotification(notification, aDeviceToken);
 
+      var start = Date.now();
+
       // wait for the provider to attempt to connect
-      setTimeout(function() {
+      // periodically check whether it has happened yet
+      var interval = setInterval(function() {
+        var elapsed = Date.now() - start;
+        if (!eventSpy.called && elapsed < CONNECT_TIMEOUT)
+          return; // still connecting
+
+        clearInterval(interval);
+
         expect(eventSpy.called, 'error event should be emitted')
           .to.equal(true);
+
         var args = eventSpy.firstCall.args;
         expect(args[0]).to.be.instanceOf(Error);
         expect(args[0].code).to.equal('ECONNREFUSED');
         done();
-      }, 250);
+      }, 50);
     });
   });
 
