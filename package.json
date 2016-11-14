@@ -30,8 +30,9 @@
     "deep-extend": "^0.4.0",
     "eslint": "^2.13.1",
     "eslint-config-loopback": "^4.0.0",
-    "loopback": "^3.0.0",
+    "loopback": "^2.36.0",
     "loopback-connector-mongodb": "^1.8.0",
+    "loopback-datasource-juggler": "^2.53.0",
     "mocha": "^2.2.0",
     "should": "^6.0.0",
     "sinon": "^1.14.0"
