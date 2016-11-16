@@ -1,6 +1,9 @@
 {
   "name": "loopback-component-push",
   "version": "1.7.0",
+  "publishConfig": {
+    "tag": "lts"
+  },
   "description": "Loopback Push Notification",
   "keywords": [
     "StrongLoop Labs",
