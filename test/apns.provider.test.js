@@ -48,7 +48,7 @@ describe('APNS provider', function() {
     afterEach(mockery.tearDown);
 
     it('sends Notification as an APN message', function(done) {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -71,7 +71,7 @@ describe('APNS provider', function() {
     });
 
     it('passes through special APN parameters', function(done) {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         contentAvailable: true,
@@ -96,10 +96,14 @@ describe('APNS provider', function() {
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       givenProviderWithConfig();
 =======
       givenProviderWithConfig(defaultConfiguration);
 >>>>>>> 07d0cd0... enhance: Make some unit tests work
+=======
+      givenProviderWithConfig();
+>>>>>>> cb5d6ba... enhance: Replace default configuration parameter with single point of usage
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -138,7 +142,7 @@ describe('APNS provider', function() {
     });
 
     it('converts expirationInterval to APNS expiry', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         expirationInterval: 1, /* second */
@@ -150,7 +154,7 @@ describe('APNS provider', function() {
     });
 
     it('converts expirationTime to APNS expiry relative to now', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
@@ -162,7 +166,7 @@ describe('APNS provider', function() {
     });
 
     it('ignores Notification properties not applicable', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification(
         objectMother.allNotificationProperties());
