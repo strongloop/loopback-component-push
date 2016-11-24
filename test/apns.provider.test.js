@@ -34,7 +34,7 @@ describe('APNS provider', function() {
     afterEach(mockery.tearDown);
 
     it('sends Notification as an APN message', function(done) {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -57,7 +57,7 @@ describe('APNS provider', function() {
     });
 
     it('passes through special APN parameters', function(done) {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         contentAvailable: true,
@@ -81,7 +81,7 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         aKey: 'a-value',
@@ -100,7 +100,7 @@ describe('APNS provider', function() {
     });
 
     it('converts expirationInterval to APNS expiry', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         expirationInterval: 1, /* second */
@@ -112,7 +112,7 @@ describe('APNS provider', function() {
     });
 
     it('converts expirationTime to APNS expiry relative to now', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification({
         expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
@@ -124,7 +124,7 @@ describe('APNS provider', function() {
     });
 
     it('ignores Notification properties not applicable', function() {
-      givenProviderWithConfig(defaultConfiguration);
+      givenProviderWithConfig();
 
       var notification = aNotification(
         objectMother.allNotificationProperties());
@@ -255,7 +255,16 @@ describe('APNS provider', function() {
     });
   });
 
+  /**
+   * Creates a provider with specified configuration. If configuration is left empty, a default one is created.
+   * @param pushSettings
+   */
   function givenProviderWithConfig(pushSettings) {
+    // use a sensible default if nothing was specified
+    if (typeof pushSettings === 'undefined') {
+      pushSettings = defaultConfiguration;
+    }
+
     provider = new ApnsProvider(pushSettings);
   }
 
