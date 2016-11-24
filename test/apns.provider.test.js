@@ -120,6 +120,7 @@ describe('APNS provider', function() {
       Promise.resolve(true).then(function() {
         assert(eventSpy.called);
         expect(eventSpy.args[0]).to.deep.equal([['some_failing_device_token']]);
+<<<<<<< HEAD
 =======
       var devices = [aDeviceToken];
 =======
@@ -138,6 +139,11 @@ describe('APNS provider', function() {
         assert(eventSpy.called);
         done();
 >>>>>>> d6def49... enhance: Done sandbox tests
+=======
+
+        done();
+      }, function() {
+>>>>>>> 4fcefd2... enhance: Include Check for Feedback service callback parameters
       });
     });
 
