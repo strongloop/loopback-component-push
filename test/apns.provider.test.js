@@ -95,7 +95,10 @@ describe('APNS provider', function() {
       // HACK: Timeout does not work at this point
       Promise.resolve(true).then(function() {
         assert(eventSpy.called);
+        expect(eventSpy.args[0]).to.deep.equal([['some_failing_device_token']]);
+
         done();
+      }, function() {
       });
     });
 
