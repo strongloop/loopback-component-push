@@ -7,8 +7,6 @@ var PushModel = PushConnector.createPushModel({
   dataSource: ds,
 });
 
-var objectMother = require('./helpers/object-mother');
-
 describe('PushNotification', function() {
   it('registers a new installation', function(done) {
     // Sign up an application
@@ -30,14 +28,15 @@ describe('PushNotification', function() {
       }
 
       var application = result;
+      var deviceToken = '6676119dc1ee264f7a32429c56c4e51b0a8b5673d1' +
+          'd55c431d720bb60b0381d3';
 
       Installation.destroyAll(function(err, result) {
         // console.log('Adding a test record');
         Installation.create({
           appId: application.id,
           userId: 'raymond',
-          deviceToken: '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb ' +
-          '56f60c2e f2a19241 e8f33305',
+          deviceToken: deviceToken,
           deviceType: 'ios',
           created: new Date(),
           modified: new Date(),
@@ -45,42 +44,15 @@ describe('PushNotification', function() {
         }, function(err, result) {
           if (err) {
             console.error(err);
+
+            throw err;
           } else {
-            // console.log('Registration record is created: ', result);
+            expect(result.userId === 'raymond');
+            expect(result.deviceToken === deviceToken);
+            expect(result.deviceType === 'ios');
+
+            done();
           }
-
-          PushModel.dataSource.connector.applicationsCache.set(
-              application.id, {
-                memory: {
-                  pushNotification: function(notification, deviceToken) {
-                    assert.equal(deviceToken, deviceToken);
-                    done();
-                  },
-                },
-              }
-          );
-
-          var note = new Notification();
-
-          // Expires 1 hour from now.
-          note.expirationInterval = Math.floor(Date.now() / 1000) + 3600;
-          note.badge = 5;
-          note.sound = 'ping.aiff';
-          note.alert = '\uD83D\uDCE7 \u2709 ' + 'Hello';
-          note.messageFrom = 'Ray';
-          done();
-
-          PushModel.notifyById(
-            result.id,
-            note,
-            function(err) {
-              if (err) {
-                throw err;
-              }
-
-              done();
-            }
-          );
         });
       });
     });
