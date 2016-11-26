@@ -1,52 +1,4 @@
 {
-<<<<<<< HEAD
-	"name": "loopback-component-push",
-	"version": "3.0.0-alpha.1",
-	"description": "Loopback Push Notification",
-	"keywords": [
-		"StrongLoop Labs",
-		"LoopBack",
-		"Push Notification",
-		"mobile",
-		"component"
-	],
-	"main": "index.js",
-	"scripts": {
-		"lint": "eslint .",
-		"test": "mocha",
-		"posttest": "npm run lint"
-	},
-	"engines": {
-		"node": ">=4"
-	},
-	"dependencies": {
-		"apn": "^v2.1.2",
-		"async": "^1.5.2",
-		"debug": "^2.2.0",
-		"lodash": "^3.10.1",
-		"mpns": "^2.1.0",
-		"node-cache": "^3.2.1",
-		"node-gcm": "^0.14.0",
-		"strong-globalize": "^2.6.2"
-	},
-	"devDependencies": {
-		"chai": "^2.3.0",
-		"deep-extend": "^0.4.0",
-		"eslint": "^2.13.1",
-		"eslint-config-loopback": "^4.0.0",
-		"loopback": "^3.0.0",
-		"loopback-connector-mongodb": "^1.8.0",
-		"mocha": "^2.2.0",
-		"should": "^6.0.0",
-		"sinon": "^1.14.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/strongloop/loopback-component-push.git"
-	},
-	"license": "Artistic-2.0"
-}
-=======
   "name": "loopback-component-push",
   "version": "3.0.0-alpha.1",
   "description": "Loopback Push Notification",
@@ -93,4 +45,3 @@
   },
   "license": "Artistic-2.0"
 }
->>>>>>> d78f383... enhance: Upgrade node-apn Version

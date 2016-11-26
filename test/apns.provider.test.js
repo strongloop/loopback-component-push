@@ -17,24 +17,10 @@ var defaultConfiguration = {
     token: {
       keyId: 'key_id',
       key: 'key',
-<<<<<<< HEAD
-<<<<<<< HEAD
       teamId: 'team_id',
     },
     bundle: 'ch.test.app',
   },
-=======
-      teamId: 'team_id'
-    },
-    bundle: 'ch.test.app'
-  }
->>>>>>> 07d0cd0... enhance: Make some unit tests work
-=======
-      teamId: 'team_id',
-    },
-    bundle: 'ch.test.app',
-  },
->>>>>>> 74e5fdd... enhance: make linter not fail
 };
 
 describe('APNS provider', function() {
@@ -95,55 +81,24 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       givenProviderWithConfig();
-=======
-      givenProviderWithConfig(defaultConfiguration);
->>>>>>> 07d0cd0... enhance: Make some unit tests work
-=======
-      givenProviderWithConfig();
->>>>>>> cb5d6ba... enhance: Replace default configuration parameter with single point of usage
 
       var notification = aNotification({
         aKey: 'a-value',
       });
 
       var eventSpy = sinon.spy();
-<<<<<<< HEAD
 
       provider.on('devicesGone', eventSpy);
       provider.pushNotification(notification, aDeviceToken);
 
-<<<<<<< HEAD
       // HACK: Timeout does not work at this point
       Promise.resolve(true).then(function() {
         assert(eventSpy.called);
         expect(eventSpy.args[0]).to.deep.equal([['some_failing_device_token']]);
-<<<<<<< HEAD
-=======
-      var devices = [aDeviceToken];
-=======
->>>>>>> d6def49... enhance: Done sandbox tests
-
-      provider.on('devicesGone', eventSpy);
-      provider.pushNotification(notification, aDeviceToken);
->>>>>>> 07d0cd0... enhance: Make some unit tests work
-
-<<<<<<< HEAD
-        done();
-      }, function() {
-=======
-      // HACK: Timeout does not work at this point
-      Promise.resolve(true).then(function() {
-        assert(eventSpy.called);
-        done();
->>>>>>> d6def49... enhance: Done sandbox tests
-=======
 
         done();
       }, function() {
->>>>>>> 4fcefd2... enhance: Include Check for Feedback service callback parameters
       });
     });
 
@@ -190,21 +145,9 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-<<<<<<< HEAD
-<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
-=======
-            teamId: 'team_id'
-          },
-          bundle: 'my_bundle_id'
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-            teamId: 'team_id',
-          },
-          bundle: 'my_bundle_id',
->>>>>>> 74e5fdd... enhance: make linter not fail
         },
       });
 
@@ -215,15 +158,7 @@ describe('APNS provider', function() {
           teamId: 'team_id',
         },
         bundle: 'my_bundle_id',
-<<<<<<< HEAD
-<<<<<<< HEAD
         production: false,
-=======
-        production: false
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-        production: false,
->>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       done();
@@ -235,21 +170,9 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-<<<<<<< HEAD
-<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
-=======
-            teamId: 'team_id'
-          },
-          bundle: 'my_bundle_id'
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-            teamId: 'team_id',
-          },
-          bundle: 'my_bundle_id',
->>>>>>> 74e5fdd... enhance: make linter not fail
         },
       });
 
@@ -263,27 +186,11 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-<<<<<<< HEAD
-<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
         },
         production: true,
-=======
-            teamId: 'team_id'
-=======
-            teamId: 'team_id',
->>>>>>> 74e5fdd... enhance: make linter not fail
-          },
-          bundle: 'my_bundle_id',
-        },
-<<<<<<< HEAD
-        production: true
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-        production: true,
->>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       expect(provider._pushOptions.production === true);
@@ -296,27 +203,11 @@ describe('APNS provider', function() {
           token: {
             keyId: 'my_key_id',
             key: 'my_key',
-<<<<<<< HEAD
-<<<<<<< HEAD
             teamId: 'team_id',
           },
           bundle: 'my_bundle_id',
         },
         production: false,
-=======
-            teamId: 'team_id'
-=======
-            teamId: 'team_id',
->>>>>>> 74e5fdd... enhance: make linter not fail
-          },
-          bundle: 'my_bundle_id',
-        },
-<<<<<<< HEAD
-        production: false
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-        production: false,
->>>>>>> 74e5fdd... enhance: make linter not fail
       });
 
       expect(provider._pushOptions.production === false);
@@ -324,35 +215,15 @@ describe('APNS provider', function() {
     });
 
     it('reports error when bundle is not specified', function(done) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       var test = function() {
-=======
-      var test = function(){
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-      var test = function() {
->>>>>>> 74e5fdd... enhance: make linter not fail
         givenProviderWithConfig({
           apns: {
             token: {
               keyId: 'my_key_id',
               key: 'my_key',
-<<<<<<< HEAD
-<<<<<<< HEAD
               teamId: 'team_id',
             },
           },
-=======
-              teamId: 'team_id'
-            }
-          }
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-              teamId: 'team_id',
-            },
-          },
->>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 
@@ -361,21 +232,9 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is not specified', function(done) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
           bundle: 'the_bundle',
-=======
-      var test = function(){
-        givenProviderWithConfig({
-          bundle: 'the_bundle'
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-      var test = function() {
-        givenProviderWithConfig({
-          bundle: 'the_bundle',
->>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 
@@ -384,8 +243,6 @@ describe('APNS provider', function() {
     });
 
     it('reports error when token is missing a property', function(done) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       var test = function() {
         givenProviderWithConfig({
           token: {
@@ -393,22 +250,6 @@ describe('APNS provider', function() {
             key: 'key',
           },
           bundle: 'the_bundle',
-=======
-      var test = function(){
-=======
-      var test = function() {
->>>>>>> 74e5fdd... enhance: make linter not fail
-        givenProviderWithConfig({
-          token: {
-            keyId: 'key_id',
-            key: 'key',
-          },
-<<<<<<< HEAD
-          bundle: 'the_bundle'
->>>>>>> a94d4b1... add: Enhanced tests for APNS provider
-=======
-          bundle: 'the_bundle',
->>>>>>> 74e5fdd... enhance: make linter not fail
         });
       };
 
