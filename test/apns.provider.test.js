@@ -2,7 +2,6 @@
 // Node module: loopback-component-push
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
-
 'use strict';
 
 var fs = require('fs');
@@ -12,6 +11,16 @@ var mockery = require('./helpers/mockery').apns;
 var objectMother = require('./helpers/object-mother');
 
 var aDeviceToken = 'a-device-token';
+var defaultConfiguration = {
+  apns: {
+    token: {
+      keyId: 'key_id',
+      key: 'key',
+      teamId: 'team_id',
+    },
+    bundle: 'ch.test.app',
+  },
+};
 
 describe('APNS provider', function() {
   var provider;
@@ -71,26 +80,34 @@ describe('APNS provider', function() {
     });
 
     it('raises "devicesGone" event when feedback arrives', function(done) {
-      givenProviderWithConfig({
-        apns: {
-          feedbackOptions: {},
-        },
+      givenProviderWithConfig();
+
+      var notification = aNotification({
+        aKey: 'a-value',
       });
+
       var eventSpy = sinon.spy();
+
       provider.on('devicesGone', eventSpy);
+      provider.pushNotification(notification, aDeviceToken);
 
-      var devices = [aDeviceToken];
-      mockery.emitFeedback(devices);
+      // HACK: Timeout does not work at this point
+      Promise.resolve(true).then(function() {
+        assert(eventSpy.called);
+        expect(eventSpy.args[0]).to.deep.equal([
+          ['some_failing_device_token'],
+        ]);
 
-      expect(eventSpy.args[0]).to.deep.equal([devices]);
-      done();
+        done();
+      }, function() {});
     });
 
     it('converts expirationInterval to APNS expiry', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
-        expirationInterval: 1, /* second */
+        expirationInterval: 1,
+        /* second */
       });
       provider.pushNotification(notification, aDeviceToken);
 
@@ -122,204 +139,136 @@ describe('APNS provider', function() {
     });
   });
 
-  describe('in dev env', function() {
-    var notification;
-
-    beforeEach(function setUp() {
-      notification = new Notification();
-    });
-
-    it('emits "error" event when certData is invalid', function(done) {
-      givenProviderWithConfig({
-        apns: {
-          certData: 'invalid-data',
-          pushOptions: {
-            gateway: '127.0.0.1',
-          },
-        },
-      });
-
-      var eventSpy = sinon.spy();
-      provider.on('error', eventSpy);
-      provider.pushNotification(notification, aDeviceToken);
-
-      // wait for the provider to attempt to connect
-      setTimeout(function() {
-        expect(eventSpy.called, 'error event should be emitted')
-          .to.equal(true);
-        var args = eventSpy.firstCall.args;
-        expect(args[0]).to.be.instanceOf(Error);
-        done();
-      }, 50);
-    });
-
-    it('emits "error" when gateway cannot be reached', function(done) {
-      var CONNECT_TIMEOUT = 2000;
-      this.timeout(1.5 * CONNECT_TIMEOUT);
-      givenProviderWithConfig({
-        apns: {
-          certData: objectMother.apnsDevCert(),
-          keyData: objectMother.apnsDevKey(),
-          pushOptions: {
-            gateway: '127.0.0.1',
-          },
-        },
-      });
-
-      var eventSpy = sinon.spy();
-      provider.on('error', eventSpy);
-
-      provider.pushNotification(notification, aDeviceToken);
-
-      var start = Date.now();
-
-      // wait for the provider to attempt to connect
-      // periodically check whether it has happened yet
-      var interval = setInterval(function() {
-        var elapsed = Date.now() - start;
-        if (!eventSpy.called && elapsed < CONNECT_TIMEOUT)
-          return; // still connecting
-
-        clearInterval(interval);
-
-        expect(eventSpy.called, 'error event should be emitted')
-          .to.equal(true);
-
-        var args = eventSpy.firstCall.args;
-        expect(args[0]).to.be.instanceOf(Error);
-        expect(args[0].code).to.equal('ECONNREFUSED');
-        done();
-      }, 50);
-    });
-  });
-
   describe('APNS settings', function() {
-    it('populates cert/key data', function(done) {
+    it('populates bundle/token data', function(done) {
       givenProviderWithConfig({
         apns: {
-          certData: objectMother.apnsDevCert(),
-          keyData: objectMother.apnsDevKey(),
-          pushOptions: {
-            gateway: '127.0.0.1',
+          token: {
+            keyId: 'my_key_id',
+            key: 'my_key',
+            teamId: 'team_id',
           },
+          bundle: 'my_bundle_id',
         },
       });
+
       expect(provider._pushOptions).to.deep.equal({
-        cert: objectMother.apnsDevCert(),
-        key: objectMother.apnsDevKey(),
-        gateway: '127.0.0.1',
+        token: {
+          keyId: 'my_key_id',
+          key: 'my_key',
+          teamId: 'team_id',
+        },
+        bundle: 'my_bundle_id',
         production: false,
       });
-      expect(provider._feedbackOptions).to.deep.equal({
-        cert: objectMother.apnsDevCert(),
-        key: objectMother.apnsDevKey(),
-        gateway: 'feedback.sandbox.push.apple.com',
-        production: false,
-      });
+
       done();
     });
-    it('populates dev gateways without overriding', function(done) {
+
+    it('uses by default the sandbox mode', function(done) {
       givenProviderWithConfig({
         apns: {
-          pushOptions: {
-            gateway: 'push.test.com',
-            port: 1111,
+          token: {
+            keyId: 'my_key_id',
+            key: 'my_key',
+            teamId: 'team_id',
           },
-          feedbackOptions: {
-            gateway: 'feedback.test.com',
-            port: 1112,
-          },
+          bundle: 'my_bundle_id',
         },
       });
-      expect(provider._pushOptions).to.deep.equal({
-        gateway: 'push.test.com',
-        port: 1111,
-        production: false,
-      });
-      expect(provider._feedbackOptions).to.deep.equal({
-        gateway: 'feedback.test.com',
-        port: 1112,
-        production: false,
-      });
+
+      expect(provider._pushOptions.production === false);
       done();
     });
-    it('populates dev gateways', function(done) {
+
+    it('uses production mode when set', function(done) {
       givenProviderWithConfig({
         apns: {
-          // intentionally omit the pushOptions for test
-          /*
-           pushOptions: {
-           },
-           */
-          feedbackOptions: {
-            interval: 300,
+          token: {
+            keyId: 'my_key_id',
+            key: 'my_key',
+            teamId: 'team_id',
           },
+          bundle: 'my_bundle_id',
         },
+        production: true,
       });
-      expect(provider._pushOptions).to.deep.equal({
-        gateway: 'gateway.sandbox.push.apple.com',
-        production: false,
-      });
-      expect(provider._feedbackOptions).to.deep.equal({
-        gateway: 'feedback.sandbox.push.apple.com',
-        interval: 300,
-        production: false,
-      });
+
+      expect(provider._pushOptions.production === true);
       done();
     });
-    it('populates prod gateways', function(done) {
+
+    it('uses sandbox mode when set', function(done) {
       givenProviderWithConfig({
         apns: {
-          production: true,
-          pushOptions: {},
-          feedbackOptions: {
-            interval: 300,
-            production: false,
+          token: {
+            keyId: 'my_key_id',
+            key: 'my_key',
+            teamId: 'team_id',
           },
+          bundle: 'my_bundle_id',
         },
+        production: false,
       });
-      expect(provider._pushOptions).to.deep.equal({
-        gateway: 'gateway.push.apple.com',
-        production: true,
-      });
-      expect(provider._feedbackOptions).to.deep.equal({
-        gateway: 'feedback.push.apple.com',
-        interval: 300,
-        production: true,
-      });
+
+      expect(provider._pushOptions.production === false);
       done();
     });
-    it('override prod gateways', function(done) {
-      givenProviderWithConfig({
-        apns: {
-          production: true,
-          pushOptions: {
-            gateway: 'invalid',
-            port: 1111,
+
+    it('reports error when bundle is not specified', function(done) {
+      var test = function() {
+        givenProviderWithConfig({
+          apns: {
+            token: {
+              keyId: 'my_key_id',
+              key: 'my_key',
+              teamId: 'team_id',
+            },
           },
-          feedbackOptions: {
-            gateway: 'invalid',
-            port: 1112,
-            interval: 300,
+        });
+      };
+
+      assert.throws(test, Error, 'Error thrown');
+      done();
+    });
+
+    it('reports error when token is not specified', function(done) {
+      var test = function() {
+        givenProviderWithConfig({
+          bundle: 'the_bundle',
+        });
+      };
+
+      assert.throws(test, Error, 'Error thrown');
+      done();
+    });
+
+    it('reports error when token is missing a property', function(done) {
+      var test = function() {
+        givenProviderWithConfig({
+          token: {
+            keyId: 'key_id',
+            key: 'key',
           },
-        },
-      });
-      expect(provider._pushOptions).to.deep.equal({
-        gateway: 'gateway.push.apple.com',
-        port: 2195,
-        production: true,
-      });
-      expect(provider._feedbackOptions).to.deep.equal({
-        gateway: 'feedback.push.apple.com',
-        port: 2196,
-        interval: 300,
-        production: true,
-      });
+          bundle: 'the_bundle',
+        });
+      };
+
+      assert.throws(test, Error, 'Error thrown');
       done();
     });
   });
 
+  /**
+   * Creates a provider with specified configuration. If configuration is left empty, a default one is created.
+   * @param pushSettings
+   */
   function givenProviderWithConfig(pushSettings) {
+    // use a sensible default if nothing was specified
+    if (typeof pushSettings === 'undefined') {
+      pushSettings = defaultConfiguration;
+    }
+
     provider = new ApnsProvider(pushSettings);
   }
 
