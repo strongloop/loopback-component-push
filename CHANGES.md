@@ -1,5 +1,19 @@
-2016-10-14, Version 1.7.0
+2016-12-21, Version 3.0.0
 =========================
+
+ * Update paid support URL (Siddhi Pai)
+
+ * add: HTTP2 APNS (Ilir Nuhiu)
+
+ * Fix timeout in tests on Windows (Miroslav Bajtos)
+
+ * Drop support for Node v0.10 & v0.12 (Miroslav Bajtoš)
+
+ * Start the development of the next major version (Miroslav Bajtoš)
+
+ * Remove Gruntfile and grunt deps (Miroslav Bajtoš)
+
+ * Update README.md (Simon Ho)
 
  * Use eslint in favour of JSHint (#129) (Simon Ho)
 
