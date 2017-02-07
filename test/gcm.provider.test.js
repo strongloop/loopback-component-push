@@ -174,6 +174,21 @@ describe('GCM provider', function() {
     expect(message.params.delayWhileIdle, 'delayWhileIdle').to.equal(true);
   });
 
+  it('adds appropriate fcm properties to the notification', function() {
+    var note = {
+      messageFrom: 'StrongLoop',
+      alert: 'Hello from StrongLoop',
+    };
+    var notification = aNotification(note);
+    provider.pushNotification(notification, aDeviceToken);
+
+    var message = mockery.firstPushNotificationArgs()[0];
+    expect(message.params.notification).to.eql({
+      title: note.messageFrom,
+      body: note.alert,
+    });
+  });
+
   it('ignores Notification properties not applicable', function() {
     var notification = aNotification(objectMother.allNotificationProperties());
     provider.pushNotification(notification, aDeviceToken);
