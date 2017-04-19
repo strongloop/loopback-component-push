@@ -178,6 +178,12 @@ describe('GCM provider', function() {
     var note = {
       messageFrom: 'StrongLoop',
       alert: 'Hello from StrongLoop',
+      icon: 'logo.png',
+      sound: 'ping.tiff',
+      badge: 5,
+      tag: 'alerts',
+      color: '#ff0000',
+      'click_action': 'OPEN_ACTIVITY_1',
     };
     var notification = aNotification(note);
     provider.pushNotification(notification, aDeviceToken);
@@ -186,6 +192,12 @@ describe('GCM provider', function() {
     expect(message.params.notification).to.eql({
       title: note.messageFrom,
       body: note.alert,
+      icon: note.icon,
+      sound: note.sound,
+      badge: note.badge,
+      tag: note.tag,
+      color: note.color,
+      'click_action': note.click_action,
     });
   });
 
