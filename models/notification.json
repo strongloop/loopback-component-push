@@ -9,6 +9,7 @@
     "category": "string",
     "collapseKey": "string",
     "contentAvailable": "boolean",
+    "mutableContent": "boolean",
     "created": {
       "defaultFn": "now",
       "type": "date"
