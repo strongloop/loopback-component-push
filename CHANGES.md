@@ -1,3 +1,23 @@
+2017-09-18, Version 3.1.0
+=========================
+
+ * Add support for additional notification props (Zak Barbuto)
+
+ * Add stalebot configuration (Kevin Delisle)
+
+ * create pr template (Sakib Hasan)
+
+ * create issue template (Sakib Hasan)
+
+ * Add CODEOWNERS file (Diana Lau)
+
+ * update node version in travis (Diana Lau)
+
+ * Add fcm tests (Zak Barbuto)
+
+ * Add fcm support with addNotification (Zak Barbuto)
+
+
 2016-12-21, Version 3.0.0
 =========================
 
