@@ -1,3 +1,13 @@
+2017-10-17, Version 3.2.0
+=========================
+
+ * translation return for Q4 drop1 (tangyinb)
+
+ * CODEOWNERS: add zbarbuto (Miroslav Bajtoš)
+
+ * add globalize string (Diana Lau)
+
+
 2017-09-18, Version 3.1.0
 =========================
 
