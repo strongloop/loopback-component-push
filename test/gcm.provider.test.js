@@ -223,6 +223,31 @@ describe('GCM provider', function() {
     expect(message.params.data).to.deep.equal({aFalse: false, aTrue: true});
   });
 
+  it('supports data-only notifications', function() {
+    var note = {
+      messageFrom: 'StrongLoop',
+      alert: 'Hello from StrongLoop',
+      icon: 'logo.png',
+      sound: 'ping.tiff',
+      badge: 5,
+      dataOnly: true,
+    };
+    var notification = aNotification(note);
+    provider.pushNotification(notification, aDeviceToken);
+
+    var message = mockery.firstPushNotificationArgs()[0];
+    expect(message.params.data).to.eql({
+      messageFrom: 'StrongLoop',
+      alert: 'Hello from StrongLoop',
+      title: 'StrongLoop',
+      body: 'Hello from StrongLoop',
+      icon: 'logo.png',
+      sound: 'ping.tiff',
+      badge: 5,
+      dataOnly: true,
+    });
+  });
+
   function givenProviderWithConfig(pushSettings) {
     pushSettings = extend({}, pushSettings);
     pushSettings.gcm = extend({}, pushSettings.gcm);
