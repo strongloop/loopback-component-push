@@ -1,3 +1,13 @@
+2018-04-26, Version 3.3.0
+=========================
+
+ * Update README.md (Serge Bornow)
+
+ * Fix missing title on iOS notifications (Zak Barbuto)
+
+ * Add support for data-only notifications (Zak Barbuto)
+
+
 2017-10-17, Version 3.2.0
 =========================
 
