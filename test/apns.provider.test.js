@@ -59,6 +59,8 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification({
+        alert: 'You have a message from StrongLoop',
+        messageFrom: 'StrongLoop',
         contentAvailable: true,
         category: 'my-category',
         urlArgs: ['foo', 'bar'],
@@ -75,6 +77,9 @@ describe('APNS provider', function() {
       expect(payload.aps.category, 'aps.category').to.equal('my-category');
       expect(payload.aps['url-args'], 'aps.url-args').to.have.length(2);
       expect(payload.arbitrary, 'arbitrary').to.equal('baz');
+      expect(payload.aps.alert.title, 'title').to.equal('StrongLoop');
+      expect(payload.aps.alert.body, 'body').to
+        .equal('You have a message from StrongLoop');
 
       done();
     });
