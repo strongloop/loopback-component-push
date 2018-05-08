@@ -1,3 +1,9 @@
+2018-05-08, Version 3.3.1
+=========================
+
+ * chore: update lodash version (Diana Lau)
+
+
 2018-04-26, Version 3.3.0
 =========================
 
