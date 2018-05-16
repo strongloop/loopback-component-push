@@ -25,7 +25,7 @@
     "lodash": "^4.17.10",
     "mpns": "^2.1.0",
     "node-cache": "^3.2.1",
-    "node-gcm": "^0.14.4",
+    "node-gcm": "^1.0.0",
     "strong-globalize": "^2.6.2"
   },
   "devDependencies": {
