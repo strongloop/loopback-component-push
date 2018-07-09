@@ -6,6 +6,10 @@
 
 var fs = require('fs');
 var path = require('path');
+var expect = require('chai').expect;
+var assert = require('assert');
+var sinon = require('sinon');
+var loopback = require('loopback');
 var ApnsProvider = require('../lib/providers/apns');
 var mockery = require('./helpers/mockery').apns;
 var objectMother = require('./helpers/object-mother');
@@ -21,6 +25,20 @@ var defaultConfiguration = {
     bundle: 'ch.test.app',
   },
 };
+
+var ds = loopback.createDataSource('db', {
+  connector: loopback.Memory,
+});
+
+var Application = loopback.Application;
+Application.attachTo(ds);
+
+var PushConnector = require('../');
+var Installation = PushConnector.Installation;
+Installation.attachTo(ds);
+
+var Notification = PushConnector.Notification;
+Notification.attachTo(ds);
 
 describe('APNS provider', function() {
   var provider;
@@ -72,14 +90,17 @@ describe('APNS provider', function() {
 
       var note = apnArgs[0];
       var payload = note.toJSON();
-      expect(payload.aps['content-available'], 'aps.content-available').to
-        .equal(1);
+      expect(
+        payload.aps['content-available'],
+        'aps.content-available'
+      ).to.equal(1);
       expect(payload.aps.category, 'aps.category').to.equal('my-category');
       expect(payload.aps['url-args'], 'aps.url-args').to.have.length(2);
       expect(payload.arbitrary, 'arbitrary').to.equal('baz');
       expect(payload.aps.alert.title, 'title').to.equal('StrongLoop');
-      expect(payload.aps.alert.body, 'body').to
-        .equal('You have a message from StrongLoop');
+      expect(payload.aps.alert.body, 'body').to.equal(
+        'You have a message from StrongLoop'
+      );
 
       done();
     });
@@ -97,14 +118,17 @@ describe('APNS provider', function() {
       provider.pushNotification(notification, aDeviceToken);
 
       // HACK: Timeout does not work at this point
-      Promise.resolve(true).then(function() {
-        assert(eventSpy.called);
-        expect(eventSpy.args[0]).to.deep.equal([
-          ['some_failing_device_token'],
-        ]);
+      Promise.resolve(true).then(
+        function() {
+          assert(eventSpy.called);
+          expect(eventSpy.args[0]).to.deep.equal([
+            ['some_failing_device_token'],
+          ]);
 
-        done();
-      }, function() {});
+          done();
+        },
+        function() {}
+      );
     });
 
     it('converts expirationInterval to APNS expiry', function() {
@@ -136,7 +160,8 @@ describe('APNS provider', function() {
       givenProviderWithConfig();
 
       var notification = aNotification(
-        objectMother.allNotificationProperties());
+        objectMother.allNotificationProperties()
+      );
       provider.pushNotification(notification, aDeviceToken);
 
       var note = mockery.firstPushNotificationArgs()[0];

@@ -31,8 +31,8 @@
   "devDependencies": {
     "chai": "^2.3.0",
     "deep-extend": "^0.4.0",
-    "eslint": "^2.13.1",
-    "eslint-config-loopback": "^4.0.0",
+    "eslint": "^4.0.0",
+    "eslint-config-loopback": "^10.0.0",
     "loopback": "^3.0.0",
     "loopback-connector-mongodb": "^1.8.0",
     "mocha": "^4.0.0",

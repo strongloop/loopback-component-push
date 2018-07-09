@@ -143,7 +143,7 @@ TestDataBuilder.prototype._gatherDefaultPropertyValues = function(Model) {
       case Date:
         result[name] = new Date(
           2222, 12, 12, // yyyy, mm, dd
-          12, 12, 12,   // hh, MM, ss
+          12, 12, 12, // hh, MM, ss
           ++valueCounter // milliseconds
         );
         break;

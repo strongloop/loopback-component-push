@@ -5,10 +5,13 @@
 
 'use strict';
 
+var expect = require('chai').expect;
+var sinon = require('sinon');
 var extend = require('util')._extend;
 var GcmProvider = require('../lib/providers/gcm');
 var mockery = require('./helpers/mockery').gcm;
 var objectMother = require('./helpers/object-mother');
+var loopback = require('loopback');
 
 var aDeviceToken = 'a-device-token';
 var aDeviceTokenList = [
@@ -19,12 +22,28 @@ var aDeviceTokenList = [
   'fifth-device-token',
 ];
 
+var ds = loopback.createDataSource('db', {
+  connector: loopback.Memory,
+});
+
+var Application = loopback.Application;
+Application.attachTo(ds);
+
+var PushConnector = require('../');
+var Installation = PushConnector.Installation;
+Installation.attachTo(ds);
+
+var Notification = PushConnector.Notification;
+Notification.attachTo(ds);
+
 describe('GCM provider', function() {
   var provider;
 
   beforeEach(mockery.setUp);
   beforeEach(setUpFakeTimers);
-  beforeEach(function() { givenProviderWithConfig(); });
+  beforeEach(function() {
+    givenProviderWithConfig();
+  });
 
   afterEach(tearDownFakeTimers);
   afterEach(mockery.tearDown);
@@ -39,12 +58,14 @@ describe('GCM provider', function() {
       var gcmArgs = mockery.firstPushNotificationArgs();
 
       var msg = gcmArgs[0];
-      expect(msg.params.collapseKey, 'collapseKey').to
-        .equal(undefined);
+      expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
-      expect(msg.params.data, 'data').to
-        .deep.equal({aKey: 'a-value', alert: 'alert message', badge: 1});
+      expect(msg.params.data, 'data').to.deep.equal({
+        aKey: 'a-value',
+        alert: 'alert message',
+        badge: 1,
+      });
 
       expect(gcmArgs[1]).to.deep.equal([aDeviceToken]);
       done();
@@ -58,14 +79,15 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
-      expect(eventSpy.calledOnce, 'error should be emitted once').to
-        .equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(
+        true
+      );
       expect(eventSpy.args[0]).to.deep.equal([anError]);
     });
 
     it('emits "error" event when GCM returns error result', function() {
       // This is a real result returned by GCM
-      var errorResult = aGcmResult([{'error': 'MismatchSenderId'}]);
+      var errorResult = aGcmResult([{error: 'MismatchSenderId'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
@@ -73,19 +95,22 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
-      expect(eventSpy.calledOnce, 'error should be emitted once').to
-        .equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(
+        true
+      );
       expect(eventSpy.firstCall.args[0].message).to.contain('MismatchSenderId');
     });
 
     it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
-      var errorResult = aGcmResult([{'error': 'NotRegistered'}]);
+      var errorResult = aGcmResult([{error: 'NotRegistered'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
       var eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
-      provider.on('error', function(err) { throw err; });
+      provider.on('error', function(err) {
+        throw err;
+      });
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
@@ -113,16 +138,19 @@ describe('GCM provider', function() {
     });
 
     it('handles GCM response for multiple device tokens', function(done) {
-      var gcmError = new Error('GCM error code: MismatchSenderId, ' +
+      var gcmError = new Error(
+        'GCM error code: MismatchSenderId, ' +
           'deviceToken: third-device-token\nGCM error code: ' +
-          'MismatchSenderId, deviceToken: fifth-device-token');
+          'MismatchSenderId, deviceToken: fifth-device-token'
+      );
 
       var gcmResult = aGcmResult([
-        {'error': 'InvalidRegistration'},
-        {'message_id': '1234567890'},
-        {'error': 'MismatchSenderId'},
-        {'error': 'NotRegistered'},
-        {'error': 'MismatchSenderId'},
+        {error: 'InvalidRegistration'},
+        // eslint-disable-next-line
+        { message_id: '1234567890' },
+        {error: 'MismatchSenderId'},
+        {error: 'NotRegistered'},
+        {error: 'MismatchSenderId'},
       ]);
 
       mockery.pushNotificationCallbackArgs = [null, gcmResult];
@@ -136,8 +164,9 @@ describe('GCM provider', function() {
       provider.pushNotification(aNotification(), aDeviceTokenList);
 
       var expectedIds = [aDeviceTokenList[0], aDeviceTokenList[3]];
-      expect(eventSpy.calledOnce, 'error should be emitted once').to
-        .equal(true);
+      expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(
+        true
+      );
       expect(eventSpy.args[0][0]).to.deep.equal(expectedIds);
       done();
     });
@@ -183,7 +212,8 @@ describe('GCM provider', function() {
       badge: 5,
       tag: 'alerts',
       color: '#ff0000',
-      'click_action': 'OPEN_ACTIVITY_1',
+      // eslint-disable-next-line
+      click_action: 'OPEN_ACTIVITY_1',
     };
     var notification = aNotification(note);
     provider.pushNotification(notification, aDeviceToken);
@@ -197,7 +227,8 @@ describe('GCM provider', function() {
       badge: note.badge,
       tag: note.tag,
       color: note.color,
-      'click_action': note.click_action,
+      // eslint-disable-next-line
+      click_action: note.click_action,
     });
   });
 
@@ -206,8 +237,10 @@ describe('GCM provider', function() {
     provider.pushNotification(notification, aDeviceToken);
 
     var message = mockery.firstPushNotificationArgs()[0];
-    expect(message.params.data).to
-      .deep.equal({alert: 'an-alert', badge: 1230001});
+    expect(message.params.data).to.deep.equal({
+      alert: 'an-alert',
+      badge: 1230001,
+    });
   });
 
   it('ignores Notification properties null or undefined', function() {
@@ -253,7 +286,8 @@ describe('GCM provider', function() {
     pushSettings.gcm = extend({}, pushSettings.gcm);
     pushSettings.gcm.pushOptions = extend(
       {serverKey: 'a-test-server-key'},
-      pushSettings.gcm.pushOptions);
+      pushSettings.gcm.pushOptions
+    );
 
     provider = new GcmProvider(pushSettings);
   }
@@ -272,11 +306,13 @@ describe('GCM provider', function() {
     }).length;
 
     return {
-      'multicast_id': 5504081219335647631,
-      'success': success,
-      'failure': failure,
-      'canonical_ids': 0,
-      'results': results,
+      // eslint-disable-next-line
+      multicast_id: 5504081219335647631,
+      success: success,
+      failure: failure,
+      // eslint-disable-next-line
+      canonical_ids: 0,
+      results: results,
     };
   }
 
