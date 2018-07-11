@@ -1,3 +1,15 @@
+2018-07-11, Version 3.4.0
+=========================
+
+ * fix lint errors (Diana Lau)
+
+ * chore: update node dependencies (Diana Lau)
+
+ * [WebFM] cs/pl/ru translation (candytangnb)
+
+ * chore:update dependencies (Diana Lau)
+
+
 2018-05-08, Version 3.3.1
 =========================
 
