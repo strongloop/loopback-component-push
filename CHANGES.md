@@ -1,3 +1,13 @@
+2019-07-09, Version 3.4.1
+=========================
+
+ * chore: update copyrights years (Agnes Lin)
+
+ * fix: update lodash (jannyHou)
+
+ * update dependency (jannyHou)
+
+
 2018-07-11, Version 3.4.0
 =========================
 
