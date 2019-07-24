@@ -16,7 +16,7 @@
     "posttest": "npm run lint"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "dependencies": {
     "apn": "^v2.1.2",
