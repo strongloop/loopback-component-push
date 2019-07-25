@@ -4,21 +4,21 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-var assert = require('assert');
-var loopback = require('loopback');
+const assert = require('assert');
+const loopback = require('loopback');
 
-var ds = loopback.createDataSource('db', {
+const ds = loopback.createDataSource('db', {
   connector: loopback.Memory,
 });
-var PushConnector = require('../');
-var Installation = PushConnector.Installation;
+const PushConnector = require('../');
+const Installation = PushConnector.Installation;
 Installation.attachTo(ds);
 
 describe('Installation', function() {
-  var registration = null;
+  let registration = null;
 
   it('registers a new installation', function(done) {
-    var token =
+    const token =
       '75624450 3c9f95b4 9d7ff821 20dc193c a1e3a7cb 56f60c2e ' +
       'f2a19241 e8f33305';
     Installation.create(
@@ -38,7 +38,7 @@ describe('Installation', function() {
           done(err, result);
           return;
         } else {
-          var reg = result;
+          const reg = result;
           assert.equal(reg.appId, 'MyLoopbackApp');
           assert.equal(reg.userId, 'raymond');
           assert.equal(reg.deviceType, 'ios');
@@ -55,7 +55,7 @@ describe('Installation', function() {
           ) {
             assert(!err);
             assert.equal(results.length, 1);
-            var reg = results[0];
+            const reg = results[0];
             assert.equal(reg.appId, 'MyLoopbackApp');
             assert.equal(reg.userId, 'raymond');
             assert.equal(reg.deviceType, 'ios');

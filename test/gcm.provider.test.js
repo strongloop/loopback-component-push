@@ -5,16 +5,16 @@
 
 'use strict';
 
-var expect = require('chai').expect;
-var sinon = require('sinon');
-var extend = require('util')._extend;
-var GcmProvider = require('../lib/providers/gcm');
-var mockery = require('./helpers/mockery').gcm;
-var objectMother = require('./helpers/object-mother');
-var loopback = require('loopback');
+const expect = require('chai').expect;
+const sinon = require('sinon');
+const extend = require('util')._extend;
+const GcmProvider = require('../lib/providers/gcm');
+const mockery = require('./helpers/mockery').gcm;
+const objectMother = require('./helpers/object-mother');
+const loopback = require('loopback');
 
-var aDeviceToken = 'a-device-token';
-var aDeviceTokenList = [
+const aDeviceToken = 'a-device-token';
+const aDeviceTokenList = [
   'first-device-token',
   'second-device-token',
   'third-device-token',
@@ -22,22 +22,22 @@ var aDeviceTokenList = [
   'fifth-device-token',
 ];
 
-var ds = loopback.createDataSource('db', {
+const ds = loopback.createDataSource('db', {
   connector: loopback.Memory,
 });
 
-var Application = loopback.Application;
+const Application = loopback.Application;
 Application.attachTo(ds);
 
-var PushConnector = require('../');
-var Installation = PushConnector.Installation;
+const PushConnector = require('../');
+const Installation = PushConnector.Installation;
 Installation.attachTo(ds);
 
-var Notification = PushConnector.Notification;
+const Notification = PushConnector.Notification;
 Notification.attachTo(ds);
 
 describe('GCM provider', function() {
-  var provider;
+  let provider;
 
   beforeEach(mockery.setUp);
   beforeEach(setUpFakeTimers);
@@ -50,14 +50,14 @@ describe('GCM provider', function() {
 
   describe('for single device token', function() {
     it('sends Notification as a GCM message', function(done) {
-      var notification = aNotification({aKey: 'a-value'});
+      const notification = aNotification({aKey: 'a-value'});
       notification.alert = 'alert message';
       notification.badge = 1;
       provider.pushNotification(notification, aDeviceToken);
 
-      var gcmArgs = mockery.firstPushNotificationArgs();
+      const gcmArgs = mockery.firstPushNotificationArgs();
 
-      var msg = gcmArgs[0];
+      const msg = gcmArgs[0];
       expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
@@ -72,10 +72,10 @@ describe('GCM provider', function() {
     });
 
     it('emits "error" when GCM send fails', function() {
-      var anError = new Error('test-error');
+      const anError = new Error('test-error');
       mockery.givenPushNotificationFailsWith(anError);
 
-      var eventSpy = spyOnProviderError();
+      const eventSpy = spyOnProviderError();
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
@@ -87,11 +87,11 @@ describe('GCM provider', function() {
 
     it('emits "error" event when GCM returns error result', function() {
       // This is a real result returned by GCM
-      var errorResult = aGcmResult([{error: 'MismatchSenderId'}]);
+      const errorResult = aGcmResult([{error: 'MismatchSenderId'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
-      var eventSpy = spyOnProviderError();
+      const eventSpy = spyOnProviderError();
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
@@ -102,11 +102,11 @@ describe('GCM provider', function() {
     });
 
     it('emits "devicesGone" when GCM returns NotRegistered', function(done) {
-      var errorResult = aGcmResult([{error: 'NotRegistered'}]);
+      const errorResult = aGcmResult([{error: 'NotRegistered'}]);
 
       mockery.pushNotificationCallbackArgs = [null, errorResult];
 
-      var eventSpy = sinon.spy();
+      const eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
       provider.on('error', function(err) {
         throw err;
@@ -114,7 +114,7 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceToken);
 
-      var expectedIds = [aDeviceToken];
+      const expectedIds = [aDeviceToken];
       expect(eventSpy.args[0]).to.deep.equal([expectedIds]);
       done();
     });
@@ -122,12 +122,12 @@ describe('GCM provider', function() {
 
   describe('for multiple device tokens', function() {
     it('sends Notification as a GCM message', function(done) {
-      var notification = aNotification({aKey: 'a-value'});
+      const notification = aNotification({aKey: 'a-value'});
       provider.pushNotification(notification, aDeviceTokenList);
 
-      var gcmArgs = mockery.pushNotification.args[0];
+      const gcmArgs = mockery.pushNotification.args[0];
 
-      var msg = gcmArgs[0];
+      const msg = gcmArgs[0];
       expect(msg.params.collapseKey, 'collapseKey').to.equal(undefined);
       expect(msg.params.delayWhileIdle, 'delayWhileIdle').to.equal(undefined);
       expect(msg.params.timeToLive, 'timeToLive').to.equal(undefined);
@@ -138,13 +138,13 @@ describe('GCM provider', function() {
     });
 
     it('handles GCM response for multiple device tokens', function(done) {
-      var gcmError = new Error(
+      const gcmError = new Error(
         'GCM error code: MismatchSenderId, ' +
           'deviceToken: third-device-token\nGCM error code: ' +
           'MismatchSenderId, deviceToken: fifth-device-token'
       );
 
-      var gcmResult = aGcmResult([
+      const gcmResult = aGcmResult([
         {error: 'InvalidRegistration'},
         // eslint-disable-next-line
         { message_id: '1234567890' },
@@ -155,7 +155,7 @@ describe('GCM provider', function() {
 
       mockery.pushNotificationCallbackArgs = [null, gcmResult];
 
-      var eventSpy = sinon.spy();
+      const eventSpy = sinon.spy();
       provider.on('devicesGone', eventSpy);
       provider.on('error', function(err) {
         expect(err.message).to.equal(gcmError.message);
@@ -163,7 +163,7 @@ describe('GCM provider', function() {
 
       provider.pushNotification(aNotification(), aDeviceTokenList);
 
-      var expectedIds = [aDeviceTokenList[0], aDeviceTokenList[3]];
+      const expectedIds = [aDeviceTokenList[0], aDeviceTokenList[3]];
       expect(eventSpy.calledOnce, 'error should be emitted once').to.equal(
         true
       );
@@ -173,38 +173,38 @@ describe('GCM provider', function() {
   });
 
   it('converts expirationInterval to GCM timeToLive', function() {
-    var notification = aNotification({expirationInterval: 1});
+    const notification = aNotification({expirationInterval: 1});
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.timeToLive).to.equal(1);
   });
 
   it('converts expirationTime to GCM timeToLive relative to now', function() {
-    var notification = aNotification({
+    const notification = aNotification({
       expirationTime: new Date(this.clock.now + 1000 /* 1 second */),
     });
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.timeToLive).to.equal(1);
   });
 
   it('forwards android parameters', function() {
-    var notification = aNotification({
+    const notification = aNotification({
       collapseKey: 'a-collapse-key',
       delayWhileIdle: true,
     });
 
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.collapseKey).to.equal('a-collapse-key');
     expect(message.params.delayWhileIdle, 'delayWhileIdle').to.equal(true);
   });
 
   it('adds appropriate fcm properties to the notification', function() {
-    var note = {
+    const note = {
       messageFrom: 'StrongLoop',
       alert: 'Hello from StrongLoop',
       icon: 'logo.png',
@@ -215,10 +215,10 @@ describe('GCM provider', function() {
       // eslint-disable-next-line
       click_action: 'OPEN_ACTIVITY_1',
     };
-    var notification = aNotification(note);
+    const notification = aNotification(note);
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.notification).to.eql({
       title: note.messageFrom,
       body: note.alert,
@@ -233,10 +233,12 @@ describe('GCM provider', function() {
   });
 
   it('ignores Notification properties not applicable', function() {
-    var notification = aNotification(objectMother.allNotificationProperties());
+    const notification = aNotification(
+      objectMother.allNotificationProperties()
+    );
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.data).to.deep.equal({
       alert: 'an-alert',
       badge: 1230001,
@@ -244,7 +246,7 @@ describe('GCM provider', function() {
   });
 
   it('ignores Notification properties null or undefined', function() {
-    var notification = aNotification({
+    const notification = aNotification({
       aFalse: false,
       aTrue: true,
       aNull: null,
@@ -252,12 +254,12 @@ describe('GCM provider', function() {
     });
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.data).to.deep.equal({aFalse: false, aTrue: true});
   });
 
   it('supports data-only notifications', function() {
-    var note = {
+    const note = {
       messageFrom: 'StrongLoop',
       alert: 'Hello from StrongLoop',
       icon: 'logo.png',
@@ -265,10 +267,10 @@ describe('GCM provider', function() {
       badge: 5,
       dataOnly: true,
     };
-    var notification = aNotification(note);
+    const notification = aNotification(note);
     provider.pushNotification(notification, aDeviceToken);
 
-    var message = mockery.firstPushNotificationArgs()[0];
+    const message = mockery.firstPushNotificationArgs()[0];
     expect(message.params.data).to.eql({
       messageFrom: 'StrongLoop',
       alert: 'Hello from StrongLoop',
@@ -297,11 +299,11 @@ describe('GCM provider', function() {
   }
 
   function aGcmResult(results) {
-    var success = results.filter(function(item) {
+    const success = results.filter(function(item) {
       return item.message_id;
     }).length;
 
-    var failure = results.filter(function(item) {
+    const failure = results.filter(function(item) {
       return item.error;
     }).length;
 
@@ -325,7 +327,7 @@ describe('GCM provider', function() {
   }
 
   function spyOnProviderError() {
-    var eventSpy = sinon.spy();
+    const eventSpy = sinon.spy();
     provider.on('error', eventSpy);
     return eventSpy;
   }

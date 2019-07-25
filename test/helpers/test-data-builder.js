@@ -4,8 +4,8 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-var extend = require('util')._extend;
-var async = require('async');
+const extend = require('util')._extend;
+const async = require('async');
 
 module.exports = exports = TestDataBuilder;
 
@@ -82,13 +82,14 @@ TestDataBuilder.prototype.buildTo = function(context, callback) {
   async.eachSeries(
     this._definitions,
     this._buildObject.bind(this),
-    callback);
+    callback
+  );
 };
 
 TestDataBuilder.prototype._buildObject = function(definition, callback) {
-  var defaultValues = this._gatherDefaultPropertyValues(definition.model);
-  var values = extend(defaultValues, definition.properties || {});
-  var resolvedValues = this._resolveValues(values);
+  const defaultValues = this._gatherDefaultPropertyValues(definition.model);
+  const values = extend(defaultValues, definition.properties || {});
+  const resolvedValues = this._resolveValues(values);
 
   definition.model.create(resolvedValues, function(err, result) {
     if (err) {
@@ -96,7 +97,8 @@ TestDataBuilder.prototype._buildObject = function(definition, callback) {
         'Cannot build object %j - %s\nDetails: %j',
         definition,
         err.message,
-        err.details);
+        err.details
+      );
     } else {
       this._context[definition.name] = result;
     }
@@ -106,9 +108,9 @@ TestDataBuilder.prototype._buildObject = function(definition, callback) {
 };
 
 TestDataBuilder.prototype._resolveValues = function(values) {
-  var result = {};
-  for (var key in values) {
-    var val = values[key];
+  const result = {};
+  for (const key in values) {
+    let val = values[key];
     if (val instanceof Reference) {
       val = values[key].resolveFromContext(this._context);
     }
@@ -117,23 +119,24 @@ TestDataBuilder.prototype._resolveValues = function(values) {
   return result;
 };
 
-var valueCounter = 0;
+let valueCounter = 0;
 TestDataBuilder.prototype._gatherDefaultPropertyValues = function(Model) {
-  var result = {};
+  const result = {};
   Model.forEachProperty(function createDefaultPropertyValue(name) {
-    var prop = Model.definition.properties[name];
+    const prop = Model.definition.properties[name];
     if (!prop.required) return;
 
     switch (prop.type) {
       case String:
-        var generatedString = 'a test ' + name + ' #' + (++valueCounter);
+        let generatedString = 'a test ' + name + ' #' + (++valueCounter);
 
         // If this property has a maximum length, ensure that the generated
         // string is not longer than the property's max length
         if (prop.length) {
           // Chop off the front part of the string so it is equal to the length
           generatedString = generatedString.substring(
-            generatedString.length - prop.length);
+            generatedString.length - prop.length
+          );
         }
         result[name] = generatedString;
         break;
@@ -170,9 +173,9 @@ function Reference(path) {
 }
 
 Reference.prototype.resolveFromContext = function(context) {
-  var elements = this._path.split('.');
+  const elements = this._path.split('.');
 
-  var result = elements.reduce(
+  const result = elements.reduce(
     function(obj, prop) {
       return obj[prop];
     },

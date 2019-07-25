@@ -5,14 +5,14 @@
 
 'use strict';
 
-var SG = require('strong-globalize');
+const SG = require('strong-globalize');
 SG.SetRootDir(__dirname);
 
 /**
  * Export the connector
  */
-var loopback = require('loopback');
-var PushConnector = require('./lib/push-connector');
+const loopback = require('loopback');
+const PushConnector = require('./lib/push-connector');
 exports = module.exports = PushConnector;
 
 /**
@@ -24,7 +24,7 @@ exports.Notification = require('./models').Notification;
 exports.createPushModel = function(options) {
   options = options || {};
 
-  var pushDataSource = loopback.createDataSource({
+  const pushDataSource = loopback.createDataSource({
     connector: PushConnector,
     installation: options.installation,
     application: options.application,
@@ -33,7 +33,7 @@ exports.createPushModel = function(options) {
     checkPeriodInSeconds: options.checkPeriodInSeconds,
   });
 
-  var PushModel = pushDataSource.createModel(options.name || 'Push', {},
+  const PushModel = pushDataSource.createModel(options.name || 'Push', {},
     {plural: options.plural || 'push'});
   return PushModel;
 };

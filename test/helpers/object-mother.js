@@ -35,10 +35,10 @@ exports.apnsDevKey = function() {
   return readCredentialsSync('apns_key_dev.pem');
 };
 
-var path = require('path');
-var fs = require('fs');
+const path = require('path');
+const fs = require('fs');
 function readCredentialsSync(fileName) {
-  var relativePath = '../fixtures';
-  var credentialsDir = path.resolve(__dirname, relativePath);
+  const relativePath = '../fixtures';
+  const credentialsDir = path.resolve(__dirname, relativePath);
   return fs.readFileSync(path.join(credentialsDir, fileName), 'UTF-8');
 }

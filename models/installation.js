@@ -5,7 +5,7 @@
 
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 /**
  * Installation Model connects a mobile application to a device, the user and
@@ -31,7 +31,7 @@ var _ = require('lodash');
  */
 module.exports = function(Installation) {
   Installation.observe('before save', function trip(ctx, next) {
-    var install = ctx.instance || ctx.data;
+    const install = ctx.instance || ctx.data;
     install.modified = new Date();
     next();
   });
@@ -48,7 +48,7 @@ module.exports = function(Installation) {
       cb = appVersion;
       appVersion = undefined;
     }
-    var filter = {where: {
+    const filter = {where: {
       appId: appId,
       appVersion: appVersion,
       deviceType: deviceType},
@@ -63,7 +63,7 @@ module.exports = function(Installation) {
    * @param {function(Error=,Installation[])} cb Callback function passed to find() with `cb(err, obj[])` signature.
    */
   Installation.findByUser = function(deviceType, userId, cb) {
-    var filter = {where: {userId: userId, deviceType: deviceType}};
+    const filter = {where: {userId: userId, deviceType: deviceType}};
     this.find(filter, cb);
   };
 
@@ -77,7 +77,7 @@ module.exports = function(Installation) {
     if (typeof subscriptions === 'string') {
       subscriptions = subscriptions.split(/[\s,]+/);
     }
-    var filter = {where: {
+    const filter = {where: {
       subscriptions: {inq: subscriptions},
       deviceType: deviceType,
     },
@@ -99,7 +99,7 @@ module.exports = function(Installation) {
     fn.shared = true;
   }
 
-  var aDefs = {type: 'string', http: {source: 'query'}};
+  const aDefs = {type: 'string', http: {source: 'query'}};
 
   setRemoting(Installation.findByApp, {
     description: 'Find installations by application id',
