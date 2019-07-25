@@ -4,25 +4,25 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-var expect = require('chai').expect;
-var loopback = require('loopback');
+const expect = require('chai').expect;
+const loopback = require('loopback');
 
-var ds = loopback.createDataSource('db', {
+const ds = loopback.createDataSource('db', {
   connector: loopback.Memory,
 });
 
 // Application
-var Application = loopback.Application;
+const Application = loopback.Application;
 Application.attachTo(ds);
 
 // Push Connector
-var PushConnector = require('../');
-var PushModel = PushConnector.createPushModel({
+const PushConnector = require('../');
+const PushModel = PushConnector.createPushModel({
   dataSource: ds,
 });
 
 // Installation
-var Installation = PushConnector.Installation;
+const Installation = PushConnector.Installation;
 Installation.attachTo(ds);
 
 describe('PushNotification', function() {
@@ -49,8 +49,8 @@ describe('PushNotification', function() {
           throw err;
         }
 
-        var application = result;
-        var deviceToken =
+        const application = result;
+        const deviceToken =
           '6676119dc1ee264f7a32429c56c4e51b0a8b5673d1' +
           'd55c431d720bb60b0381d3';
 

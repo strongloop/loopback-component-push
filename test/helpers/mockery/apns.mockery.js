@@ -9,11 +9,11 @@
 // are calling callbacks provided by tests instead of communicating with
 // the real service
 
-var EventEmitter = require('events').EventEmitter;
-var apn = require('apn');
-var sinon = require('sinon');
+const EventEmitter = require('events').EventEmitter;
+const apn = require('apn');
+const sinon = require('sinon');
 
-var mockery = exports;
+const mockery = exports;
 
 /**
  * The options passed to `apn.Connection` constructor.
@@ -51,14 +51,14 @@ mockery.firstPushNotificationArgs = function() {
   return mockery.send.firstCall.args;
 };
 
-var apnsSnapshot = {};
-var defaultExports = {};
+const apnsSnapshot = {};
+const defaultExports = {};
 
 /**
  * Setup the mockery. This method should be called before each test.
  */
 exports.setUp = function() {
-  var key;
+  let key;
   for (key in apn) {
     apnsSnapshot[key] = apn[key];
   }
@@ -67,7 +67,7 @@ exports.setUp = function() {
     defaultExports[key] = exports[key];
   }
 
-  var expectedResponse = {
+  const expectedResponse = {
     failed: [
       {
         device: 'some_failing_device_token',
@@ -82,7 +82,7 @@ exports.setUp = function() {
   apn.Provider = apn.provider = function(opts) {
     mockery.connectionOptions = opts;
 
-    var conn = new EventEmitter();
+    const conn = new EventEmitter();
     conn.send = mockery.send;
 
     return conn;
@@ -94,7 +94,7 @@ exports.setUp = function() {
  * This method should be called after each test.
  */
 exports.tearDown = function() {
-  var key;
+  let key;
 
   for (key in apnsSnapshot) {
     apn[key] = apnsSnapshot[key];

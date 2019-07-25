@@ -7,16 +7,16 @@
 
 // mostly borrowed from
 // https://github.com/strongloop/loopback-component-passport/blob/master/lib/index.js
-var loopback = require('loopback');
-var DataModel = loopback.PersistedModel || loopback.DataModel;
+const loopback = require('loopback');
+const DataModel = loopback.PersistedModel || loopback.DataModel;
 
 function loadModel(jsonFile) {
-  var modelDefinition = require(jsonFile);
+  const modelDefinition = require(jsonFile);
   return DataModel.extend(modelDefinition.name, modelDefinition.properties);
 }
 
-var InstallationModel = loadModel('./installation.json');
-var NotificationModel = loadModel('./notification.json');
+const InstallationModel = loadModel('./installation.json');
+const NotificationModel = loadModel('./notification.json');
 
 /**
  * Export two model classes as properties

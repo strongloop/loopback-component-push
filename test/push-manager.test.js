@@ -4,32 +4,32 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-var async = require('async');
-var expect = require('chai').expect;
-var loopback = require('loopback');
-var sinon = require('sinon');
-var PushManager = require('../lib/push-manager');
-var NodeCache = require('node-cache');
+const async = require('async');
+const expect = require('chai').expect;
+const loopback = require('loopback');
+const sinon = require('sinon');
+const PushManager = require('../lib/push-manager');
+const NodeCache = require('node-cache');
 
-var mockery = require('./helpers/mockery').stub;
-var TestDataBuilder = require('./helpers/test-data-builder');
-var ref = TestDataBuilder.ref;
+const mockery = require('./helpers/mockery').stub;
+const TestDataBuilder = require('./helpers/test-data-builder');
+const ref = TestDataBuilder.ref;
 
-var ds = loopback.createDataSource('db', {
+const ds = loopback.createDataSource('db', {
   connector: loopback.Memory,
 });
 
 // Application
-var Application = loopback.Application;
+const Application = loopback.Application;
 Application.attachTo(ds);
 
 // Push Connector
-var PushConnector = require('../');
-var Installation = PushConnector.Installation;
+const PushConnector = require('../');
+const Installation = PushConnector.Installation;
 Installation.attachTo(ds);
 
 // Notification
-var Notification = PushConnector.Notification;
+const Notification = PushConnector.Notification;
 Notification.attachTo(ds);
 
 describe('PushManager', function() {
@@ -38,7 +38,7 @@ describe('PushManager', function() {
   beforeEach(Installation.deleteAll.bind(Installation));
   afterEach(mockery.tearDown);
 
-  var pushManager, context;
+  let pushManager, context;
 
   beforeEach(function(done) {
     pushManager = new PushManager();
@@ -333,7 +333,7 @@ describe('PushManager', function() {
           },
 
           function actAndVerify(cb) {
-            var errorCallback = sinon.spy();
+            const errorCallback = sinon.spy();
             pushManager.on('error', errorCallback);
 
             mockery.pushNotification = function() {
@@ -400,7 +400,7 @@ describe('PushManager', function() {
             // Wait with the check to give the push manager some time
             // to load all data and push the message
             setTimeout(function() {
-              var callsArgs = mockery.pushNotification.args;
+              const callsArgs = mockery.pushNotification.args;
               expect(callsArgs, 'number of notifications').to.have.length(2);
               expect(callsArgs[0]).to.deep.equal([
                 context.notification,
@@ -487,7 +487,7 @@ describe('PushManager', function() {
             // Wait with the check to give the push manager some time
             // to load all data and push the message
             setTimeout(function() {
-              var callsArgs = mockery.pushNotification.args;
+              const callsArgs = mockery.pushNotification.args;
 
               expect(callsArgs[0], 'number of arguments').to.have.length(2);
               expect(callsArgs[0]).to.deep.equal([
@@ -555,9 +555,9 @@ describe('PushManager', function() {
 
   describe('PushManager applicationsCache', function() {
     it('settings', function() {
-      var ttlInSeconds, checkPeriodInSeconds;
-      ttlInSeconds = checkPeriodInSeconds = 10;
-      var pm = new PushManager({
+      let checkPeriodInSeconds;
+      const ttlInSeconds = checkPeriodInSeconds = 10;
+      const pm = new PushManager({
         ttlInSeconds: 10,
         checkPeriodInSeconds: 10,
       });
@@ -566,13 +566,13 @@ describe('PushManager', function() {
     });
 
     it('is NodeCache instance', function() {
-      var pm = new PushManager();
+      const pm = new PushManager();
       expect(pm.applicationsCache).to.be.a('Object');
       expect(pm.applicationsCache).to.be.instanceOf(NodeCache);
     });
 
     it('has set and get methods', function() {
-      var pm = new PushManager();
+      const pm = new PushManager();
       expect(pm.applicationsCache).to.have.property('set');
       expect(pm.applicationsCache).to.have.property('get');
     });
@@ -600,7 +600,7 @@ describe('PushManager', function() {
         },
 
         function verify(cb) {
-          var cacheApp = pushManager.applicationsCache.get(
+          const cacheApp = pushManager.applicationsCache.get(
             context.installation.appId
           );
           expect(cacheApp).to.have.property(context.installation.appId);
@@ -626,33 +626,33 @@ describe('PushManager model dependencies', function() {
   });
 
   it('creates properties for dependent models', function() {
-    var pm = new PushManager();
+    const pm = new PushManager();
     expect(pm.Installation).to.be.equal(Installation);
     expect(pm.Notification).to.be.equal(Notification);
     expect(pm.Application).to.be.equal(Application);
   });
 
   it('uses subclasses for the dependent models', function() {
-    var pm = new PushManager();
-    var installationModel = Installation.extend('installation', {});
+    const pm = new PushManager();
+    const installationModel = Installation.extend('installation', {});
     expect(pm.Installation).to.be.equal(installationModel);
   });
 
   it('honors settings', function() {
-    var pm = new PushManager({
+    const pm = new PushManager({
       installation: 'myInstallation',
     });
-    var myInstallation = Installation.extend('myInstallation', {});
-    var otherInstallation = Installation.extend('otherInstallation', {});
+    const myInstallation = Installation.extend('myInstallation', {});
+    const otherInstallation = Installation.extend('otherInstallation', {});
     expect(pm.Installation).to.be.equal(myInstallation);
   });
 
   it('supports setters', function() {
-    var pm = new PushManager({
+    const pm = new PushManager({
       installation: 'myInstallation',
     });
-    var myInstallation = Installation.extend('myInstallation', {});
-    var otherInstallation = Installation.extend('otherInstallation', {});
+    const myInstallation = Installation.extend('myInstallation', {});
+    const otherInstallation = Installation.extend('otherInstallation', {});
     expect(pm.Installation).to.be.equal(myInstallation);
     pm.Installation = otherInstallation;
     expect(pm.Installation).to.be.equal(otherInstallation);

@@ -8,13 +8,13 @@
 // This module provides a mocked environment with a special "stub"
 // provider that does not depend on any real implementation (GCM, APNS)
 
-var inherits = require('util').inherits;
-var EventEmitter = require('events').EventEmitter;
-var expect = require('chai').expect;
-var sinon = require('sinon');
-var PushManager = require('../../../lib/push-manager');
+const inherits = require('util').inherits;
+const EventEmitter = require('events').EventEmitter;
+const expect = require('chai').expect;
+const sinon = require('sinon');
+const PushManager = require('../../../lib/push-manager');
 
-var mockery = exports;
+const mockery = exports;
 
 /**
  * The device type used for registration with PushManager.
@@ -79,13 +79,13 @@ StubProvider.prototype.emitDevicesGone = function(devices) {
   this.emit('devicesGone', devices);
 };
 
-var defaultExports = {};
+const defaultExports = {};
 
 /**
  * Setup the mockery. This method should be called before each test.
  */
 exports.setUp = function() {
-  for (var key in exports) {
+  for (const key in exports) {
     defaultExports[key] = exports[key];
   }
 
@@ -98,7 +98,7 @@ exports.setUp = function() {
  * This method should be called after each test.
  */
 exports.tearDown = function() {
-  for (var key in defaultExports) {
+  for (const key in defaultExports) {
     exports[key] = defaultExports[key];
   }
 

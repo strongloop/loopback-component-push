@@ -9,11 +9,11 @@
 // are calling callbacks provided by tests instead of communicating with
 // the real service
 
-var EventEmitter = require('events').EventEmitter;
-var gcm = require('node-gcm');
-var sinon = require('sinon');
+const EventEmitter = require('events').EventEmitter;
+const gcm = require('node-gcm');
+const sinon = require('sinon');
 
-var mockery = exports;
+const mockery = exports;
 
 /**
  * The options passed to `gcm.Sender` constructor.
@@ -50,14 +50,14 @@ mockery.givenPushNotificationFailsWith = function(err) {
   mockery.pushNotificationCallbackArgs = [err];
 };
 
-var gcmSnapshot = {};
-var defaultExports = {};
+const gcmSnapshot = {};
+const defaultExports = {};
 
 /**
  * Setup the mockery. This method should be called before each test.
  */
 exports.setUp = function() {
-  var key;
+  let key;
   for (key in gcm) {
     gcmSnapshot[key] = gcm[key];
   }
@@ -71,7 +71,7 @@ exports.setUp = function() {
 
   gcm.Sender = function(opts) {
     mockery.senderOptions = Array.prototype.slice.call(arguments);
-    var sender = {};
+    const sender = {};
     sender.send = function(message, registrationId, retries, callback) {
       mockery.pushNotification.apply(this, arguments);
       callback.apply(null, mockery.pushNotificationCallbackArgs);
@@ -85,7 +85,7 @@ exports.setUp = function() {
  * This method should be called after each test.
  */
 exports.tearDown = function() {
-  var key;
+  let key;
 
   for (key in gcmSnapshot) {
     gcm[key] = gcmSnapshot[key];

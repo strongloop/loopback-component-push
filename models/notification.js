@@ -45,7 +45,7 @@ module.exports = function(Notification) {
   Notification.hideInternalProperties = true;
 
   Notification.observe('before save', function trip(ctx, next) {
-    var notification = ctx.instance || ctx.data;
+    const notification = ctx.instance || ctx.data;
     notification.modified = notification.scheduledTime = new Date();
     next();
   });
