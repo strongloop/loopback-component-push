@@ -1,3 +1,21 @@
+2020-03-06, Version 3.5.0
+=========================
+
+ * Update LTS status in README (Miroslav Bajtoš)
+
+ * chore: update copyright year (Diana Lau)
+
+ * chore: improve issue and PR templates (Nora)
+
+ * update loopback-connector-mongodb (Diana Lau)
+
+ * update eslint-config-loopback and fix violations (Nora)
+
+ * drop support for node.js 6 (Nora)
+
+ * update eslint dependency (Nora)
+
+
 2019-07-09, Version 3.4.1
 =========================
 
